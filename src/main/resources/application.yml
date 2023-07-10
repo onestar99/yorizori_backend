@@ -4,3 +4,9 @@ spring:
     url: jdbc:mysql://database-1.cvcsflhbooki.ap-northeast-2.rds.amazonaws.com:3306/yorizori?serverTimezone=Asia/Seoul&characterEncoding=UTF-8
     username: admin
     password: yorizori
+
+  jpa:
+    # jpa 쿼리문 확인
+    show-sql: true
+    hibernate:
+      ddl-auto: update
