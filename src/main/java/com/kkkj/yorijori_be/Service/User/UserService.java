@@ -11,8 +11,20 @@ public class UserService {
     private UserRepository userRepository;
 
 
+
+    // 유저 저장
     @Transactional
     public void saveUser(UserDto userDto){
         userRepository.save(userDto.toEntity());
     }
+
+    // 유저 검색
+    public void findAllUser(){
+
+    }
+
+
+
+
+
 }

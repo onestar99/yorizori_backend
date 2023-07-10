@@ -32,5 +32,4 @@ public class UserEntity {
     private String OAuthDivision;
 
 
-
 }
