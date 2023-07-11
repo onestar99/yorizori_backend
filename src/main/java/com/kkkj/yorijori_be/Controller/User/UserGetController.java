@@ -2,7 +2,7 @@ package com.kkkj.yorijori_be.Controller.User;
 
 import com.kkkj.yorijori_be.Dto.User.UserDto;
 import com.kkkj.yorijori_be.Entity.User.UserEntity;
-import com.kkkj.yorijori_be.Service.User.UserService;
+import com.kkkj.yorijori_be.Service.User.UserGetService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
@@ -12,18 +12,18 @@ import java.util.List;
 
 @Controller
 @RequiredArgsConstructor
-@RequestMapping("/user")
+@RequestMapping("/user/get")
 public class UserGetController {
 
 
-    private final UserService userService;
+    private final UserGetService userGetService;
 
 
     // 모든 유저 정보 조회
     // return -> json
     @GetMapping("/all") @ResponseBody
     public List<UserDto> getAllUser(){
-        List<UserDto> userDtoList = userService.findAllUser();
+        List<UserDto> userDtoList = userGetService.findAllUser();
         return userDtoList;
     }
 
@@ -35,7 +35,7 @@ public class UserGetController {
             @RequestParam(value = "pageSize", defaultValue = "3", required = false) int pageSize,
             @RequestParam(value = "sortBy", defaultValue = "user_token_id", required = false) String sortBy
             ){
-        return userService.getUserPaging(pageNo, pageSize, sortBy);
+        return userGetService.getUserPaging(pageNo, pageSize, sortBy);
     }
 
 
@@ -43,7 +43,7 @@ public class UserGetController {
     // return -> json
     @GetMapping("/{tokenId}") @ResponseBody
     public UserDto getByUserTokenId(@PathVariable("tokenId") String tokenId ) {
-        return userService.findUserByTokenId(tokenId);
+        return userGetService.findUserByTokenId(tokenId);
     }
 
 
