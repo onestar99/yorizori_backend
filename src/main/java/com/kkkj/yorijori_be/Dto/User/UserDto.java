@@ -6,6 +6,8 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
+import java.time.LocalDateTime;
+
 @Getter
 @Setter
 @ToString
@@ -18,6 +20,8 @@ public class UserDto {
     private String Age;
     private String Gender;
     private String OAuthDivision;
+    private LocalDateTime createdTime;
+    private LocalDateTime updatedTime;
 
 
 

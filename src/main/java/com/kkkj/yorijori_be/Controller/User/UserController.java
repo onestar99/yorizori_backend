@@ -1,38 +1,55 @@
 package com.kkkj.yorijori_be.Controller.User;
 
-
 import com.kkkj.yorijori_be.Dto.User.UserDto;
 import com.kkkj.yorijori_be.Service.User.UserService;
+import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 @Controller
+@RequiredArgsConstructor
 public class UserController {
 
 
-    private UserService userService;
+    private final UserService userService;
+
 
     @GetMapping("")
     @ResponseBody
     public String getUser(){
-
-
-        userService.findAllUser();
-
-        return "aa";
+        return "반갑슘다";
     }
+
 
 
     /*
     *
     *  front -> json 형식
+    *  Method -> POST
     *
+    * JSON 형식 Example
+    * {
+          "userTokenId" : "abcd1234",
+          "nickName" : "윤하최고",
+          "imageAddress" : "/src",
+          "age" : "10대~20대",
+          "gender" : "여자",
+          "oauthDivision" : "google"
+        }
     * */
-
     @PostMapping("")
-    @ResponseBody
-    public void saveUser(UserDto userDto){
+    public ResponseEntity saveUser(@RequestBody UserDto userDto){
         userService.saveUser(userDto);
+        return ResponseEntity.ok().body(userDto);
     }
+
+
+
+
+
+
+
+
 
 }
