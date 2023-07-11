@@ -21,6 +21,16 @@ public class UserController {
     private final UserService userService;
 
 
+
+
+    // 유저 정보 저장
+    @PostMapping("/save")
+    public ResponseEntity saveUser(@RequestBody UserDto userDto){
+        userService.saveUser(userDto);
+        return ResponseEntity.ok().body(userDto);
+    }
+
+
     // 유저 정보 모두 조회
     // return -> json
     @GetMapping("/all") @ResponseBody
@@ -29,13 +39,12 @@ public class UserController {
         return userDtoList;
     }
 
+    // 유저 정보 페이징으로 넘기기
 //    @GetMapping("/all2")
 //    public List<UserEntity> findByUserTokenId(@RequestParam String tokenId, Pageable pageable){
 //
 //        return userService.findAllUser();
 //    }
-
-
 
 
     // 유저 tokenId를 통한 조회
@@ -46,13 +55,6 @@ public class UserController {
     }
 
 
-
-    // 유저 정보 저장
-    @PostMapping("/save")
-    public ResponseEntity saveUser(@RequestBody UserDto userDto){
-        userService.saveUser(userDto);
-        return ResponseEntity.ok().body(userDto);
-    }
 
 
 
