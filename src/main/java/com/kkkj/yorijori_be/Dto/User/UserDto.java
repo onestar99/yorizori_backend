@@ -43,4 +43,20 @@ public class UserDto {
         return build;
     }
 
+    public static UserDto toUserDto(UserEntity userEntity){
+
+        UserDto userDto = new UserDto();
+        userDto.setUserTokenId(userEntity.getUserTokenId());
+        userDto.setAge(userEntity.getAge());
+        userDto.setGender(userEntity.getGender());
+        userDto.setImageAddress(userEntity.getImageAddress());
+        userDto.setNickName(userEntity.getNickName());
+        userDto.setOAuthDivision(userEntity.getOAuthDivision());
+        userDto.setCreatedTime(userEntity.getCreatedTime());
+        userDto.setUpdatedTime(userEntity.getUpdatedTime());
+
+        return userDto;
+
+    }
+
 }
