@@ -9,15 +9,18 @@ import org.springframework.web.bind.annotation.*;
 
 @Controller
 @RequiredArgsConstructor
+@RequestMapping("/user")
 public class UserController {
 
 
     private final UserService userService;
 
 
-    @GetMapping("")
+    @GetMapping("/all")
     @ResponseBody
     public String getUser(){
+
+
         return "반갑슘다";
     }
 
@@ -38,7 +41,7 @@ public class UserController {
           "oauthDivision" : "google"
         }
     * */
-    @PostMapping("")
+    @PostMapping("/save")
     public ResponseEntity saveUser(@RequestBody UserDto userDto){
         userService.saveUser(userDto);
         return ResponseEntity.ok().body(userDto);
