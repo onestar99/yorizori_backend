@@ -9,4 +9,4 @@ spring:
     # jpa 쿼리문 확인
     show-sql: true
     hibernate:
-      ddl-auto: create
+      ddl-auto: update
