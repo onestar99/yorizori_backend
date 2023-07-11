@@ -1,6 +1,7 @@
 package com.kkkj.yorijori_be.Entity.User;
 
 
+import com.kkkj.yorijori_be.Entity.BaseTimeEntity;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -11,7 +12,7 @@ import lombok.*;
 @NoArgsConstructor
 @Table(name = "User")
 @Entity
-public class UserEntity {
+public class UserEntity extends BaseTimeEntity {
 
     @Id
     private String UserTokenId;
