@@ -33,4 +33,9 @@ public class UserEntity extends BaseTimeEntity {
     private String OAuthDivision;
 
 
+//    @ManyToOne
+//    @JoinColumn(name = "user_token_id")
+//    private UserCommentEntity userCommentEntity;
+
+
 }
