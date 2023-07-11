@@ -29,8 +29,7 @@ public class UserGetController {
 
 
     // 모든 유저 정보 페이징 처리
-    @GetMapping("/all/paging")
-    @ResponseBody
+    @GetMapping("/all/paging") @ResponseBody
     public Page<UserEntity> getAllPaging(
             @RequestParam(value = "pageNo", defaultValue = "0", required = false) int pageNo,
             @RequestParam(value = "pageSize", defaultValue = "3", required = false) int pageSize,
