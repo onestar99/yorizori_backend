@@ -1,10 +1,7 @@
 package com.kkkj.yorijori_be.Entity.User;
 
 import com.kkkj.yorijori_be.Entity.BaseTimeEntity;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.*;
 
 @ToString
@@ -12,22 +9,24 @@ import lombok.*;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "UserComment")
+@Table(name = "user_comment")
 @Entity
 public class UserCommentEntity extends BaseTimeEntity {
 
     @Id
-    @Column
-    private int CommentId;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "comment_id")
+    private Long commentId;
 
-    @Column
-    private String UserTokenId;
+    @ManyToOne
+    @JoinColumn(name = "user_token_id")
+    private UserEntity user;
 
-    @Column
-    private String Comment;
+    @Column(name = "comment")
+    private String comment;
 
-    @Column(length = 4)
-    private String Scope;
+    @Column(name = "scope", length = 4)
+    private String scope;
 
 
 
