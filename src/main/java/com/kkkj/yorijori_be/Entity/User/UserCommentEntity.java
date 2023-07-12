@@ -29,5 +29,11 @@ public class UserCommentEntity extends BaseTimeEntity {
     private String scope;
 
 
+    // userTokenId setting
+    public void setUser(UserEntity user) {
+        this.user = user;
+    }
+
+
 
 }
