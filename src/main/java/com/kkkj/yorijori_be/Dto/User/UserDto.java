@@ -32,12 +32,12 @@ public class UserDto {
     * */
     public UserEntity toEntity(){
         UserEntity build = UserEntity.builder()
-                .UserTokenId(UserTokenId)
-                .NickName(NickName)
-                .ImageAddress(ImageAddress)
-                .Age(Age)
-                .Gender(Gender)
-                .OAuthDivision(OAuthDivision)
+                .userTokenId(UserTokenId)
+                .nickname(NickName)
+                .imageAddress(ImageAddress)
+                .age(Age)
+                .gender(Gender)
+                .oauthDivision(OAuthDivision)
                 .build();
 
         return build;
@@ -50,8 +50,8 @@ public class UserDto {
         userDto.setAge(userEntity.getAge());
         userDto.setGender(userEntity.getGender());
         userDto.setImageAddress(userEntity.getImageAddress());
-        userDto.setNickName(userEntity.getNickName());
-        userDto.setOAuthDivision(userEntity.getOAuthDivision());
+        userDto.setNickName(userEntity.getNickname());
+        userDto.setOAuthDivision(userEntity.getOauthDivision());
         userDto.setCreatedTime(userEntity.getCreatedTime());
         userDto.setUpdatedTime(userEntity.getUpdatedTime());
 

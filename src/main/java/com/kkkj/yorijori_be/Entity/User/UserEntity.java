@@ -5,6 +5,8 @@ import com.kkkj.yorijori_be.Entity.BaseTimeEntity;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.List;
+
 @ToString
 @Getter
 @Builder
@@ -15,27 +17,27 @@ import lombok.*;
 public class UserEntity extends BaseTimeEntity {
 
     @Id
-    private String UserTokenId;
+    @Column(name = "user_token_id")
+    private String userTokenId;
 
-    @Column
-    private String NickName;
+    @Column(name = "nickname")
+    private String nickname;
 
-    @Column
-    private String ImageAddress;
+    @Column(name = "image_address")
+    private String imageAddress;
 
-    @Column
-    private String Age;
+    @Column(name = "age")
+    private String age;
 
-    @Column
-    private String Gender;
+    @Column(name = "gender")
+    private String gender;
 
-    @Column
-    private String OAuthDivision;
+    @Column(name = "oauth_division")
+    private String oauthDivision;
 
 
-//    @ManyToOne
-//    @JoinColumn(name = "user_token_id")
-//    private UserCommentEntity userCommentEntity;
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    private List<UserCommentEntity> Comments;
 
 
 }
