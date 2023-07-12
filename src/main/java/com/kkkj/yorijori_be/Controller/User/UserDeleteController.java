@@ -15,13 +15,12 @@ public class UserDeleteController {
 
     private final UserDeleteService userDeleteService;
 
-    // 유저 정보 저장
+    // 유저 정보 삭제
     @GetMapping("") @ResponseBody
-    public String deleteNickName(
-            @RequestParam(value = "tokenId", required = true) String tokenId,
-            @RequestParam(value = "nickName", required = true) String nickName
+    public String deleteUser(
+            @RequestParam(value = "tokenId", required = true) String tokenId
     ){
-        userDeleteService.deleteNickNameById(tokenId, nickName);
+        userDeleteService.deleteUserById(tokenId);
         return "deleted";
     }
 
