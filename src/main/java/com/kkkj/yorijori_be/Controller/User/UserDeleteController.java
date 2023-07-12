@@ -25,4 +25,11 @@ public class UserDeleteController {
         return "deleted";
     }
 
+    @GetMapping("/allcomment") @ResponseBody
+    public String deleteUserAllComment(
+            @RequestParam(value = "tokenId", required = true) String tokenId
+    ){
+        userDeleteService.deleteAllCommentById(tokenId);
+        return "deleted";
+    }
 }
