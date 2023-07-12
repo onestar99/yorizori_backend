@@ -1,10 +1,13 @@
 package com.kkkj.yorijori_be.Controller.User;
 
 import com.kkkj.yorijori_be.Dto.User.UserDto;
+import com.kkkj.yorijori_be.Entity.User.UserCommentEntity;
 import com.kkkj.yorijori_be.Entity.User.UserEntity;
+import com.kkkj.yorijori_be.Repository.User.UserRepository;
 import com.kkkj.yorijori_be.Service.User.UserGetService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
@@ -17,6 +20,7 @@ public class UserGetController {
 
 
     private final UserGetService userGetService;
+    private final UserRepository userRepository;
 
 
     // 모든 유저 정보 조회
@@ -41,9 +45,18 @@ public class UserGetController {
 
     // 유저 tokenId를 통한 조회
     // return -> json
-    @GetMapping("/{tokenId}") @ResponseBody
-    public UserDto getByUserTokenId(@PathVariable("tokenId") String tokenId ) {
-        return userGetService.findUserByTokenId(tokenId);
+    @GetMapping("/{userTokenId}") @ResponseBody
+    public UserDto getByUserTokenId(@PathVariable("userTokenId") String userTokenId ) {
+        return userGetService.findUserByTokenId(userTokenId);
+    }
+
+
+
+    @GetMapping("/{userTokenId}/comments") @ResponseBody
+    public ResponseEntity<List<UserCommentEntity>> getUserComments(@PathVariable String userTokenId) {
+        UserEntity user = userRepository.findByUserTokenId(userTokenId);
+        List<UserCommentEntity> comments = user.getComments();
+        return ResponseEntity.ok(comments);
     }
 
 
