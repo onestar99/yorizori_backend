@@ -1,6 +1,7 @@
 package com.kkkj.yorijori_be.Entity.User;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.kkkj.yorijori_be.Entity.BaseTimeEntity;
 import jakarta.persistence.*;
 import lombok.*;
@@ -36,6 +37,7 @@ public class UserEntity extends BaseTimeEntity {
     private String oauthDivision;
 
 
+    @JsonIgnore
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<UserCommentEntity> Comments;
 

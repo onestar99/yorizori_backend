@@ -16,6 +16,7 @@ import lombok.ToString;
 @NoArgsConstructor
 public class UserCommentDto {
 
+    
     private Long boardId;
     private String comment;
     private String scope;
