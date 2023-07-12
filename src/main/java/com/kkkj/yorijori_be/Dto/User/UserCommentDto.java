@@ -16,12 +16,14 @@ import lombok.ToString;
 @NoArgsConstructor
 public class UserCommentDto {
 
+    private Long boardId;
     private String comment;
     private String scope;
 
 
     public UserCommentEntity toEntity(){
         UserCommentEntity build = UserCommentEntity.builder()
+                .boardId((boardId))
                 .comment(comment)
                 .scope(scope)
                 .build();
@@ -31,6 +33,7 @@ public class UserCommentDto {
 
     public UserCommentDto toUserCommentDto(UserCommentEntity userCommentEntity){
         UserCommentDto userCommentDto = new UserCommentDto();
+        userCommentDto.setBoardId((userCommentEntity.getBoardId()));
         userCommentDto.setComment(userCommentEntity.getComment());
         userCommentDto.setScope(userCommentEntity.getScope());
 

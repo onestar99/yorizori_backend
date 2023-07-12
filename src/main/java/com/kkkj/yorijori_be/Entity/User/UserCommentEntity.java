@@ -22,12 +22,14 @@ public class UserCommentEntity extends BaseTimeEntity {
     @JoinColumn(name = "user_token_id")
     private UserEntity user;
 
+    @Column(name = "board_id")
+    private Long boardId;
+
     @Column(name = "comment")
     private String comment;
 
     @Column(name = "scope", length = 4)
     private String scope;
-
 
     // userTokenId setting
     public void setUser(UserEntity user) {
