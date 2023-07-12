@@ -21,6 +21,7 @@ public class UserDeleteController {
             @RequestParam(value = "tokenId", required = true) String tokenId
     ){
         userDeleteService.deleteUserById(tokenId);
+        userDeleteService.deleteAllCommentById(tokenId);
         return "deleted";
     }
 
