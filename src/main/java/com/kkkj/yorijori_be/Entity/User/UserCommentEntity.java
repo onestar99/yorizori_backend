@@ -1,5 +1,6 @@
 package com.kkkj.yorijori_be.Entity.User;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.kkkj.yorijori_be.Entity.BaseTimeEntity;
 import jakarta.persistence.*;
 import lombok.*;
@@ -18,6 +19,7 @@ public class UserCommentEntity extends BaseTimeEntity {
     @Column(name = "comment_id")
     private Long commentId;
 
+    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "user_token_id")
     private UserEntity user;

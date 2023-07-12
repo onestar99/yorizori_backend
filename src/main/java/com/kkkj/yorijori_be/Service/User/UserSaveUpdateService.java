@@ -34,19 +34,30 @@ public class UserSaveUpdateService {
 
 
     @Transactional
-    public void saveUserComment(String userTokenId, UserCommentDto userCommentDto){
+    public boolean saveUserComment(String userTokenId, UserCommentDto userCommentDto){
 
-        // TokenId를 통해 유저 정보 찾기
-        UserEntity userEntity = userRepository.findByUserTokenId(userTokenId);
-        // 전달받은 DTO를 Entity로 변경
-        UserCommentEntity userCommentEntity = userCommentDto.toEntity();
-        // Comment Entity 유저 정보 세팅
-        userCommentEntity.setUser(userEntity);
-        // User에 Comment Entity 추가
-        userEntity.getComments().add(userCommentEntity);
-        // 저장
-        userRepository.save(userEntity);
+        // BoardId가 있으면 진행
+        if (isBoardId(userCommentDto)){
+            // TokenId를 통해 유저 정보 찾기
+            UserEntity userEntity = userRepository.findByUserTokenId(userTokenId);
+            // 전달받은 DTO를 Entity로 변경
+            UserCommentEntity userCommentEntity = userCommentDto.toEntity();
+            // Comment Entity 유저 정보 세팅
+            userCommentEntity.setUser(userEntity);
+            // User에 Comment Entity 추가
+            userEntity.getComments().add(userCommentEntity);
+            // 저장
+            userRepository.save(userEntity);
+            return true;
+        } else{
+            return false;
+        }
 
+
+    }
+
+    private boolean isBoardId(UserCommentDto userCommentDto){
+        return userCommentDto.getBoardId() != null;
     }
 
 
