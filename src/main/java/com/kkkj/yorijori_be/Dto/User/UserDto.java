@@ -14,12 +14,12 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 public class UserDto {
 
-    private String UserTokenId;
-    private String NickName;
-    private String ImageAddress;
-    private String Age;
-    private String Gender;
-    private String OAuthDivision;
+    private String userTokenId;
+    private String nickname;
+    private String imageAddress;
+    private String age;
+    private String gender;
+    private String oauthDivision;
     private LocalDateTime createdTime;
     private LocalDateTime updatedTime;
 
@@ -32,12 +32,12 @@ public class UserDto {
     * */
     public UserEntity toEntity(){
         UserEntity build = UserEntity.builder()
-                .userTokenId(UserTokenId)
-                .nickname(NickName)
-                .imageAddress(ImageAddress)
-                .age(Age)
-                .gender(Gender)
-                .oauthDivision(OAuthDivision)
+                .userTokenId(userTokenId)
+                .nickname(nickname)
+                .imageAddress(imageAddress)
+                .age(age)
+                .gender(gender)
+                .oauthDivision(oauthDivision)
                 .build();
 
         return build;
@@ -50,8 +50,8 @@ public class UserDto {
         userDto.setAge(userEntity.getAge());
         userDto.setGender(userEntity.getGender());
         userDto.setImageAddress(userEntity.getImageAddress());
-        userDto.setNickName(userEntity.getNickname());
-        userDto.setOAuthDivision(userEntity.getOauthDivision());
+        userDto.setNickname(userEntity.getNickname());
+        userDto.setOauthDivision(userEntity.getOauthDivision());
         userDto.setCreatedTime(userEntity.getCreatedTime());
         userDto.setUpdatedTime(userEntity.getUpdatedTime());
 
