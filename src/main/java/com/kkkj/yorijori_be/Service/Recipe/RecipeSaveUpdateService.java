@@ -1,0 +1,45 @@
+package com.kkkj.yorijori_be.Service.Recipe;
+
+import com.kkkj.yorijori_be.Dto.Recipe.RecipeDto;
+import com.kkkj.yorijori_be.Entity.Recipe.RecipeEntity;
+import com.kkkj.yorijori_be.Entity.User.UserEntity;
+import com.kkkj.yorijori_be.Repository.Recipe.RecipeRepository;
+import com.kkkj.yorijori_be.Repository.User.UserRepository;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Service;
+
+
+@Slf4j
+@Service
+@RequiredArgsConstructor
+public class RecipeSaveUpdateService {
+
+
+    private final RecipeRepository recipeRepository;
+    private final UserRepository userRepository;
+
+
+    public void saveRecipe(String userTokenId, RecipeDto recipeDto){
+
+        // TokenId를 통해 유저 정보 찾기
+        UserEntity userEntity = userRepository.findByUserTokenId(userTokenId);
+        // 전달받은 DTO를 Entity로 변경
+        RecipeEntity recipeEntity = recipeDto.toEntity();
+        // recipe Entity 유저 정보 세팅
+        recipeEntity.setUser(userEntity);
+        // User에 recipe Entity 추가
+        userEntity.getRecipes().add(recipeEntity);
+
+        System.out.println(userEntity.getRecipes().get(0).getRecipeTitle());
+        System.out.println(userEntity.getUserTokenId());
+
+
+        // 저장
+        userRepository.save(userEntity);
+
+    }
+
+
+
+}
