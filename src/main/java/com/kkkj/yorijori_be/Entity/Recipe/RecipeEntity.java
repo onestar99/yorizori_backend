@@ -1,4 +1,61 @@
 package com.kkkj.yorijori_be.Entity.Recipe;
 
-public class RecipeEntity {
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.kkkj.yorijori_be.Entity.BaseTimeEntity;
+import com.kkkj.yorijori_be.Entity.User.UserEntity;
+import jakarta.persistence.*;
+import lombok.*;
+
+@ToString
+@Getter
+@Entity
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
+@Table(name = "recipe")
+public class RecipeEntity extends BaseTimeEntity {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "recipe_id")
+    private Long recipeId;
+
+    @Column(name = "recipe_title", nullable = false)
+    private String recipeTitle;
+
+    @JsonIgnore
+    @ManyToOne
+    @JoinColumn(name = "user_token_id")
+    private UserEntity user;
+
+    @Column(name = "category")
+    private String category;
+
+    @Column(name = "dish_name")
+    private String dishName;
+
+    @Column(name = "recipe_hits", nullable = false)
+    private int recipeHits;
+
+    @Column(name = "authorship")
+    private String authorship;
+
+    @Column(name = "reference_recipe")
+    private String referenceRecipe;
+
+    @Column(name = "scope", length = 4, nullable = false)
+    private String scope;
+
+    @Column(name = "recipe_thumbnail")
+    private String recipeThumbnail;
+
+    @Column(name = "review_count", nullable = false)
+    private int reviewCount;
+
+    // userTokenId setting
+    public void setUser(UserEntity user) {
+        this.user = user;
+    }
+
+
 }
