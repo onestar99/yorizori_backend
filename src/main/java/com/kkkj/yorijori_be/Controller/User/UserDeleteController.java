@@ -20,8 +20,8 @@ public class UserDeleteController {
     public String deleteUser(
             @RequestParam(value = "tokenId", required = true) String tokenId
     ){
-        userDeleteService.deleteUserById(tokenId);
         userDeleteService.deleteAllCommentById(tokenId);
+        userDeleteService.deleteUserById(tokenId);
         return "deleted";
     }
 
