@@ -6,6 +6,8 @@ import com.kkkj.yorijori_be.Entity.User.UserEntity;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.List;
+
 @ToString
 @Getter
 @Entity
@@ -56,6 +58,10 @@ public class RecipeEntity extends BaseTimeEntity {
     public void setUser(UserEntity user) {
         this.user = user;
     }
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "recipe", cascade = CascadeType.ALL)
+    private List<RecipeIngredientTagEntity> ingredients;
 
 
 }
