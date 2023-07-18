@@ -3,13 +3,15 @@ package com.kkkj.yorijori_be.Entity.Recipe;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
+@ToString
 @Getter
+@Builder
+@AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "recipe_ingredient_tag")
 @Entity
+@Table(name = "recipe_ingredient_tag")
 public class RecipeIngredientTagEntity {
 
     @Id
@@ -25,6 +27,10 @@ public class RecipeIngredientTagEntity {
     @Column(name = "is_main")
     private String isMain;
 
+    // RecipeId setting
+    public void setRecipe(RecipeEntity recipe) {
+        this.recipe = recipe;
+    }
 
 
 }
