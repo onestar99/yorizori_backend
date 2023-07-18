@@ -63,5 +63,9 @@ public class RecipeEntity extends BaseTimeEntity {
     @OneToMany(mappedBy = "recipe", cascade = CascadeType.ALL)
     private List<RecipeIngredientTagEntity> ingredients;
 
+    @JsonIgnore
+    @OneToMany(mappedBy = "recipe", cascade = CascadeType.ALL)
+    private List<RecipeDetailEntity> details;
+
 
 }
