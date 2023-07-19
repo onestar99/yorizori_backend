@@ -1,6 +1,9 @@
 package com.kkkj.yorijori_be.Service.Recipe;
 
+import com.kkkj.yorijori_be.Dto.Recipe.RecipeDetailDto;
 import com.kkkj.yorijori_be.Dto.Recipe.RecipeDto;
+import com.kkkj.yorijori_be.Dto.Recipe.RecipePostDto;
+import com.kkkj.yorijori_be.Entity.Recipe.RecipeDetailEntity;
 import com.kkkj.yorijori_be.Entity.Recipe.RecipeEntity;
 import com.kkkj.yorijori_be.Entity.User.UserEntity;
 import com.kkkj.yorijori_be.Repository.Recipe.RecipeRepository;
@@ -37,6 +40,23 @@ public class RecipeSaveUpdateService {
 
         // 저장
         userRepository.save(userEntity);
+
+    }
+
+
+    public void saveRecipeDetails(RecipePostDto recipePostDto){
+        recipePostDto.getRecipeId();
+
+        // TokenId를 통해 유저 정보 찾기
+        RecipeEntity recipeEntity = recipeRepository.findByRecipeId(recipePostDto.getRecipeId());
+
+        for(RecipeDetailDto recipeDetailDto : recipePostDto.getRecipeDetailDtoList()){
+            RecipeDetailEntity recipeDetailEntity = recipeDetailDto.toEntity();
+            recipeDetailEntity.setRecipe(recipeEntity);
+            recipeEntity.getDetails().add(recipeDetailEntity);
+            recipeRepository.save(recipeEntity);
+        }
+
 
     }
 

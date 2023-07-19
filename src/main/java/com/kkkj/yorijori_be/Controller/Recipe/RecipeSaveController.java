@@ -27,18 +27,21 @@ public class RecipeSaveController {
     }
 
 
-    @PostMapping("/test")
+    @PostMapping("/details")
     public ResponseEntity saveRecipe(@RequestBody RecipePostDto recipePostDto){
 
         System.out.println(recipePostDto.getRecipeId());
-        System.out.println(recipePostDto.getRecipeDetailDtoList().get(1));
+        System.out.println(recipePostDto.getRecipeDetailDtoList());
+
+        recipeSaveUpdateService.saveRecipeDetails(recipePostDto);
 
         // 모든 내용이 괜찮은지 검토한다. (Validation)
 
-        // 레시피 정보를 저장한다. (한개)
-        // 레시피 재료 정보를 저장한다. (여러개)
-        // 레시피 디테일 정보를 저장한다. (여러개)
-        
+        // 레시피 정보를 저장(요청-POST)한다. (한개)
+        // 레시피 재료 정보를 저장(요청-POST)한다. (여러개)
+        // 레시피 디테일 정보에 있는 이미지들을 s3에 저장(요청-POST-multipart/form-data)한다. (여러개)
+        // 이미지들의 주소를 Set하여 레시피 디테일 정보를 저장(요청-POST)한다. (여러개)
+
         
         return ResponseEntity.ok("recipe save successfully");
     }

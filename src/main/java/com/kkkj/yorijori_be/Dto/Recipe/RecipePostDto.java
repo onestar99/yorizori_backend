@@ -13,7 +13,7 @@ import java.util.List;
 @NoArgsConstructor
 public class RecipePostDto {
 
-    private String recipeId;
+    private Long recipeId;
     private List<RecipeDetailDto> recipeDetailDtoList;
 
 }
