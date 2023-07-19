@@ -1,12 +1,25 @@
 spring:
+  profiles:
+    include:
+      - aws
+      - credentials
+
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://database-1.cvcsflhbooki.ap-northeast-2.rds.amazonaws.com:3306/yorizori?serverTimezone=Asia/Seoul&characterEncoding=UTF-8
     username: admin
     password: yorizori
 
+
   jpa:
     # jpa 쿼리문 확인
     show-sql: true
     hibernate:
       ddl-auto: update
+
+  # S3 용량 제한
+  servlet:
+    multipart:
+      enabled: true
+      max-file-size: 20MB
+      max-request-size: 20MB

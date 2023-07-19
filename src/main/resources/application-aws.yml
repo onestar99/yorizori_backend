@@ -1,0 +1,6 @@
+cloud:
+  aws:
+    s3:
+      bucket: yorizori-s3
+    stack.auto: false
+    region.static: ap-northeast-2
