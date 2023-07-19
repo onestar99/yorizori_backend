@@ -29,7 +29,7 @@ public class RecipeGetController {
     }
 
     @ResponseBody
-    @GetMapping("/a/{recipeId}")
+    @GetMapping("/details/{recipeId}")
     public List<RecipeDetailEntity> getRecipeDetails(@PathVariable Long recipeId){
 
         List<RecipeDetailEntity> recipeDetailEntityList = recipeGetService.getRecipeDetailsByRecipeId(recipeId);
