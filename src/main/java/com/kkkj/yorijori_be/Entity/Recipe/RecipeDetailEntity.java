@@ -12,14 +12,14 @@ import lombok.*;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "recipe_detail_entity")
+@Table(name = "recipe_detail")
 public class RecipeDetailEntity {
 
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "recipe_detail_id")
-    private Integer recipeDetailId;
+    private Long recipeDetailId;
 
     @ManyToOne
     @JsonIgnore
