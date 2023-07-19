@@ -26,4 +26,13 @@ public class TipDto {
 
         return build;
     }
+
+    public static TipDto toTipDto(TipEntity tipEntity){
+        TipDto tipDto = new TipDto();
+        tipDto.setTipDetail(tipEntity.getTipDetail());
+        tipDto.setTipThumbnail(tipEntity.getTipThumbnail());
+        tipDto.setTipHits(tipEntity.getTipHits());
+        tipDto.setTipTitle(tipEntity.getTipTitle());
+        return tipDto;
+    }
 }

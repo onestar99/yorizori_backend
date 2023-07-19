@@ -41,10 +41,13 @@ public class TipSaveUpdateService {
 
     }
 
-//    @Transactional
-//    public void updateNickNameById(String tokenId, String NickName){
-//        TipDto tipDto = UserDto.toUserDto(userRepository.findById(tokenId).get());
-//        userDto.setNickname(NickName);
-//        userRepository.save(userDto.toEntity());
-//    }
+    @Transactional
+    public void updateTitleById(String tokenId, String Title){
+        TipDto tipDto = TipDto.toTipDto(tipRepository.findById(tokenId).get());
+        tipDto.setTipTitle(Title);
+        tipRepository.save(tipDto.toEntity());
+    }
+
+
+
 }
