@@ -2,6 +2,7 @@ package com.kkkj.yorijori_be.Service.Tip;
 
 import com.kkkj.yorijori_be.Dto.Recipe.RecipeDto;
 import com.kkkj.yorijori_be.Dto.Tip.TipDto;
+import com.kkkj.yorijori_be.Dto.User.UserDto;
 import com.kkkj.yorijori_be.Entity.Recipe.RecipeEntity;
 import com.kkkj.yorijori_be.Entity.Tip.TipEntity;
 import com.kkkj.yorijori_be.Entity.User.UserEntity;
@@ -39,4 +40,11 @@ public class TipSaveUpdateService {
         userRepository.save(userEntity);
 
     }
+
+//    @Transactional
+//    public void updateNickNameById(String tokenId, String NickName){
+//        TipDto tipDto = UserDto.toUserDto(userRepository.findById(tokenId).get());
+//        userDto.setNickname(NickName);
+//        userRepository.save(userDto.toEntity());
+//    }
 }
