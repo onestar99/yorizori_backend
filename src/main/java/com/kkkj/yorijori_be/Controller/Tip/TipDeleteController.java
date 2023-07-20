@@ -14,12 +14,21 @@ import org.springframework.web.bind.annotation.ResponseBody;
 public class TipDeleteController {
     private final TipDeleteService tipDeleteService;
 
-    @GetMapping("")
-    @ResponseBody
-    public String deleteTip(
+//    @GetMapping("")
+//    @ResponseBody
+//    public String deleteTip(
+//            @RequestParam(value = "tokenId", required = true) String tokenId
+//    ){
+//        tipDeleteService.deleteTipById(tokenId);
+//        return "deleted";
+//    }
+
+    @GetMapping("/allTips") @ResponseBody
+    public String deleteUserAllTips(
             @RequestParam(value = "tokenId", required = true) String tokenId
     ){
-        tipDeleteService.deleteTipById(tokenId);
+//        userDeleteService.deleteAllCommentById(tokenId);
+        tipDeleteService.deleteAllTipById(tokenId);
         return "deleted";
     }
 }
