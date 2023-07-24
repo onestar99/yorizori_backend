@@ -23,7 +23,7 @@ public class RecipeDetailEntity {
 
     @ManyToOne
     @JsonIgnore
-    @JoinColumn(name = "recipe")
+    @JoinColumn(name = "recipe_id")
     private RecipeEntity recipe;
 
     @Column(name = "recipe_detail", nullable = false)

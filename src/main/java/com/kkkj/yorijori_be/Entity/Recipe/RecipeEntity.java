@@ -36,6 +36,9 @@ public class RecipeEntity extends BaseTimeEntity {
     @Column(name = "dish_name")
     private String dishName;
 
+    @Column(name = "recipe_intro")
+    private String recipeIntro;
+
     @Column(name = "recipe_hits", nullable = false)
     private int recipeHits;
 

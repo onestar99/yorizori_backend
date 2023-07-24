@@ -19,6 +19,12 @@ public class RecipeIngredientTagEntity {
     @Column(name = "ingredient_tag_id")
     private int ingredientTagId;
 
+    @Column(name = "ingredient_name")
+    private String ingredientName;
+
+    @Column(name = "ingredient_size")
+    private String ingredientSize;
+
     @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "recipe_id")
