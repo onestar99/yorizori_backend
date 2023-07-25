@@ -3,6 +3,7 @@ package com.kkkj.yorijori_be.Controller.Recipe;
 import com.kkkj.yorijori_be.Dto.Recipe.RecipeDetailsDto;
 import com.kkkj.yorijori_be.Dto.Recipe.RecipeListDto;
 import com.kkkj.yorijori_be.Service.Recipe.RecipeGetService;
+import com.kkkj.yorijori_be.Service.Recipe.RecipeSaveUpdateService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.*;
 public class RecipeGetController {
 
     private final RecipeGetService recipeGetService;
+    private final RecipeSaveUpdateService recipeSaveUpdateService;
 
 
     // 모든 레시피 정보 페이징 처리
@@ -33,10 +35,11 @@ public class RecipeGetController {
     @GetMapping("/details/{recipeId}")
     public RecipeDetailsDto getRecipeDetails(@PathVariable Long recipeId){
 
+        // DTO 만들기
         RecipeDetailsDto recipeDetailsDto = recipeGetService.getRecipeDetailsByRecipeId(recipeId);
+        // 레시피 조회이므로 조회수 1 올리기.
+        recipeSaveUpdateService.updateRecipeHits(recipeId);
 
-//        List<RecipeDetailEntity> recipeDetailEntityList = recipeGetService.getRecipeDetailsByRecipeId(recipeId);
-//        return recipeDetailEntityList;
         return recipeDetailsDto;
     }
 

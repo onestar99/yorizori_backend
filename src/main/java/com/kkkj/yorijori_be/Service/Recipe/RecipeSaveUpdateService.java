@@ -8,6 +8,7 @@ import com.kkkj.yorijori_be.Entity.Recipe.RecipeEntity;
 import com.kkkj.yorijori_be.Entity.User.UserEntity;
 import com.kkkj.yorijori_be.Repository.Recipe.RecipeRepository;
 import com.kkkj.yorijori_be.Repository.User.UserRepository;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -56,8 +57,11 @@ public class RecipeSaveUpdateService {
             recipeEntity.getDetails().add(recipeDetailEntity);
             recipeRepository.save(recipeEntity);
         }
+    }
 
-
+    @Transactional
+    public void updateRecipeHits(Long recipeId){
+        recipeRepository.updateView(recipeId);
     }
 
 
