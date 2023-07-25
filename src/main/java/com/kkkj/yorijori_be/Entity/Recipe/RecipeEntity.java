@@ -48,6 +48,9 @@ public class RecipeEntity extends BaseTimeEntity {
     @Column(name = "reference_recipe")
     private String referenceRecipe;
 
+    @Column(name = "scope_count")
+    private int scopeCount;
+
     @Column(name = "scope", length = 4, nullable = false)
     private String scope;
 
