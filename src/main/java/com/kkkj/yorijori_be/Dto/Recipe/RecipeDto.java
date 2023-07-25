@@ -25,6 +25,8 @@ public class RecipeDto {
     private String authorship;
     private String referenceRecipe;
     private String scope = "0.0";
+    private String recipeIntro;
+    private int scopeCount = 0;
     private String recipeThumbnail;
     private int reviewCount = 0;
 
@@ -35,6 +37,8 @@ public class RecipeDto {
                 .category(category)
                 .dishName(dishName)
                 .recipeHits(recipeHits)
+                .recipeIntro(recipeIntro)
+                .scopeCount(scopeCount)
                 .authorship(authorship)
                 .referenceRecipe(referenceRecipe)
                 .scope(scope)
