@@ -4,7 +4,6 @@ import com.kkkj.yorijori_be.Dto.Recipe.RecipeDetailsDto;
 import com.kkkj.yorijori_be.Dto.Recipe.RecipeIngredientDto;
 import com.kkkj.yorijori_be.Dto.Recipe.RecipeListDto;
 import com.kkkj.yorijori_be.Dto.Recipe.RecipeOrderDto;
-import com.kkkj.yorijori_be.Dto.User.UserDto;
 import com.kkkj.yorijori_be.Entity.Recipe.RecipeDetailEntity;
 import com.kkkj.yorijori_be.Entity.Recipe.RecipeEntity;
 import com.kkkj.yorijori_be.Entity.Recipe.RecipeIngredientTagEntity;
@@ -47,24 +46,13 @@ public class RecipeGetService {
     }
 
 
-//    // 레시피 디테일 정보 보내주기
-//    public List<RecipeDetailEntity> getRecipeDetailsByRecipeId(Long recipeId) {
-//
-//        return recipeRepository.findByRecipeId(recipeId).getDetails();
-//
-//    }
-
-
+    // 레시피 디테일 정보 보내주기
     public RecipeDetailsDto getRecipeDetailsByRecipeId(Long recipeId){
-
-//        (RecipeEntity recipeEntity, List< RecipeIngredientDto > mainIngredient,
-//                List<RecipeIngredientDto> semiIngredient, List< RecipeOrderDto > order)
 
         // recipeEntity 만들기
         RecipeEntity recipeEntity = recipeRepository.findByRecipeId(recipeId);
 
         // List<RecipeIngredientDto> mainIngredient 만들기
-//        List<RecipeIngredientTagEntity> recipeIngredientList = recipeEntity.getIngredients();
         List<RecipeIngredientTagEntity> recipeIngredientMainList = recipeIngredientTagRepository.findByRecipeAndIsMain(recipeEntity, "main");
         List<RecipeIngredientDto> recipeIngredientMainDtoList = new ArrayList<>();
         for(RecipeIngredientTagEntity recipeIngredientTagEntity: recipeIngredientMainList){
@@ -85,6 +73,7 @@ public class RecipeGetService {
             recipeOrderDtoList.add(RecipeOrderDto.toDto(recipeDetailEntity));
         }
 
+        // 4개 합쳐서 DTO 완성 후 return
         RecipeDetailsDto recipeDetailsDto = RecipeDetailsDto.toDto(recipeEntity, recipeIngredientMainDtoList,
                 recipeIngredientSemiDtoList, recipeOrderDtoList);
 
@@ -95,6 +84,10 @@ public class RecipeGetService {
 
 
 
+    /*
+    * getRecipePaging() 함수에서 현재 사용중인 함수
+    * Json 에서 보내오는 변수명과 Java Entity에서의 변수명이 달라 호환을 위해 만든 convert 함수.
+    * */
     private String sortToColumnName(String sortBy){
         String columnName = null;
         switch (sortBy){

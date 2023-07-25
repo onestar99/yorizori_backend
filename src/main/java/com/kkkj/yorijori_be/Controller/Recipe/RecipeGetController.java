@@ -2,15 +2,12 @@ package com.kkkj.yorijori_be.Controller.Recipe;
 
 import com.kkkj.yorijori_be.Dto.Recipe.RecipeDetailsDto;
 import com.kkkj.yorijori_be.Dto.Recipe.RecipeListDto;
-import com.kkkj.yorijori_be.Entity.Recipe.RecipeDetailEntity;
-import com.kkkj.yorijori_be.Entity.Recipe.RecipeEntity;
 import com.kkkj.yorijori_be.Service.Recipe.RecipeGetService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 
 @Controller
 @RequiredArgsConstructor
@@ -30,13 +27,8 @@ public class RecipeGetController {
         return recipeGetService.getRecipePaging(pageNo, pageSize, sortBy);
     }
 
-//    @ResponseBody
-//    @GetMapping("/details/{recipeId}")
-//    public List<RecipeDetailEntity> getRecipeDetails(@PathVariable Long recipeId){
-//
-//        List<RecipeDetailEntity> recipeDetailEntityList = recipeGetService.getRecipeDetailsByRecipeId(recipeId);
-//        return recipeDetailEntityList;
-//    }
+
+    // 레시피 디테일 정보 recipeId를 파라미터로 받아 RecipeDetailsDto 반환
     @ResponseBody
     @GetMapping("/details/{recipeId}")
     public RecipeDetailsDto getRecipeDetails(@PathVariable Long recipeId){
