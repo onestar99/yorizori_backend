@@ -1,5 +1,6 @@
 package com.kkkj.yorijori_be.Controller.Recipe;
 
+import com.kkkj.yorijori_be.Dto.Recipe.RecipeDetailsDto;
 import com.kkkj.yorijori_be.Dto.Recipe.RecipeListDto;
 import com.kkkj.yorijori_be.Entity.Recipe.RecipeDetailEntity;
 import com.kkkj.yorijori_be.Entity.Recipe.RecipeEntity;
@@ -29,12 +30,22 @@ public class RecipeGetController {
         return recipeGetService.getRecipePaging(pageNo, pageSize, sortBy);
     }
 
+//    @ResponseBody
+//    @GetMapping("/details/{recipeId}")
+//    public List<RecipeDetailEntity> getRecipeDetails(@PathVariable Long recipeId){
+//
+//        List<RecipeDetailEntity> recipeDetailEntityList = recipeGetService.getRecipeDetailsByRecipeId(recipeId);
+//        return recipeDetailEntityList;
+//    }
     @ResponseBody
     @GetMapping("/details/{recipeId}")
-    public List<RecipeDetailEntity> getRecipeDetails(@PathVariable Long recipeId){
+    public RecipeDetailsDto getRecipeDetails(@PathVariable Long recipeId){
 
-        List<RecipeDetailEntity> recipeDetailEntityList = recipeGetService.getRecipeDetailsByRecipeId(recipeId);
-        return recipeDetailEntityList;
+        RecipeDetailsDto recipeDetailsDto = recipeGetService.getRecipeDetailsByRecipeId(recipeId);
+
+//        List<RecipeDetailEntity> recipeDetailEntityList = recipeGetService.getRecipeDetailsByRecipeId(recipeId);
+//        return recipeDetailEntityList;
+        return recipeDetailsDto;
     }
 
 

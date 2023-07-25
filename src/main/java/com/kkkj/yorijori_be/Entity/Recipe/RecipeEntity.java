@@ -60,6 +60,12 @@ public class RecipeEntity extends BaseTimeEntity {
     @Column(name = "review_count", nullable = false)
     private int reviewCount;
 
+    @Column(name = "level")
+    private String level;
+
+    @Column(name = "time")
+    private String time;
+
     // userTokenId setting
     public void setUser(UserEntity user) {
         this.user = user;

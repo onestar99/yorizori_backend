@@ -1,6 +1,5 @@
 package com.kkkj.yorijori_be.Entity.Recipe;
 
-
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
