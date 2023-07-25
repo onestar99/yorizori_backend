@@ -9,7 +9,7 @@ import org.springframework.data.domain.Page;
 @ToString
 public class RecipeListDto {
 
-    private String id; // 회원 토큰 id
+    private Long id; // 레시피 id
     private String title; // 타이틀 이름
     private String thumbnail; // 썸네일 주소
     private String starRate; // 별점
@@ -22,7 +22,7 @@ public class RecipeListDto {
 
     public static Page<RecipeListDto> toDtoList(Page<RecipeEntity> recipeEntityPage){
         Page<RecipeListDto> recipeListDtoPage = recipeEntityPage.map(m -> RecipeListDto.builder()
-                .id(m.getUser().getUserTokenId())
+                .id(m.getRecipeId())
                 .title(m.getRecipeTitle())
                 .thumbnail(m.getRecipeThumbnail())
                 .starRate(m.getScope())
