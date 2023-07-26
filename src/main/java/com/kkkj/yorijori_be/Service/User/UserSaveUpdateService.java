@@ -53,8 +53,16 @@ public class UserSaveUpdateService {
             return false;
         }
 
-
     }
+
+
+    // 프로필 이미지주소 업데이트
+    @Transactional
+    public void updateProfile(String userTokenId, String profileAddress){
+        UserEntity userEntity = userRepository.findByUserTokenId(userTokenId);
+        userEntity.updateProfile(profileAddress);
+    }
+
 
     private boolean isBoardId(UserCommentDto userCommentDto){
         return userCommentDto.getBoardId() != null;

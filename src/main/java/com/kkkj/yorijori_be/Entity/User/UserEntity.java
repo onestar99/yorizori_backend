@@ -56,4 +56,8 @@ public class UserEntity extends BaseTimeEntity {
     private List<UserScopeEntity> scopes;
 
 
+    public void updateProfile(String profileAddress){
+        this.imageAddress = profileAddress;
+    }
+
 }
