@@ -1,4 +1,4 @@
-package com.kkkj.yorijori_be.Security;
+package com.kkkj.yorijori_be.Security.Config;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
