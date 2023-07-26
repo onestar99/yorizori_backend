@@ -25,8 +25,9 @@ bin/
 out/
 !**/src/main/**/out/
 !**/src/test/**/out/
-application-aws.yml
-application-credentials.yml
+/src/main/resources/application-aws.yml
+/src/main/resources/application-credentials.yml
+/src/main/resources/application-oauth.yml
 
 ### NetBeans ###
 /nbproject/private/
