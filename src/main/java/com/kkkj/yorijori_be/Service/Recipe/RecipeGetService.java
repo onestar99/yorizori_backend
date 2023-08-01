@@ -41,7 +41,7 @@ public class RecipeGetService {
 //        Pageable pageable = PageRequest.of(pageNo, pageSize, Sort.by(sortBy).descending());
         Pageable pageable = PageRequest.of(pageNo, pageSize, Sort.by(columnName).descending());
         Page<RecipeEntity> recipeEntityPage = recipeRepository.findAll(pageable);
-        Page<RecipeListDto> recipeListDtoPage = RecipeListDto.toDtoList(recipeEntityPage);
+        Page<RecipeListDto> recipeListDtoPage = RecipeListDto.toDtoPage(recipeEntityPage);
         return recipeListDtoPage;
     }
 

@@ -3,6 +3,8 @@ import com.kkkj.yorijori_be.Entity.Recipe.RecipeEntity;
 import lombok.*;
 import org.springframework.data.domain.Page;
 
+import java.util.List;
+
 @Builder
 @Getter
 @Setter
@@ -20,7 +22,7 @@ public class RecipeListDto {
     private int reviewCount; // 댓글 수
 
 
-    public static Page<RecipeListDto> toDtoList(Page<RecipeEntity> recipeEntityPage){
+    public static Page<RecipeListDto> toDtoPage(Page<RecipeEntity> recipeEntityPage){
         Page<RecipeListDto> recipeListDtoPage = recipeEntityPage.map(m -> RecipeListDto.builder()
                 .id(m.getRecipeId())
                 .title(m.getRecipeTitle())
@@ -35,5 +37,6 @@ public class RecipeListDto {
 
         return recipeListDtoPage;
     }
+
 
 }
