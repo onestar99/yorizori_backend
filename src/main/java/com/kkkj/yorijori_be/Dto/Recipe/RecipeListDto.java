@@ -33,9 +33,22 @@ public class RecipeListDto {
                 .nickName(m.getUser().getNickname())
                 .viewCount(m.getRecipeHits())
                 .reviewCount(m.getReviewCount()).build());
-
-
         return recipeListDtoPage;
+    }
+
+    public static RecipeListDto toDto(RecipeEntity recipeEntity){
+        RecipeListDto recipeListDto = RecipeListDto.builder()
+                .id(recipeEntity.getRecipeId())
+                .title(recipeEntity.getRecipeTitle())
+                .thumbnail(recipeEntity.getRecipeThumbnail())
+                .starRate(recipeEntity.getScope())
+                .starCount(recipeEntity.getScopeCount())
+                .profileImg(recipeEntity.getUser().getImageAddress())
+                .nickName(recipeEntity.getUser().getNickname())
+                .viewCount(recipeEntity.getRecipeHits())
+                .reviewCount(recipeEntity.getReviewCount())
+                .build();
+        return recipeListDto;
     }
 
 

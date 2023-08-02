@@ -9,6 +9,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 
 @Controller
 @RequiredArgsConstructor
@@ -41,6 +43,20 @@ public class RecipeGetController {
         recipeSaveUpdateService.updateRecipeHits(recipeId);
 
         return recipeDetailsDto;
+    }
+
+    // 메인화면에서 rank1부터 rank11까지 불러오는 api
+    @ResponseBody
+    @GetMapping("/rank/part")
+    public List<RecipeListDto> getRecipeRank11(){
+        return recipeGetService.getTop11ItemsByViews();
+    }
+
+    // 랭킹화면에서 rank1부터 rank100까지 불러오는 api
+    @ResponseBody
+    @GetMapping("/rank/total")
+    public List<RecipeListDto> getRecipeTotal100(){
+        return recipeGetService.getTop100ItemsByViews();
     }
 
 

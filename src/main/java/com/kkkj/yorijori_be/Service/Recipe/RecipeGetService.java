@@ -82,6 +82,34 @@ public class RecipeGetService {
     }
 
 
+//    // 조회수순으로 랭크 11위까지 정렬
+//    public List<RecipeEntity> getTop11ItemsByViews() {
+//        return recipeRepository.findTop11ByOrderByRecipeHitsDesc();
+//    }
+
+    // 조회수순으로 랭크 11위까지 정렬
+    public List<RecipeListDto> getTop11ItemsByViews() {
+
+        List<RecipeEntity> recipeEntityList = recipeRepository.findTop11ByOrderByRecipeHitsDesc();
+        List<RecipeListDto> recipeListDtoList = new ArrayList<>();
+        for(RecipeEntity recipeEntity: recipeEntityList){
+            recipeListDtoList.add(RecipeListDto.toDto(recipeEntity));
+        }
+        return recipeListDtoList;
+    }
+
+    // 조회수순으로 랭크 100위까지 정렬
+    public List<RecipeListDto> getTop100ItemsByViews() {
+
+        List<RecipeEntity> recipeEntityList = recipeRepository.findTop100ByOrderByRecipeHitsDesc();
+        List<RecipeListDto> recipeListDtoList = new ArrayList<>();
+        for(RecipeEntity recipeEntity: recipeEntityList){
+            recipeListDtoList.add(RecipeListDto.toDto(recipeEntity));
+        }
+        return recipeListDtoList;
+    }
+
+
 
 
     /*
