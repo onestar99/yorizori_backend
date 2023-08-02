@@ -13,6 +13,7 @@ public class RecipeOrderDto {
     private String img;
 
 
+    // RecipeDetailsDto에 포함시키기 위한 Order List이다.
 
     public static RecipeOrderDto toDto(RecipeDetailEntity recipeDetailEntity){
 
