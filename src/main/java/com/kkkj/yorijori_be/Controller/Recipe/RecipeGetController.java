@@ -9,6 +9,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -64,7 +65,10 @@ public class RecipeGetController {
     // 검색
     @ResponseBody
     @GetMapping("/searched")
-    public List<RecipeListDto> getTitleSearchedPaging(String searchKeyword){
+    public List<RecipeListDto> getTitleSearchedPaging(@RequestParam(value="keyword") String searchKeyword, Model model){
+        List<RecipeListDto> searchedList = recipeGetService.recipeSearchList(searchKeyword);
+        model.addAttribute("searchedList",searchedList);
+
         return recipeGetService.recipeSearchList(searchKeyword);
     }
 }
