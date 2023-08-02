@@ -34,7 +34,6 @@ public class RecipeDto {
     public RecipeEntity toEntity(){
         RecipeEntity build = RecipeEntity.builder()
                 .recipeTitle(recipeTitle)
-                .category(category)
                 .dishName(dishName)
                 .recipeHits(recipeHits)
                 .recipeIntro(recipeIntro)

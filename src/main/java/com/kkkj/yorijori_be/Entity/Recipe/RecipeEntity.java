@@ -30,9 +30,6 @@ public class RecipeEntity extends BaseTimeEntity {
     @JoinColumn(name = "user_token_id")
     private UserEntity user;
 
-    @Column(name = "category")
-    private String category;
-
     @Column(name = "dish_name")
     private String dishName;
 
