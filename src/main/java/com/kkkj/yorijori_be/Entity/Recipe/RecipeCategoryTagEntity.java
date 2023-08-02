@@ -16,6 +16,7 @@ public class RecipeCategoryTagEntity {
 
     @Id
     @Column(name = "category_id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int categoryId;
 
     @ManyToOne
