@@ -157,7 +157,6 @@ public class RecipeGetService {
     }
 
     public List<RecipeListDto> recipeSearchList(String searchKeyword){
-
         List<RecipeEntity> recipeEntityList = recipeRepository.findByRecipeTitleContaining(searchKeyword);
         List<RecipeListDto> recipeListDtoList = new ArrayList<>();
         for(RecipeEntity recipeEntity : recipeEntityList){
