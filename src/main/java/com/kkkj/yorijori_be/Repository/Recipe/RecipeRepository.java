@@ -1,6 +1,5 @@
 package com.kkkj.yorijori_be.Repository.Recipe;
 
-import com.kkkj.yorijori_be.Dto.Recipe.RecipeListDto;
 import com.kkkj.yorijori_be.Entity.Recipe.RecipeEntity;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -18,9 +17,9 @@ public interface RecipeRepository extends JpaRepository<RecipeEntity, Long> {
 
     @Modifying
     @Query("update RecipeEntity r set r.recipeHits = r.recipeHits + 1 where r.recipeId = :id")
-    int updateView(@Param("id")Long id);
+    void updateView(@Param("id")Long id);
 
-    List<RecipeEntity> findTop11ByOrderByRecipeHitsDesc();
+    List<RecipeEntity> findTop9ByOrderByRecipeHitsDesc();
     List<RecipeEntity> findTop100ByOrderByRecipeHitsDesc();
 
     List<RecipeEntity> findByRecipeTitleContaining(String searchKeyword);
