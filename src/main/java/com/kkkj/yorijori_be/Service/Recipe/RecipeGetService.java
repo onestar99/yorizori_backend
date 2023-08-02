@@ -20,6 +20,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Slf4j
 @Service
@@ -131,5 +132,16 @@ public class RecipeGetService {
         }
         return columnName;
     }
+
+    public List<RecipeListDto> recipeSearchList(String searchKeyword){
+
+        List<RecipeEntity> recipeEntityList = recipeRepository.findByRecipeTitleContaining(searchKeyword);
+        List<RecipeListDto> recipeListDtoList = new ArrayList<>();
+        for(RecipeEntity recipeEntity : recipeEntityList){
+            recipeListDtoList.add(RecipeListDto.toDto(recipeEntity));
+        }
+        return recipeListDtoList;
+    }
+
 
 }
