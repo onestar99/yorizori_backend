@@ -48,11 +48,11 @@ public class RecipeGetController {
         return recipeDetailsDto;
     }
 
-    // 메인화면에서 rank1부터 rank11까지 불러오는 api
+    // 메인화면에서 rank1부터 rank9까지 불러오는 api
     @ResponseBody
     @GetMapping("/rank/part")
-    public List<RecipeListDto> getRecipeRank11(){
-        return recipeGetService.getTop11ItemsByViews();
+    public List<RecipeListDto> getRecipeRank9(){
+        return recipeGetService.getTop9ItemsByViews();
     }
 
     // 랭킹화면에서 rank1부터 rank100까지 불러오는 api
