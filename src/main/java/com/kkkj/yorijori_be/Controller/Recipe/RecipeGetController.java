@@ -60,4 +60,14 @@ public class RecipeGetController {
     }
 
 
+    // 카테고리별로 12개씩 페이징해서 보내주는 api
+    @ResponseBody
+    @GetMapping("/category/{categoryName}")
+    public Page<RecipeListDto> getRecipeCategoryPaging(@PathVariable String categoryName,
+               @RequestParam(value = "pageNo", defaultValue = "0", required = false) int pageNo){
+        // 페이지 사이즈 고정
+        int pageSize = 12;
+        Page<RecipeListDto> recipeListDtoPage = recipeGetService.getRecipeCategoryPaging(pageNo, pageSize, categoryName);
+        return recipeListDtoPage;
+    }
 }
