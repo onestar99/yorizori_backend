@@ -7,6 +7,7 @@ import com.kkkj.yorijori_be.Dto.Recipe.RecipeOrderDto;
 import com.kkkj.yorijori_be.Entity.Recipe.RecipeDetailEntity;
 import com.kkkj.yorijori_be.Entity.Recipe.RecipeEntity;
 import com.kkkj.yorijori_be.Entity.Recipe.RecipeIngredientTagEntity;
+import com.kkkj.yorijori_be.Repository.Recipe.RecipeCategoryTagRepository;
 import com.kkkj.yorijori_be.Repository.Recipe.RecipeDetailRepository;
 import com.kkkj.yorijori_be.Repository.Recipe.RecipeIngredientTagRepository;
 import com.kkkj.yorijori_be.Repository.Recipe.RecipeRepository;
@@ -30,6 +31,7 @@ public class RecipeGetService {
     private final RecipeRepository recipeRepository;
     private final RecipeDetailRepository recipeDetailRepository;
     private final RecipeIngredientTagRepository recipeIngredientTagRepository;
+    private final RecipeCategoryTagRepository recipeCategoryTagRepository;
 
     // 레시피 정보 페이징해서 보내기.
     public Page<RecipeListDto> getRecipePaging(int pageNo, int pageSize, String sortBy){
@@ -44,6 +46,27 @@ public class RecipeGetService {
         Page<RecipeEntity> recipeEntityPage = recipeRepository.findAll(pageable);
         Page<RecipeListDto> recipeListDtoPage = RecipeListDto.toDtoPage(recipeEntityPage);
         return recipeListDtoPage;
+    }
+
+    public Page<RecipeListDto> getRecipeCategoryPaging(int pageNo, int pageSize, String categoryName){
+
+        Pageable pageable = PageRequest.of(pageNo, pageSize, Sort.by("recipeId").descending());
+        // 카테고리 이름 이용해서 레시피 아이디들을 받기
+        List<Long> recipeIdList = getRecipeIdsByCategory(categoryName);
+        Page<RecipeEntity> recipeEntityPage = recipeRepository.findAllByRecipeIdIn(recipeIdList, pageable);
+        Page<RecipeListDto> recipeListDtoPage = RecipeListDto.toDtoPage(recipeEntityPage);
+        return recipeListDtoPage;
+    }
+
+
+
+    // "일식" 카테고리에 해당하는 recipe_id들을 가져오는 로직
+    private List<Long> getRecipeIdsByCategory(String category) {
+        // ... 로직을 구현해야 함
+        // 예를 들어, 'recipe_category' 테이블에서 "일식" 카테고리에 해당하는 recipe_id들을 조회하는 쿼리를 실행하고 결과를 반환
+        List<Long> recipeEntityList = recipeRepository.findRecipeIdByCategory(category);
+        return recipeEntityList;
+
     }
 
 

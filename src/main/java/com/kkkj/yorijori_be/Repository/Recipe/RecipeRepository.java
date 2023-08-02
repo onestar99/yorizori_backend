@@ -25,4 +25,13 @@ public interface RecipeRepository extends JpaRepository<RecipeEntity, Long> {
 
     List<RecipeEntity> findByRecipeTitleContaining(String searchKeyword);
 
+    // 레시피 아이디를 이용하여 카테고리 조회
+    @Query("SELECT r.recipeId FROM RecipeEntity r " +
+            "JOIN RecipeCategoryTagEntity rc ON r.recipeId = rc.recipe.recipeId " +
+            "WHERE rc.category = :category")
+    List<Long> findRecipeIdByCategory(@Param("category") String category);
+
+    // recipeId List를 이용하여 recipe 테이블 컬럼 조회
+    Page<RecipeEntity> findAllByRecipeIdIn(List<Long> recipeIdList, Pageable pageable);
+
 }

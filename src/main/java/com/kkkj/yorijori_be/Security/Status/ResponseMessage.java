@@ -16,4 +16,8 @@ public class ResponseMessage {
     public static final String UPLOAD_EXTENSION_ERROR = "업로드 확장자 오류";
     public static final String UPLOAD_FAIL = "업로드 실패";
     public static final String UPLOAD_SUCCESS = "업로드 성공";
+
+    public static final String RECIPE_FOUND_SUCCESS = "레시피 정보 조회 성공";
+    public static final String RECIPE_FOUND_FAIL = "레시피 정보 조회 실패";
+    public static final String RECIPE_CATEGORY_FOUND_FAIL = "레시피 카테고리 정보 조회 실패, 카테고리를 정확하게 썼는지 확인해주세요.";
 }
