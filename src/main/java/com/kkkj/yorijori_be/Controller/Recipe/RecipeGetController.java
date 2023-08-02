@@ -2,10 +2,12 @@ package com.kkkj.yorijori_be.Controller.Recipe;
 
 import com.kkkj.yorijori_be.Dto.Recipe.RecipeDetailsDto;
 import com.kkkj.yorijori_be.Dto.Recipe.RecipeListDto;
+import com.kkkj.yorijori_be.Entity.Recipe.RecipeEntity;
 import com.kkkj.yorijori_be.Service.Recipe.RecipeGetService;
 import com.kkkj.yorijori_be.Service.Recipe.RecipeSaveUpdateService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
@@ -77,4 +79,10 @@ public class RecipeGetController {
         }
     }
 
+    // 검색
+    @ResponseBody
+    @GetMapping("/searched")
+    public List<RecipeListDto> getTitleSearchedPaging(String searchKeyword){
+        return recipeGetService.recipeSearchList(searchKeyword);
+    }
 }
