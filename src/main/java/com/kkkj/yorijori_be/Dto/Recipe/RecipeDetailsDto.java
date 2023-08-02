@@ -4,9 +4,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
-import org.springframework.data.domain.Page;
-
-import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 @Builder
@@ -22,7 +20,7 @@ public class RecipeDetailsDto {
     private String time;
     private String profileImg;
     private String nickname;
-    private LocalDateTime date;
+    private String date;
     private String explain;
     private List<RecipeIngredientDto> mainIngredient;
     private List<RecipeIngredientDto> semiIngredient;
@@ -40,7 +38,7 @@ public class RecipeDetailsDto {
                 .time(recipeEntity.getTime())
                 .profileImg(recipeEntity.getUser().getImageAddress())
                 .nickname(recipeEntity.getUser().getNickname())
-                .date(recipeEntity.getCreatedTime())
+                .date(recipeEntity.getCreatedTime().format(DateTimeFormatter.ISO_DATE))
                 .explain(recipeEntity.getRecipeIntro())
                 .mainIngredient(mainIngredient)
                 .semiIngredient(semiIngredient)
