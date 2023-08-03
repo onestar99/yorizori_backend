@@ -12,6 +12,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 
@@ -91,5 +93,12 @@ public class RecipeGetController {
     @GetMapping("/searched/ingredient")
     public List<RecipeListDto> getIngredientSearchedPaging(@RequestParam(value="keyword") String searchKeyword){
         return recipeGetService.recipeIngredientSearchList(searchKeyword);
+    }
+
+    @ResponseBody
+    @GetMapping("/searched/ingredientall")
+    public List<RecipeListDto> getIngredientAllSearchedPaging(@RequestParam(value="keyword") String searchKeywords){
+        List<String> ingredients = Arrays.asList(searchKeywords.split(","));
+        return recipeGetService.recipeIngredientAllSearchList(ingredients);
     }
 }

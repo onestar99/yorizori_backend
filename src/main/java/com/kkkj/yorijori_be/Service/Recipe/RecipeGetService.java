@@ -169,4 +169,26 @@ public class RecipeGetService {
         return recipeListDtoList;
     }
 
+    public List<RecipeListDto> recipeIngredientAllSearchList(List<String> ingredients){
+        List<RecipeListDto> recipeListDtoList = new ArrayList<>();
+
+        for(int i=0;i<ingredients.size();i++) {
+            List<RecipeIngredientTagEntity> recipeIngredientTagEntityList = new ArrayList<>();
+            recipeIngredientTagEntityList = recipeIngredientTagRepository.findByIngredientNameContaining(ingredients.get(i));
+            if(i==0){
+                for (int j = 0; j < recipeIngredientTagEntityList.size(); j++) {
+                    recipeListDtoList.add(RecipeListDto.toDto(recipeIngredientTagEntityList.get(j).getRecipe()));
+                }
+            }
+            else{
+                for (int j = 0; j < recipeIngredientTagEntityList.size(); j++) {
+                    if(!recipeListDtoList.contains(RecipeListDto.toDto(recipeIngredientTagEntityList.get(j).getRecipe()))){
+                        recipeListDtoList.remove(RecipeListDto.toDto(recipeIngredientTagEntityList.get(j).getRecipe()));
+                    }
+                }
+            }
+        }
+        return recipeListDtoList;
+    }
+
 }
