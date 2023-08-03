@@ -9,4 +9,7 @@ import java.util.List;
 public interface RecipeIngredientTagRepository extends JpaRepository<RecipeIngredientTagEntity, Integer> {
 
     List<RecipeIngredientTagEntity> findByRecipeAndIsMain(RecipeEntity recipe, String isMain);
+
+    List<RecipeIngredientTagEntity> findByIngredientNameContaining(String searchKeyword);
+
 }

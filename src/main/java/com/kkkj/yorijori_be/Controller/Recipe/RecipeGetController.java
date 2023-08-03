@@ -82,8 +82,14 @@ public class RecipeGetController {
 
     // 검색
     @ResponseBody
-    @GetMapping("/searched")
+    @GetMapping("/searched/recipe")
     public List<RecipeListDto> getTitleSearchedPaging(@RequestParam(value="keyword") String searchKeyword){
         return recipeGetService.recipeSearchList(searchKeyword);
+    }
+
+    @ResponseBody
+    @GetMapping("/searched/ingredient")
+    public List<RecipeListDto> getIngredientSearchedPaging(@RequestParam(value="keyword") String searchKeyword){
+        return recipeGetService.recipeIngredientSearchList(searchKeyword);
     }
 }

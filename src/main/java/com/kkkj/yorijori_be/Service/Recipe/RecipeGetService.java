@@ -160,5 +160,13 @@ public class RecipeGetService {
         return recipeListDtoList;
     }
 
+    public List<RecipeListDto> recipeIngredientSearchList(String searchKeyword){
+        List<RecipeIngredientTagEntity> recipeIngredientTagEntityList = recipeIngredientTagRepository.findByIngredientNameContaining(searchKeyword);
+        List<RecipeListDto> recipeListDtoList = new ArrayList<>();
+        for(int i=0;i<recipeIngredientTagEntityList.size();i++){
+            recipeListDtoList.add(RecipeListDto.toDto(recipeIngredientTagEntityList.get(i).getRecipe()));
+        }
+        return recipeListDtoList;
+    }
 
 }
