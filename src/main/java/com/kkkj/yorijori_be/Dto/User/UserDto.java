@@ -1,17 +1,13 @@
 package com.kkkj.yorijori_be.Dto.User;
 
 import com.kkkj.yorijori_be.Entity.User.UserEntity;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
-
-import java.time.LocalDateTime;
+import lombok.*;
+import java.time.format.DateTimeFormatter;
 
 @Getter
 @Setter
 @ToString
-@NoArgsConstructor
+@Builder
 public class UserDto {
 
     private String userTokenId;
@@ -20,8 +16,8 @@ public class UserDto {
     private String age;
     private String gender;
     private String oauthDivision;
-    private LocalDateTime createdTime;
-    private LocalDateTime updatedTime;
+    private String createdTime;
+    private String updatedTime;
 
 
 
@@ -45,15 +41,16 @@ public class UserDto {
 
     public static UserDto toUserDto(UserEntity userEntity){
 
-        UserDto userDto = new UserDto();
-        userDto.setUserTokenId(userEntity.getUserTokenId());
-        userDto.setAge(userEntity.getAge());
-        userDto.setGender(userEntity.getGender());
-        userDto.setImageAddress(userEntity.getImageAddress());
-        userDto.setNickname(userEntity.getNickname());
-        userDto.setOauthDivision(userEntity.getOauthDivision());
-        userDto.setCreatedTime(userEntity.getCreatedTime());
-        userDto.setUpdatedTime(userEntity.getUpdatedTime());
+        UserDto userDto = UserDto.builder()
+                .userTokenId(userEntity.getUserTokenId())
+                .age(userEntity.getAge())
+                .gender(userEntity.getGender())
+                .imageAddress(userEntity.getImageAddress())
+                .nickname(userEntity.getNickname())
+                .oauthDivision(userEntity.getOauthDivision())
+                .createdTime(userEntity.getCreatedTime().format(DateTimeFormatter.ISO_DATE))
+                .updatedTime(userEntity.getUpdatedTime().format(DateTimeFormatter.ISO_DATE))
+                .build();
 
         return userDto;
 
