@@ -22,6 +22,8 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.function.Predicate;
+import java.util.stream.Collectors;
 
 @Slf4j
 @Service
@@ -170,8 +172,11 @@ public class RecipeGetService {
     }
 
     public List<RecipeListDto> recipeIngredientAllSearchList(List<String> ingredients){
+//        List<RecipeIngredientTagEntity> recipeIngredientTagEntityList = recipeIngredientTagRepository.findByIngredientNameIn(ingredients);
         List<RecipeListDto> recipeListDtoList = new ArrayList<>();
-
+//        for(int i=0;i<recipeIngredientTagEntityList.size();i++){
+//            recipeListDtoList.add(RecipeListDto.toDto(recipeIngredientTagEntityList.get(i).getRecipe()));
+//        }
         for(int i=0;i<ingredients.size();i++) {
             List<RecipeIngredientTagEntity> recipeIngredientTagEntityList = new ArrayList<>();
             recipeIngredientTagEntityList = recipeIngredientTagRepository.findByIngredientNameContaining(ingredients.get(i));
@@ -181,11 +186,13 @@ public class RecipeGetService {
                 }
             }
             else{
+                List<RecipeListDto> temprecipeListDtoList = new ArrayList<>();
                 for (int j = 0; j < recipeIngredientTagEntityList.size(); j++) {
-                    if(!recipeListDtoList.contains(RecipeListDto.toDto(recipeIngredientTagEntityList.get(j).getRecipe()))){
-                        recipeListDtoList.remove(RecipeListDto.toDto(recipeIngredientTagEntityList.get(j).getRecipe()));
-                    }
+                    temprecipeListDtoList.add(RecipeListDto.toDto(recipeIngredientTagEntityList.get(j).getRecipe()));
                 }
+                List<RecipeListDto> finalRecipeListDtoList = recipeListDtoList;
+                List<RecipeListDto> matchList = temprecipeListDtoList.stream().filter(o -> finalRecipeListDtoList.stream().anyMatch(n->{return o.getId().equals(n.getId());})).collect(Collectors.toList());
+                recipeListDtoList=matchList;
             }
         }
         return recipeListDtoList;
