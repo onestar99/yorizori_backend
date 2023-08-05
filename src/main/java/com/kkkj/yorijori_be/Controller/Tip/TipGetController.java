@@ -1,5 +1,6 @@
 package com.kkkj.yorijori_be.Controller.Tip;
 
+import com.kkkj.yorijori_be.Dto.Tip.TipListDto;
 import com.kkkj.yorijori_be.Entity.Tip.TipEntity;
 import com.kkkj.yorijori_be.Repository.Tip.TipRepository;
 import com.kkkj.yorijori_be.Service.Tip.TipGetService;
@@ -10,6 +11,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+
+import java.util.List;
 
 @Controller
 @RequiredArgsConstructor
@@ -26,5 +29,10 @@ public class TipGetController {
             @RequestParam(value = "sortBy", defaultValue = "user_token_id", required = false) String sortBy
     ){
         return tipGetService.getTipPaging(pageNo, pageSize, sortBy);
+    }
+
+    @GetMapping("/part") @ResponseBody
+    public List<TipListDto> getTipPartall(){
+        return tipGetService.getTipsPart();
     }
 }

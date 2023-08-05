@@ -1,7 +1,7 @@
 package com.kkkj.yorijori_be.Service.Tip;
 
+import com.kkkj.yorijori_be.Dto.Tip.TipListDto;
 import com.kkkj.yorijori_be.Entity.Tip.TipEntity;
-import com.kkkj.yorijori_be.Entity.User.UserCommentEntity;
 import com.kkkj.yorijori_be.Entity.User.UserEntity;
 import com.kkkj.yorijori_be.Repository.Tip.TipRepository;
 import com.kkkj.yorijori_be.Repository.User.UserRepository;
@@ -12,6 +12,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Slf4j
@@ -34,5 +35,14 @@ public class TipGetService {
     public List<TipEntity> getTips(String userTokenId){
         UserEntity user = userRepository.findByUserTokenId(userTokenId);
         return user.getTips();
+    }
+
+    public List<TipListDto> getTipsPart(){
+        List<TipEntity> tipEntityList = tipRepository.findAll();
+        List<TipListDto> tipListDtoList = new ArrayList<>();
+        for(TipEntity tipEntity : tipEntityList){
+            tipListDtoList.add(TipListDto.toDto(tipEntity));
+        }
+        return tipListDtoList;
     }
 }
