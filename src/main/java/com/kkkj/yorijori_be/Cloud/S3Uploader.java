@@ -56,7 +56,7 @@ public class S3Uploader {
         log.info("파일 확장자 : " + getExtension(uploadFile));
         String Extension = getExtension(uploadFile);
 
-        if (Objects.equals(Extension, "png") || Objects.equals(Extension, "jpeg")){
+        if (Objects.equals(Extension, "png") || Objects.equals(Extension, "jpeg") || Objects.equals(Extension, "jpg")){
 
             // UUID 생성하여 이미지 네이밍
             UUID uuid4 = UUID.randomUUID();
@@ -88,7 +88,7 @@ public class S3Uploader {
         * -완료-
         * */
 
-        if (Objects.equals(Extension, "png") || Objects.equals(Extension, "jpeg")){
+        if (Objects.equals(Extension, "png") || Objects.equals(Extension, "jpeg") || Objects.equals(Extension, "jpg")){
 
             // UUID 생성하여 이미지 네이밍
             UUID uuid4 = UUID.randomUUID();
