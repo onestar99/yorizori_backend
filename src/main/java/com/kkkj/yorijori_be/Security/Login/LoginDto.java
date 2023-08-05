@@ -13,6 +13,7 @@ import lombok.ToString;
 public class LoginDto {
 
     private String status;
+    private String accessToken;
     private UserDto user;
 
 }

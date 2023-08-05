@@ -47,6 +47,13 @@ public class OAuthService {
     @Value("${oauth2.kakao.redirect-uri}")
     private String KAKAO_REDIRECT_URI;
 
+    @Value("${oauth2.naver.client-id}")
+    private String NAVER_CLIENT_ID;
+    @Value("${oauth2.naver.client-secret}")
+    private String NAVER_CLIENT_SECRET;
+    @Value("${oauth2.naver.redirect-uri}")
+    private String NAVER_REDIRECT_URI;
+
     private final UserRepository userRepository;
     private final UserSaveUpdateService userSaveUpdateService;
 
@@ -127,6 +134,7 @@ public class OAuthService {
 
             return LoginDto.builder()
                     .status("signUp Successful")
+                    .accessToken(accessToken)
                     .user(userDto)
                     .build();
         }else{
@@ -135,6 +143,7 @@ public class OAuthService {
 
             return LoginDto.builder()
                     .status("login Successful")
+                    .accessToken(accessToken)
                     .user(userDto)
                     .build();
         }
@@ -194,6 +203,98 @@ public class OAuthService {
         String accessToken = jsonParsing(response, "access_token"); // access 토큰 파싱
         String idToken = jsonParsing(response, "id_token"); // id 토큰 파싱
         JsonNode jsonNode = getKakaoUserInfo(accessToken); // 액세스 토큰으로 api 요청해서 유저정보 불러오기
+
+        String id = jsonNode.path("id").asText();
+        String nickName = jsonNode.path("kakao_account").path("profile").path("nickname").asText();
+        String image = jsonNode.path("kakao_account").path("profile").path("thumbnail_image_url").asText();
+        String age = jsonNode.path("kakao_account").path("age_range").asText();
+        String gender = jsonNode.path("kakao_account").path("gender").asText();
+
+        UserEntity user = userRepository.findByUserTokenId(id);
+        if(user == null){ // 정보가 없어서 회원가입
+            System.out.println("회원가입을 시도합니다.");
+            UserDto userDto = UserDto.builder()
+                    .userTokenId(id)
+                    .gender(gender)
+                    .age(age)
+                    .imageAddress(image)
+                    .oauthDivision("kakao")
+                    .nickname(nickName)
+                    .build();
+            userSaveUpdateService.saveUser(userDto);
+
+            return LoginDto.builder()
+                    .status("signUp Successful")
+                    .accessToken(accessToken)
+                    .user(userDto)
+                    .build();
+        }else{
+            System.out.println("이미 토큰아이디가 존재합니다.");
+            UserDto userDto = UserDto.toUserDto(user);
+
+            return LoginDto.builder()
+                    .status("login Successful")
+                    .accessToken(accessToken)
+                    .user(userDto)
+                    .build();
+        }
+    }
+
+
+    // 네이버 AccessToken 받기
+    public ResponseEntity<String> getNaverAccessToken(String accessCode) {
+
+        RestTemplate restTemplate = new RestTemplate();
+        MultiValueMap<String, String> params = new LinkedMultiValueMap<>();
+        params.add("grant_type", "authorization_code");
+        params.add("client_id", KAKAO_CLIENT_ID);
+        params.add("redirect_uri", KAKAO_REDIRECT_URI);
+        params.add("code", accessCode);
+
+        ResponseEntity<String> response = restTemplate.postForEntity(KAKAO_TOKEN_URL, params, String.class);
+        if(response.getStatusCode() == HttpStatus.OK){
+            return response;
+        } else {
+            return null;
+        }
+    }
+    // 네이버 유저 정보 JsonNode 형식으로 반환
+    private JsonNode getNaverUserInfo(String accessToken) throws IOException {
+
+        // 요청 구글 URI
+        String RequestUrl = "https://kapi.kakao.com/v2/user/me";
+
+        HttpClient client = HttpClientBuilder.create().build();
+        HttpGet get = new HttpGet(RequestUrl);
+        JsonNode returnNode = null;
+
+        // add header
+        get.addHeader("Authorization", "Bearer " + accessToken);
+
+        client.execute(get);
+        try {
+            final HttpResponse responses = client.execute(get);
+            final int responseCode = responses.getStatusLine().getStatusCode();
+
+            ObjectMapper mapper = new ObjectMapper();
+            returnNode = mapper.readTree(responses.getEntity().getContent());
+
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        } catch (ClientProtocolException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {}
+        return returnNode;
+    }
+    // 카카오 로그인 시도, 회원가입 -> Controller
+    public LoginDto naverLogin(String accessCode) throws IOException {
+
+        ResponseEntity<String> response = getNaverAccessToken(accessCode); // 카카오로부터 토큰 response 얻어온다.
+        String accessToken = jsonParsing(response, "access_token"); // access 토큰 파싱
+        String idToken = jsonParsing(response, "id_token"); // id 토큰 파싱
+        JsonNode jsonNode = getNaverUserInfo(accessToken); // 액세스 토큰으로 api 요청해서 유저정보 불러오기
 
         String id = jsonNode.path("id").asText();
         String nickName = jsonNode.path("kakao_account").path("profile").path("nickname").asText();

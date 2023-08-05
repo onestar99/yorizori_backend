@@ -26,4 +26,13 @@ public class OAuthController {
     public LoginDto kakaoLogin(@RequestParam("code") String accessCode) throws IOException {
         return oAuthService.kakaoLogin(accessCode);
     }
+
+    @GetMapping("/login/naver")
+    @ResponseBody
+    public LoginDto naverLogin(@RequestParam("code") String accessCode) throws IOException {
+        return oAuthService.naverLogin(accessCode);
+    }
+
+
+
 }
