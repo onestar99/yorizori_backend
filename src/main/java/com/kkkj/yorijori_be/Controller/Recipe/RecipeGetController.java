@@ -72,7 +72,7 @@ public class RecipeGetController {
                @RequestParam(value = "pageNo", defaultValue = "0", required = false) int pageNo){
         // 페이지 사이즈 고정
         int pageSize = 12;
-        if(categoryName.equals("all")){ // 카테고리 이름이 all 이면 모든 레시피 조회
+        if(categoryName.equals("전체")){ // 카테고리 이름이 all 이면 모든 레시피 조회
             // 레시피 아이디를 뒤집어서 최근 순서대로.
             String sortBy = "id";
             return recipeGetService.getRecipePaging(pageNo, pageSize, sortBy);
