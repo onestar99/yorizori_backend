@@ -1,10 +1,12 @@
 package com.kkkj.yorijori_be.Dto.Recipe;
+import com.kkkj.yorijori_be.Entity.Recipe.RecipeCategoryTagEntity;
 import com.kkkj.yorijori_be.Entity.Recipe.RecipeEntity;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.List;
 
 @Builder
@@ -14,7 +16,7 @@ import java.util.List;
 public class RecipeDetailsDto {
 
     private long id;
-    private String img;
+    private String thumbnail;
     private String title;
     private String level;
     private String time;
@@ -25,14 +27,31 @@ public class RecipeDetailsDto {
     private List<RecipeIngredientDto> mainIngredient;
     private List<RecipeIngredientDto> semiIngredient;
     private List<RecipeOrderDto> order;
+    private List<String> category;
+    private String starRate; // 레시피 별점
+    private int starCount; // 레시피 별점수
+    private int viewCount; // 레시피 조회수
+    private int reviewCount; // 레시피 댓글수
 
 
     public static RecipeDetailsDto toDto(RecipeEntity recipeEntity, List<RecipeIngredientDto> mainIngredient,
                                          List<RecipeIngredientDto> semiIngredient, List<RecipeOrderDto> order){
 
+        // 레시피 카테고리를 리스트로 만들기.
+        List<String> category = new ArrayList<>();
+        List<RecipeCategoryTagEntity> recipeCategoryTagEntities = recipeEntity.getCategories();
+        try {
+            for(RecipeCategoryTagEntity recipeCategoryTag: recipeCategoryTagEntities){
+                category.add(recipeCategoryTag.getCategory());
+            }
+        } catch (Exception e){
+            System.out.println(e);
+        }
+
+
         RecipeDetailsDto recipeDetailsDto = RecipeDetailsDto.builder()
                 .id(recipeEntity.getRecipeId())
-                .img(recipeEntity.getRecipeThumbnail())
+                .thumbnail(recipeEntity.getRecipeThumbnail())
                 .title(recipeEntity.getRecipeTitle())
                 .level(recipeEntity.getLevel())
                 .time(recipeEntity.getTime())
@@ -42,7 +61,13 @@ public class RecipeDetailsDto {
                 .explain(recipeEntity.getRecipeIntro())
                 .mainIngredient(mainIngredient)
                 .semiIngredient(semiIngredient)
-                .order(order).build();
+                .order(order)
+                .category(category)
+                .starRate(recipeEntity.getScope())
+                .starCount(recipeEntity.getScopeCount())
+                .viewCount(recipeEntity.getRecipeHits())
+                .reviewCount(recipeEntity.getReviewCount())
+                .build();
 
         return recipeDetailsDto;
     }
