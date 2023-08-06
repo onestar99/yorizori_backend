@@ -34,7 +34,7 @@ public class TipGetController {
     @GetMapping("/all") @ResponseBody
     public Page<TipListDto> getTipAll(
             @RequestParam(value = "pageNo", defaultValue = "1", required = false) int pageNo,
-            @RequestParam(value = "pageSize", defaultValue = "8", required = false) int pageSize
+            @RequestParam(value = "pageSize", defaultValue = "12", required = false) int pageSize
             ){
         List<TipListDto> tipListDtoList= tipGetService.getTipsPart();
         PageRequest pageRequest = PageRequest.of(pageNo,pageSize);
@@ -45,8 +45,16 @@ public class TipGetController {
     }
 
     @GetMapping("/part") @ResponseBody
-    public List<TipListDto> getTipPartall(){
-        return tipGetService.getTipsPart();
+    public Page<TipListDto> getTipPartall(
+            @RequestParam(value = "pageNo", defaultValue = "1", required = false) int pageNo,
+            @RequestParam(value = "pageSize", defaultValue = "8", required = false) int pageSize
+    ){
+        List<TipListDto> tipListDtoList= tipGetService.getTipsPart();
+        PageRequest pageRequest = PageRequest.of(pageNo,pageSize);
+        int start = (int) pageRequest.getOffset();
+        int end = Math.min((start + pageRequest.getPageSize()),tipListDtoList.size());
+        Page<TipListDto> tipListDtos = new PageImpl<>(tipListDtoList.subList(start,end),pageRequest,tipListDtoList.size());
+        return tipListDtos;
     }
 
     @GetMapping("/details/{userTokenId}") @ResponseBody
