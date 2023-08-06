@@ -42,10 +42,10 @@ public class RecipeGetController {
     @GetMapping("/details/{recipeId}")
     public RecipeDetailsDto getRecipeDetails(@PathVariable Long recipeId){
 
-        // DTO 만들기
-        RecipeDetailsDto recipeDetailsDto = recipeGetService.getRecipeDetailsByRecipeId(recipeId);
         // 레시피 조회이므로 조회수 1 올리기.
         recipeSaveUpdateService.updateRecipeHits(recipeId);
+        // DTO 만들기
+        RecipeDetailsDto recipeDetailsDto = recipeGetService.getRecipeDetailsByRecipeId(recipeId);
 
         return recipeDetailsDto;
     }
