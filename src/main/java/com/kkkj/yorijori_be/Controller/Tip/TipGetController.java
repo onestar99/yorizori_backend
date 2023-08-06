@@ -6,6 +6,8 @@ import com.kkkj.yorijori_be.Repository.Tip.TipRepository;
 import com.kkkj.yorijori_be.Service.Tip.TipGetService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -31,8 +33,22 @@ public class TipGetController {
         return tipGetService.getTipPaging(pageNo, pageSize, sortBy);
     }
 
+    @GetMapping("/all") @ResponseBody
+    public Page<TipListDto> getTipAll(
+            @RequestParam(value = "pageNo", defaultValue = "1", required = false) int pageNo,
+            @RequestParam(value = "pageSize", defaultValue = "8", required = false) int pageSize
+            ){
+        List<TipListDto> tipListDtoList= tipGetService.getTipsPart();
+        PageRequest pageRequest = PageRequest.of(pageNo,pageSize);
+        int start = (int) pageRequest.getOffset();
+        int end = Math.min((start + pageRequest.getPageSize()),tipListDtoList.size());
+        Page<TipListDto> tipListDtos = new PageImpl<>(tipListDtoList.subList(start,end),pageRequest,tipListDtoList.size());
+        return tipListDtos;
+    }
+
     @GetMapping("/part") @ResponseBody
     public List<TipListDto> getTipPartall(){
         return tipGetService.getTipsPart();
     }
+
 }

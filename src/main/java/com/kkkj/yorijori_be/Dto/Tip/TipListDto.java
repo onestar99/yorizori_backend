@@ -13,7 +13,8 @@ import lombok.ToString;
 public class TipListDto {
     private Long tipId;
     private String tipTitle;
-    private int tipHits = 0;
+    private int heartCount;
+    private int viewCount;
     private String tipDetail;
     private String tipThumbnail;
     private String userNickName;
@@ -23,11 +24,12 @@ public class TipListDto {
         TipListDto tipListDto = TipListDto.builder()
                 .tipId(tipEntity.getTipId())
                 .tipTitle(tipEntity.getTipTitle())
-                .tipHits(tipEntity.getTipHits())
+                .heartCount(tipEntity.getTipHits())
                 .tipDetail(tipEntity.getTipDetail())
                 .tipThumbnail(tipEntity.getTipThumbnail())
                 .userNickName(tipEntity.getUser().getNickname())
                 .userProfileImg(tipEntity.getUser().getImageAddress())
+                .viewCount(builder().viewCount)
                 .build();
         return tipListDto;
     }
