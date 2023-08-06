@@ -2,6 +2,7 @@ package com.kkkj.yorijori_be.Entity.User;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.kkkj.yorijori_be.Entity.BaseTimeEntity;
+import com.kkkj.yorijori_be.Entity.Recipe.RecipeEntity;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -24,8 +25,10 @@ public class UserCommentEntity extends BaseTimeEntity {
     @JoinColumn(name = "user_token_id")
     private UserEntity user;
 
-    @Column(name = "board_id")
-    private Long boardId;
+    @JsonIgnore
+    @ManyToOne
+    @JoinColumn(name = "board_id")
+    private RecipeEntity board;
 
     @Column(name = "comment")
     private String comment;
@@ -36,6 +39,11 @@ public class UserCommentEntity extends BaseTimeEntity {
     // userTokenId setting
     public void setUser(UserEntity user) {
         this.user = user;
+    }
+
+    // board setting
+    public void setBoard(RecipeEntity recipe) {
+        this.board = recipe;
     }
 
 

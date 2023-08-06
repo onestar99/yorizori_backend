@@ -1,5 +1,6 @@
 package com.kkkj.yorijori_be.Controller.Recipe;
 
+import com.kkkj.yorijori_be.Dto.Recipe.RecipeDetailReviewDto;
 import com.kkkj.yorijori_be.Dto.Recipe.RecipeDetailsDto;
 import com.kkkj.yorijori_be.Dto.Recipe.RecipeListDto;
 import com.kkkj.yorijori_be.Entity.Recipe.RecipeEntity;
@@ -42,10 +43,10 @@ public class RecipeGetController {
     @GetMapping("/details/{recipeId}")
     public RecipeDetailsDto getRecipeDetails(@PathVariable Long recipeId){
 
-        // DTO 만들기
-        RecipeDetailsDto recipeDetailsDto = recipeGetService.getRecipeDetailsByRecipeId(recipeId);
         // 레시피 조회이므로 조회수 1 올리기.
         recipeSaveUpdateService.updateRecipeHits(recipeId);
+        // DTO 만들기
+        RecipeDetailsDto recipeDetailsDto = recipeGetService.getRecipeDetailsByRecipeId(recipeId);
 
         return recipeDetailsDto;
     }
@@ -100,5 +101,12 @@ public class RecipeGetController {
     public List<RecipeListDto> getIngredientAllSearchedPaging(@RequestParam(value="keyword") String searchKeywords){
         List<String> ingredients = Arrays.asList(searchKeywords.split(","));
         return recipeGetService.recipeIngredientAllSearchList(ingredients);
+    }
+
+    @ResponseBody
+    @GetMapping("/reviews/{boardId}")
+    public RecipeDetailReviewDto getDetailReview(@PathVariable Long boardId){
+
+        return recipeGetService.getRecipeDetailReview(boardId);
     }
 }

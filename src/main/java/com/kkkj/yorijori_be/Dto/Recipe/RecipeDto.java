@@ -37,7 +37,6 @@ public class RecipeDto {
                 .dishName(dishName)
                 .recipeHits(recipeHits)
                 .recipeIntro(recipeIntro)
-                .scopeCount(scopeCount)
                 .authorship(authorship)
                 .referenceRecipe(referenceRecipe)
                 .scope(scope)

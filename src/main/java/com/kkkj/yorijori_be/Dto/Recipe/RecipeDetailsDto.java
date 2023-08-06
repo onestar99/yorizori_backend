@@ -29,7 +29,6 @@ public class RecipeDetailsDto {
     private List<RecipeOrderDto> order;
     private List<String> category;
     private String starRate; // 레시피 별점
-    private int starCount; // 레시피 별점수
     private int viewCount; // 레시피 조회수
     private int reviewCount; // 레시피 댓글수
 
@@ -64,7 +63,6 @@ public class RecipeDetailsDto {
                 .order(order)
                 .category(category)
                 .starRate(recipeEntity.getScope())
-                .starCount(recipeEntity.getScopeCount())
                 .viewCount(recipeEntity.getRecipeHits())
                 .reviewCount(recipeEntity.getReviewCount())
                 .build();

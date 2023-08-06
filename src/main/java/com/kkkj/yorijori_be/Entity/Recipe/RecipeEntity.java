@@ -2,6 +2,7 @@ package com.kkkj.yorijori_be.Entity.Recipe;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.kkkj.yorijori_be.Entity.BaseTimeEntity;
+import com.kkkj.yorijori_be.Entity.User.UserCommentEntity;
 import com.kkkj.yorijori_be.Entity.User.UserEntity;
 import jakarta.persistence.*;
 import lombok.*;
@@ -45,9 +46,6 @@ public class RecipeEntity extends BaseTimeEntity {
     @Column(name = "reference_recipe")
     private String referenceRecipe;
 
-    @Column(name = "scope_count")
-    private int scopeCount;
-
     @Column(name = "scope", length = 4, nullable = false)
     private String scope;
 
@@ -79,6 +77,10 @@ public class RecipeEntity extends BaseTimeEntity {
     @JsonIgnore
     @OneToMany(mappedBy = "recipe", cascade = CascadeType.ALL)
     private List<RecipeCategoryTagEntity> categories;
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "board", cascade = CascadeType.ALL)
+    private List<UserCommentEntity> comments;
 
 
 }

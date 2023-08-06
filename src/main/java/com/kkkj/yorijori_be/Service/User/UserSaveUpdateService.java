@@ -2,8 +2,10 @@ package com.kkkj.yorijori_be.Service.User;
 
 import com.kkkj.yorijori_be.Dto.User.UserCommentDto;
 import com.kkkj.yorijori_be.Dto.User.UserDto;
+import com.kkkj.yorijori_be.Entity.Recipe.RecipeEntity;
 import com.kkkj.yorijori_be.Entity.User.UserCommentEntity;
 import com.kkkj.yorijori_be.Entity.User.UserEntity;
+import com.kkkj.yorijori_be.Repository.Recipe.RecipeRepository;
 import com.kkkj.yorijori_be.Repository.User.UserRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -17,6 +19,7 @@ public class UserSaveUpdateService {
 
 
     private final UserRepository userRepository;
+    private final RecipeRepository recipeRepository;
 
     // 유저 저장
     @Transactional
@@ -34,18 +37,22 @@ public class UserSaveUpdateService {
 
 
     @Transactional
-    public boolean saveUserComment(String userTokenId, UserCommentDto userCommentDto){
+    public boolean saveUserComment(UserCommentDto userCommentDto){
 
         // BoardId가 있으면 진행
         if (isBoardId(userCommentDto)){
             // TokenId를 통해 유저 정보 찾기
-            UserEntity userEntity = userRepository.findByUserTokenId(userTokenId);
+            UserEntity userEntity = userRepository.findByUserTokenId(userCommentDto.getUserTokenId());
+            // TokenId를 통해 유저 정보 찾기
+            RecipeEntity recipeEntity = recipeRepository.findByRecipeId(userCommentDto.getBoardId());
             // 전달받은 DTO를 Entity로 변경
             UserCommentEntity userCommentEntity = userCommentDto.toEntity();
-            // Comment Entity 유저 정보 세팅
+            // Comment Entity 유저, 레시피 정보 세팅
             userCommentEntity.setUser(userEntity);
+            userCommentEntity.setBoard(recipeEntity);
             // User에 Comment Entity 추가
             userEntity.getComments().add(userCommentEntity);
+
             // 저장
             userRepository.save(userEntity);
             return true;
@@ -60,10 +67,7 @@ public class UserSaveUpdateService {
     @Transactional
     public void updateProfile(String userTokenId, String profileAddress){
         UserEntity userEntity = userRepository.findByUserTokenId(userTokenId);
-
-        String postProfileAddress = "/" + profileAddress;
-
-        userEntity.updateProfile(postProfileAddress);
+        userEntity.updateProfile(profileAddress);
     }
 
 
