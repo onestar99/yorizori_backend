@@ -60,10 +60,7 @@ public class UserSaveUpdateService {
     @Transactional
     public void updateProfile(String userTokenId, String profileAddress){
         UserEntity userEntity = userRepository.findByUserTokenId(userTokenId);
-
-        String postProfileAddress = "/" + profileAddress;
-
-        userEntity.updateProfile(postProfileAddress);
+        userEntity.updateProfile(profileAddress);
     }
 
 
