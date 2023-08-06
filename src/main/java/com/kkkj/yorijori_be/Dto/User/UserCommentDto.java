@@ -16,15 +16,14 @@ import lombok.ToString;
 @NoArgsConstructor
 public class UserCommentDto {
 
-    private Long boardId;
     private String userTokenId;
-    private String comment;
-    private String scope;
+    private String text;
+    private String star;
 
     public UserCommentEntity toEntity(){
         UserCommentEntity build = UserCommentEntity.builder()
-                .comment(comment)
-                .scope(scope)
+                .comment(text)
+                .scope(star)
                 .build();
 
         return build;

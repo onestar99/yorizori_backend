@@ -37,14 +37,14 @@ public class UserSaveUpdateService {
 
 
     @Transactional
-    public boolean saveUserComment(UserCommentDto userCommentDto){
+    public boolean saveUserComment(Long recipeId, UserCommentDto userCommentDto){
 
         // BoardId가 있으면 진행
-        if (isBoardId(userCommentDto)){
+        if (isUserId(userCommentDto)){
             // TokenId를 통해 유저 정보 찾기
             UserEntity userEntity = userRepository.findByUserTokenId(userCommentDto.getUserTokenId());
             // TokenId를 통해 유저 정보 찾기
-            RecipeEntity recipeEntity = recipeRepository.findByRecipeId(userCommentDto.getBoardId());
+            RecipeEntity recipeEntity = recipeRepository.findByRecipeId(recipeId);
             // 전달받은 DTO를 Entity로 변경
             UserCommentEntity userCommentEntity = userCommentDto.toEntity();
             // Comment Entity 유저, 레시피 정보 세팅
@@ -52,9 +52,12 @@ public class UserSaveUpdateService {
             userCommentEntity.setBoard(recipeEntity);
             // User에 Comment Entity 추가
             userEntity.getComments().add(userCommentEntity);
-
             // 저장
             userRepository.save(userEntity);
+
+
+
+
             return true;
         } else{
             return false;
@@ -71,8 +74,8 @@ public class UserSaveUpdateService {
     }
 
 
-    private boolean isBoardId(UserCommentDto userCommentDto){
-        return userCommentDto.getBoardId() != null;
+    private boolean isUserId(UserCommentDto userCommentDto){
+        return userCommentDto.getUserTokenId() != null;
     }
 
 

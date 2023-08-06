@@ -27,11 +27,11 @@ public class UserSaveController {
     }
 
 
-    @PostMapping("/comment")
-    public ResponseEntity saveUserComment(@RequestBody UserCommentDto userCommentDto) {
+    @PostMapping("/review/{recipeId}")
+    public ResponseEntity saveUserComment(@PathVariable Long recipeId, @RequestBody UserCommentDto userCommentDto) {
         // 인자로 userTokenId와 Dto를 넘겨서 save해주는 함수 만들기.
-        userSaveUpdateService.saveUserComment(userCommentDto);
-        return ResponseEntity.ok("User comment saved successfully : " + userCommentDto.getComment());
+        userSaveUpdateService.saveUserComment(recipeId, userCommentDto);
+        return ResponseEntity.ok("User comment saved successfully : " + userCommentDto.getText());
     }
 
 }

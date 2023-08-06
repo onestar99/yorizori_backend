@@ -42,7 +42,6 @@ public class RecipeSaveController {
         // 레시피 디테일 정보에 있는 이미지들을 s3에 저장(요청-POST-multipart/form-data)한다. (여러개)
         // 이미지들의 주소를 Set하여 레시피 디테일 정보를 저장(요청-POST)한다. (여러개)
 
-        
         return ResponseEntity.ok("recipe save successfully");
     }
 
