@@ -27,7 +27,7 @@ public class UserSaveController {
     }
 
 
-    @PostMapping("/{userTokenId}/comment")
+    @PostMapping("/comment/{user_token_id}")
     public ResponseEntity saveUserComment(@PathVariable String userTokenId, @RequestBody UserCommentDto userCommentDto) {
         // 인자로 userTokenId와 Dto를 넘겨서 save해주는 함수 만들기.
         userSaveUpdateService.saveUserComment(userTokenId, userCommentDto);
