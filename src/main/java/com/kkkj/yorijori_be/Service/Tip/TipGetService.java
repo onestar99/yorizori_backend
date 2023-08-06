@@ -1,5 +1,7 @@
 package com.kkkj.yorijori_be.Service.Tip;
 
+import com.kkkj.yorijori_be.Dto.Recipe.RecipeDetailDto;
+import com.kkkj.yorijori_be.Dto.Tip.TipDetailDto;
 import com.kkkj.yorijori_be.Dto.Tip.TipListDto;
 import com.kkkj.yorijori_be.Entity.Tip.TipEntity;
 import com.kkkj.yorijori_be.Entity.User.UserEntity;
@@ -45,4 +47,15 @@ public class TipGetService {
         }
         return tipListDtoList;
     }
+
+    public List<TipDetailDto> getTipDetailById(String userTokenId){
+        UserEntity user = userRepository.findByUserTokenId(userTokenId);
+        List<TipDetailDto> tipDetailDtos = new ArrayList<>();
+        for (TipEntity tipEntity : user.getTips()){
+            tipDetailDtos.add(TipDetailDto.toDto(tipEntity));
+        }
+        return tipDetailDtos;
+    }
+
+
 }
