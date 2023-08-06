@@ -28,9 +28,7 @@ public class RecipeDetailsDto {
     private List<RecipeIngredientDto> semiIngredient;
     private List<RecipeOrderDto> order;
     private List<String> category;
-    private String starRate; // 레시피 별점
     private int viewCount; // 레시피 조회수
-    private int reviewCount; // 레시피 댓글수
 
 
     public static RecipeDetailsDto toDto(RecipeEntity recipeEntity, List<RecipeIngredientDto> mainIngredient,
@@ -62,9 +60,7 @@ public class RecipeDetailsDto {
                 .semiIngredient(semiIngredient)
                 .order(order)
                 .category(category)
-                .starRate(recipeEntity.getScope())
                 .viewCount(recipeEntity.getRecipeHits())
-                .reviewCount(recipeEntity.getReviewCount())
                 .build();
 
         return recipeDetailsDto;

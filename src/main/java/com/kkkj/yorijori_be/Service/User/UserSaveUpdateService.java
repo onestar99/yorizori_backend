@@ -66,6 +66,7 @@ public class UserSaveUpdateService {
     }
 
 
+    // 레시피 리뷰, 카운트 업데이트
     @Transactional
     public void updateRecipeReviewCountAndScope(Long recipeId){
 

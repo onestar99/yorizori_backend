@@ -229,7 +229,9 @@ public class RecipeGetService {
 
         return RecipeDetailReviewDto.builder()
                 .status(status)
+                .starRate(recipe.getScope())
                 .starCount(starCount)
+                .reviewCount(recipe.getReviewCount())
                 .reviews(reviewDtoList)
                 .build();
 
