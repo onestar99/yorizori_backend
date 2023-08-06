@@ -17,6 +17,7 @@ import lombok.ToString;
 public class UserCommentDto {
 
     private Long boardId;
+    private String userTokenId;
     private String comment;
     private String scope;
 
@@ -28,15 +29,5 @@ public class UserCommentDto {
 
         return build;
     }
-
-    public UserCommentDto toUserCommentDto(UserCommentEntity userCommentEntity){
-        UserCommentDto userCommentDto = new UserCommentDto();
-        userCommentDto.setBoardId((userCommentEntity.getBoard().getRecipeId()));
-        userCommentDto.setComment(userCommentEntity.getComment());
-        userCommentDto.setScope(userCommentEntity.getScope());
-
-        return userCommentDto;
-    }
-
 
 }
