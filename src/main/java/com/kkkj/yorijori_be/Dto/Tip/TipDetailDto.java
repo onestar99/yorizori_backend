@@ -13,11 +13,11 @@ import java.time.LocalDateTime;
 @Setter
 @ToString
 public class TipDetailDto {
-    private Long tipId;
-    private String tipThumbnail;
-    private String tipTitle;
-    private String userProfileImg;
-    private String userNickName;
+    private Long id;
+    private String thumbnail;
+    private String title;
+    private String profileImg;
+    private String nickname;
     private String contents;
     private LocalDateTime date;
     private int heartCount;
@@ -27,13 +27,13 @@ public class TipDetailDto {
 
     public static TipDetailDto toDto(TipEntity tipEntity){
         TipDetailDto tipDetailDto = TipDetailDto.builder()
-                .tipId(tipEntity.getTipId())
-                .tipTitle(tipEntity.getTipTitle())
+                .id(tipEntity.getTipId())
+                .title(tipEntity.getTipTitle())
                 .heartCount(tipEntity.getTipHits())
                 .contents(tipEntity.getTipDetail())
-                .tipThumbnail(tipEntity.getTipThumbnail())
-                .userNickName(tipEntity.getUser().getNickname())
-                .userProfileImg(tipEntity.getUser().getImageAddress())
+                .thumbnail(tipEntity.getTipThumbnail())
+                .nickname(tipEntity.getUser().getNickname())
+                .profileImg(tipEntity.getUser().getImageAddress())
                 .viewCount(builder().viewCount)
                 .date(tipEntity.getCreatedTime())
                 .reviewCount(builder().reviewCount)
