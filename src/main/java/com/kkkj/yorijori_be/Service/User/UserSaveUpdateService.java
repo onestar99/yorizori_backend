@@ -9,8 +9,11 @@ import com.kkkj.yorijori_be.Repository.Recipe.RecipeRepository;
 import com.kkkj.yorijori_be.Repository.User.UserRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.java.Log;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Slf4j
 @Service
@@ -55,13 +58,36 @@ public class UserSaveUpdateService {
             // 저장
             userRepository.save(userEntity);
 
-
-
-
             return true;
         } else{
             return false;
         }
+
+    }
+
+
+    @Transactional
+    public void updateRecipeReviewCountAndScope(Long recipeId){
+
+        double scope = 0.0;
+        double mean = 0.0;
+
+        // TokenId를 통해 유저 정보 찾기
+        RecipeEntity recipeEntity = recipeRepository.findByRecipeId(recipeId);
+        List<UserCommentEntity> userCommentEntityList = recipeEntity.getComments();
+        for(UserCommentEntity userCommentEntity: userCommentEntityList){
+            scope = scope + Double.parseDouble(userCommentEntity.getScope()); // scope 정보 다 더하기
+        }
+        mean = scope / userCommentEntityList.size(); // 평점 평균 내기
+        mean = (Math.round(mean * 10) / 10.0); // 반올림 처리
+
+        String meanToString = Double.toString(mean); // String으로 전환
+
+
+        // 업데이트하기
+        recipeRepository.updateScope(meanToString, recipeId);
+        recipeRepository.updateReviewCount(userCommentEntityList.size(), recipeId);
+
 
     }
 

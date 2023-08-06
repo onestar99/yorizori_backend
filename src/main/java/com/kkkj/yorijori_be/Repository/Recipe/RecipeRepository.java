@@ -33,4 +33,11 @@ public interface RecipeRepository extends JpaRepository<RecipeEntity, Long> {
     // recipeId List를 이용하여 recipe 테이블 컬럼 조회
     Page<RecipeEntity> findAllByRecipeIdIn(List<Long> recipeIdList, Pageable pageable);
 
+    @Modifying
+    @Query("update RecipeEntity r set r.scope = :scope where r.recipeId = :id")
+    void updateScope(@Param("scope")String scope, @Param("id")Long id);
+
+    @Modifying
+    @Query("update RecipeEntity r set r.reviewCount = :reviewCount where r.recipeId = :id")
+    void updateReviewCount(@Param("reviewCount")Integer reviewCount, @Param("id")Long id);
 }
