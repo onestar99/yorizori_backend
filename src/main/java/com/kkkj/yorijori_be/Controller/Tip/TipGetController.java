@@ -1,16 +1,16 @@
 package com.kkkj.yorijori_be.Controller.Tip;
 
+import com.kkkj.yorijori_be.Dto.Tip.TipDetailDto;
 import com.kkkj.yorijori_be.Dto.Tip.TipListDto;
 import com.kkkj.yorijori_be.Entity.Tip.TipEntity;
 import com.kkkj.yorijori_be.Repository.Tip.TipRepository;
 import com.kkkj.yorijori_be.Service.Tip.TipGetService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -31,8 +31,44 @@ public class TipGetController {
         return tipGetService.getTipPaging(pageNo, pageSize, sortBy);
     }
 
-    @GetMapping("/part") @ResponseBody
-    public List<TipListDto> getTipPartall(){
-        return tipGetService.getTipsPart();
+    @GetMapping("/all") @ResponseBody
+    public Page<TipListDto> getTipAll(
+            @RequestParam(value = "pageNo", defaultValue = "1", required = false) int pageNo,
+            @RequestParam(value = "pageSize", defaultValue = "12", required = false) int pageSize
+            ){
+        List<TipListDto> tipListDtoList= tipGetService.getTipsPart();
+        PageRequest pageRequest = PageRequest.of(pageNo,pageSize);
+        int start = (int) pageRequest.getOffset();
+        int end = Math.min((start + pageRequest.getPageSize()),tipListDtoList.size());
+        Page<TipListDto> tipListDtos = new PageImpl<>(tipListDtoList.subList(start,end),pageRequest,tipListDtoList.size());
+        return tipListDtos;
     }
+
+    @GetMapping("/part") @ResponseBody
+    public Page<TipListDto> getTipPartall(
+            @RequestParam(value = "pageNo", defaultValue = "1", required = false) int pageNo,
+            @RequestParam(value = "pageSize", defaultValue = "8", required = false) int pageSize
+    ){
+        List<TipListDto> tipListDtoList= tipGetService.getTipsPart();
+        PageRequest pageRequest = PageRequest.of(pageNo,pageSize);
+        int start = (int) pageRequest.getOffset();
+        int end = Math.min((start + pageRequest.getPageSize()),tipListDtoList.size());
+        Page<TipListDto> tipListDtos = new PageImpl<>(tipListDtoList.subList(start,end),pageRequest,tipListDtoList.size());
+        return tipListDtos;
+    }
+
+    @GetMapping("/details/{userTokenId}") @ResponseBody
+    public Page<TipDetailDto> getTipDetailsById(
+            @PathVariable String userTokenId,
+            @RequestParam(value = "pageNo", defaultValue = "1", required = false) int pageNo,
+            @RequestParam(value = "pageSize", defaultValue = "8", required = false) int pageSize
+    ){
+        List<TipDetailDto> tipDetailDtos= tipGetService.getTipDetailById(userTokenId);
+        PageRequest pageRequest = PageRequest.of(pageNo,pageSize);
+        int start = (int) pageRequest.getOffset();
+        int end = Math.min((start + pageRequest.getPageSize()),tipDetailDtos.size());
+        Page<TipDetailDto> tipDetailDtosPage = new PageImpl<>(tipDetailDtos.subList(start,end),pageRequest,tipDetailDtos.size());
+        return tipDetailDtosPage;
+    }
+
 }

@@ -6,32 +6,39 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
+import java.time.LocalDateTime;
+
 @Builder
 @Getter
 @Setter
 @ToString
-public class TipListDto {
+public class TipDetailDto {
     private Long tipId;
+    private String tipThumbnail;
     private String tipTitle;
+    private String userProfileImg;
+    private String userNickName;
+    private String contents;
+    private LocalDateTime date;
     private int heartCount;
     private int viewCount;
-    private String tipDetail;
-    private String tipThumbnail;
-    private String userNickName;
-    private String userProfileImg;
+    private int reviewCount;
 
-    public static TipListDto toDto(TipEntity tipEntity){
-        TipListDto tipListDto = TipListDto.builder()
+
+    public static TipDetailDto toDto(TipEntity tipEntity){
+        TipDetailDto tipDetailDto = TipDetailDto.builder()
                 .tipId(tipEntity.getTipId())
                 .tipTitle(tipEntity.getTipTitle())
                 .heartCount(tipEntity.getTipHits())
-                .tipDetail(tipEntity.getTipDetail())
+                .contents(tipEntity.getTipDetail())
                 .tipThumbnail(tipEntity.getTipThumbnail())
                 .userNickName(tipEntity.getUser().getNickname())
                 .userProfileImg(tipEntity.getUser().getImageAddress())
                 .viewCount(builder().viewCount)
+                .date(tipEntity.getCreatedTime())
+                .reviewCount(builder().reviewCount)
                 .build();
-        return tipListDto;
+        return tipDetailDto;
     }
 
 }
