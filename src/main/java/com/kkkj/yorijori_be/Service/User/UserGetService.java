@@ -3,6 +3,7 @@ package com.kkkj.yorijori_be.Service.User;
 import com.kkkj.yorijori_be.Dto.User.UserDto;
 import com.kkkj.yorijori_be.Entity.User.UserCommentEntity;
 import com.kkkj.yorijori_be.Entity.User.UserEntity;
+import com.kkkj.yorijori_be.Entity.User.UserTipCommentEntity;
 import com.kkkj.yorijori_be.Repository.User.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -66,7 +67,10 @@ public class UserGetService {
         return user.getComments();
     }
 
-
+    public List<UserTipCommentEntity> getUserTipComments(String userTokenId){
+        UserEntity user = userRepository.findByUserTokenId(userTokenId);
+        return user.getTipComments();
+    }
 
 
 

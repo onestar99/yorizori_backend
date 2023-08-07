@@ -3,6 +3,7 @@ package com.kkkj.yorijori_be.Controller.User;
 import com.kkkj.yorijori_be.Dto.User.UserDto;
 import com.kkkj.yorijori_be.Entity.User.UserCommentEntity;
 import com.kkkj.yorijori_be.Entity.User.UserEntity;
+import com.kkkj.yorijori_be.Entity.User.UserTipCommentEntity;
 import com.kkkj.yorijori_be.Repository.User.UserRepository;
 import com.kkkj.yorijori_be.Service.User.UserGetService;
 import lombok.RequiredArgsConstructor;
@@ -59,5 +60,11 @@ public class UserGetController {
         return ResponseEntity.ok(comments);
     }
 
+    @GetMapping("/{userTokenId}/tipcomments") @ResponseBody
+    public ResponseEntity<List<UserTipCommentEntity>> getUserTipComments(@PathVariable String userTokenId) {
+        UserEntity user = userRepository.findByUserTokenId(userTokenId);
+        List<UserTipCommentEntity> tipcomments = user.getTipComments();
+        return ResponseEntity.ok(tipcomments);
+    }
 
 }
