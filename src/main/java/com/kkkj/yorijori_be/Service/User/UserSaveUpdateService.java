@@ -6,6 +6,7 @@ import com.kkkj.yorijori_be.Entity.Recipe.RecipeEntity;
 import com.kkkj.yorijori_be.Entity.User.UserCommentEntity;
 import com.kkkj.yorijori_be.Entity.User.UserEntity;
 import com.kkkj.yorijori_be.Repository.Recipe.RecipeRepository;
+import com.kkkj.yorijori_be.Repository.User.UserCommentRepository;
 import com.kkkj.yorijori_be.Repository.User.UserRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -22,6 +23,7 @@ public class UserSaveUpdateService {
 
 
     private final UserRepository userRepository;
+    private final UserCommentRepository userCommentRepository;
     private final RecipeRepository recipeRepository;
 
     // 유저 저장
@@ -70,16 +72,13 @@ public class UserSaveUpdateService {
     @Transactional
     public void updateRecipeReviewCountAndScope(Long recipeId){
 
-        double scope = 0.0;
         double mean = 0.0;
 
         // TokenId를 통해 유저 정보 찾기
         RecipeEntity recipeEntity = recipeRepository.findByRecipeId(recipeId);
         List<UserCommentEntity> userCommentEntityList = recipeEntity.getComments();
-        for(UserCommentEntity userCommentEntity: userCommentEntityList){
-            scope = scope + Double.parseDouble(userCommentEntity.getScope()); // scope 정보 다 더하기
-        }
-        mean = scope / userCommentEntityList.size(); // 평점 평균 내기
+
+        mean = userCommentRepository.averageRecipeScopeByBoardId(recipeId);
         mean = (Math.round(mean * 10) / 10.0); // 반올림 처리
 
         String meanToString = Double.toString(mean); // String으로 전환

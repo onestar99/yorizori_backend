@@ -15,7 +15,7 @@ public class RecipeDetailReviewDto {
 
     private String status;
     private String starRate;
-    private List<Long> starCount;
+    private List<Integer> starCount;
     private Integer reviewCount;
     private List<ReviewDto> reviews;
 

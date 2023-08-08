@@ -34,7 +34,7 @@ public class UserCommentEntity extends BaseTimeEntity {
     private String comment;
 
     @Column(name = "scope", length = 4)
-    private String scope;
+    private Integer scope;
 
     // userTokenId setting
     public void setUser(UserEntity user) {

@@ -205,7 +205,7 @@ public class RecipeGetService {
 
         RecipeEntity recipe = recipeRepository.findByRecipeId(boardId);
 
-        List<Long> starCount = new ArrayList<>();
+        List<Integer> starCount = new ArrayList<>();
         List<ReviewDto> reviewDtoList = new ArrayList<>();
 
         // starCount 만들기

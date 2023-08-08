@@ -18,7 +18,7 @@ public class UserCommentDto {
 
     private String userTokenId;
     private String text;
-    private String star;
+    private Integer star;
 
     public UserCommentEntity toEntity(){
         UserCommentEntity build = UserCommentEntity.builder()

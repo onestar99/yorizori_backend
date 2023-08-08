@@ -16,20 +16,23 @@ public interface UserCommentRepository extends JpaRepository<UserCommentEntity, 
     /*
     * 게시글 댓글 별점별 개수
     * */
-    @Query("SELECT COUNT(c) FROM UserCommentEntity c WHERE c.board.recipeId = :boardId AND c.scope = '5.0'")
-    Long countCommentsWithScope5ForBoard(@Param("boardId")Long boardId);
+    @Query("SELECT COUNT(c) FROM UserCommentEntity c WHERE c.board.recipeId = :boardId AND c.scope = 5")
+    Integer countCommentsWithScope5ForBoard(@Param("boardId")Long boardId);
 
-    @Query("SELECT COUNT(c) FROM UserCommentEntity c WHERE c.board.recipeId = :boardId AND c.scope = '4.0'")
-    Long countCommentsWithScope4ForBoard(@Param("boardId")Long boardId);
+    @Query("SELECT COUNT(c) FROM UserCommentEntity c WHERE c.board.recipeId = :boardId AND c.scope = 4")
+    Integer countCommentsWithScope4ForBoard(@Param("boardId")Long boardId);
 
-    @Query("SELECT COUNT(c) FROM UserCommentEntity c WHERE c.board.recipeId = :boardId AND c.scope = '3.0'")
-    Long countCommentsWithScope3ForBoard(@Param("boardId")Long boardId);
+    @Query("SELECT COUNT(c) FROM UserCommentEntity c WHERE c.board.recipeId = :boardId AND c.scope = 3")
+    Integer countCommentsWithScope3ForBoard(@Param("boardId")Long boardId);
 
-    @Query("SELECT COUNT(c) FROM UserCommentEntity c WHERE c.board.recipeId = :boardId AND c.scope = '2.0'")
-    Long countCommentsWithScope2ForBoard(@Param("boardId")Long boardId);
+    @Query("SELECT COUNT(c) FROM UserCommentEntity c WHERE c.board.recipeId = :boardId AND c.scope = 2")
+    Integer countCommentsWithScope2ForBoard(@Param("boardId")Long boardId);
 
-    @Query("SELECT COUNT(c) FROM UserCommentEntity c WHERE c.board.recipeId = :boardId AND c.scope = '1.0'")
-    Long countCommentsWithScope1ForBoard(@Param("boardId")Long boardId);
+    @Query("SELECT COUNT(c) FROM UserCommentEntity c WHERE c.board.recipeId = :boardId AND c.scope = 1")
+    Integer countCommentsWithScope1ForBoard(@Param("boardId")Long boardId);
+
+    @Query("SELECT AVG(c.scope) FROM UserCommentEntity c WHERE c.board.recipeId = :boardId")
+    Double averageRecipeScopeByBoardId(@Param("boardId")Long boardId);
 
 
 }

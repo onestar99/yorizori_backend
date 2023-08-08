@@ -17,7 +17,7 @@ public class ReviewDto {
 
     private String nickname; // 유저 닉네임
     private String profileImg; // 유저 프로필 이미지
-    private String scope;// 별점
+    private Integer scope;// 별점
     private String review;// 댓글
     private String date;// 리뷰 시간
 
