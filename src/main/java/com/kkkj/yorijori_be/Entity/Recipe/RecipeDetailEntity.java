@@ -44,11 +44,17 @@ public class RecipeDetailEntity {
     @Column(name = "object")
     private String object; // 물체를
 
+    @Column(name = "order_index")
+    private Integer order; // 순서
+
 
     // RecipeId setting
     public void setRecipe(RecipeEntity recipe) {
         this.recipe = recipe;
     }
 
-
+    // 레시피 디테일 저장할 때 순서 설정
+    public void setOrder(int orderIndex) {
+        this.order = orderIndex;
+    }
 }

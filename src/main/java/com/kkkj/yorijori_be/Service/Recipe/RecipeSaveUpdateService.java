@@ -51,12 +51,23 @@ public class RecipeSaveUpdateService {
         // TokenId를 통해 유저 정보 찾기
         RecipeEntity recipeEntity = recipeRepository.findByRecipeId(recipePostDto.getRecipeId());
 
-        for(RecipeDetailDto recipeDetailDto : recipePostDto.getRecipeDetailDtoList()){
+
+        for(int i = 0; i < recipePostDto.getRecipeDetailDtoList().size(); i++){
+            RecipeDetailDto recipeDetailDto = recipePostDto.getRecipeDetailDtoList().get(i);
             RecipeDetailEntity recipeDetailEntity = recipeDetailDto.toEntity();
+            recipeDetailEntity.setOrder(i+1);
             recipeDetailEntity.setRecipe(recipeEntity);
             recipeEntity.getDetails().add(recipeDetailEntity);
             recipeRepository.save(recipeEntity);
         }
+
+//        for(RecipeDetailDto recipeDetailDto : recipePostDto.getRecipeDetailDtoList()){
+//            RecipeDetailEntity recipeDetailEntity = recipeDetailDto.toEntity();
+//            recipeDetailEntity.setOrder()
+//            recipeDetailEntity.setRecipe(recipeEntity);
+//            recipeEntity.getDetails().add(recipeDetailEntity);
+//            recipeRepository.save(recipeEntity);
+//        }
     }
 
     @Transactional
