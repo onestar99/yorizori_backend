@@ -53,12 +53,20 @@ public class RecipeGetService {
 
     public Page<RecipeListDto> getRecipeCategoryPaging(int pageNo, int pageSize, String categoryName){
 
-        Pageable pageable = PageRequest.of(pageNo, pageSize, Sort.by("recipeId").descending());
+        Pageable pageable = PageRequest.of(pageNo, pageSize, Sort.by("createdTime").descending());
         // 카테고리 이름 이용해서 레시피 아이디들을 받기
         List<Long> recipeIdList = getRecipeIdsByCategory(categoryName);
         Page<RecipeEntity> recipeEntityPage = recipeRepository.findAllByRecipeIdIn(recipeIdList, pageable);
         Page<RecipeListDto> recipeListDtoPage = RecipeListDto.toDtoPage(recipeEntityPage);
         return recipeListDtoPage;
+    }
+
+    public Page<RecipeListDto> getRecipePagingByUserId(int pageNo, int pageSize, String userId){
+        Pageable pageable = PageRequest.of(pageNo, pageSize, Sort.by("createdTime").descending());
+        Page<RecipeEntity> recipeEntityPage = recipeRepository.findAllByUser_UserTokenId(userId, pageable);
+        Page<RecipeListDto> recipeListDtoPage = RecipeListDto.toDtoPage(recipeEntityPage);
+        return recipeListDtoPage;
+
     }
 
 
