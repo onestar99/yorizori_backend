@@ -61,6 +61,7 @@ public class RecipeGetService {
         return recipeListDtoPage;
     }
 
+    // 유저 아이디를 통해 레시피 목록 페이징 제공
     public Page<RecipeListDto> getRecipePagingByUserId(int pageNo, int pageSize, String userId){
         Pageable pageable = PageRequest.of(pageNo, pageSize, Sort.by("createdTime").descending());
         Page<RecipeEntity> recipeEntityPage = recipeRepository.findAllByUser_UserTokenId(userId, pageable);
