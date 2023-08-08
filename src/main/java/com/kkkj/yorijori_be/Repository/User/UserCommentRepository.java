@@ -10,7 +10,7 @@ import java.util.List;
 
 public interface UserCommentRepository extends JpaRepository<UserCommentEntity, Long> {
 
-    List<UserCommentEntity> findByBoard(RecipeEntity board);
+    List<UserCommentEntity> findByBoardOrderByCreatedTimeDesc(RecipeEntity board);
 
 
     /*

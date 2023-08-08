@@ -217,7 +217,7 @@ public class RecipeGetService {
 
 
         // ReviewDto 만들기
-        List<UserCommentEntity> userCommentEntityList = userCommentRepository.findByBoard(recipe);
+        List<UserCommentEntity> userCommentEntityList = userCommentRepository.findByBoardOrderByCreatedTimeDesc(recipe);
         for(UserCommentEntity userCommentEntity: userCommentEntityList){
             reviewDtoList.add(ReviewDto.toDto(userCommentEntity));
         }
