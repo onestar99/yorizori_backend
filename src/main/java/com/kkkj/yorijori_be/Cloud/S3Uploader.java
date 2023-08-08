@@ -30,14 +30,16 @@ public class S3Uploader {
     private String bucket;
 
 
+    // 프로필 이미지 1개 저장하기
     public FileUploadResponse uploadProfile(String userId, MultipartFile multipartFile, String dirName) throws IOException {
 
         File uploadFile = convert(multipartFile)
                 .orElseThrow(() -> new IllegalArgumentException("MultipartFile -> File로 전환이 실패했습니다."));
-        return upload(userId, uploadFile, dirName);
+        return uploadS3ProfileImage(userId, uploadFile, dirName);
 
     }
 
+    // 레시피 이미지 여러개 저장하기.
     public List<FileUploadResponse> uploadRecipeImage(Long recipeId, List<MultipartFile> multipartFileList, String dirName) throws IOException {
 
         List<FileUploadResponse> fileUploadResponseList = new ArrayList<>();
@@ -45,13 +47,13 @@ public class S3Uploader {
         for(MultipartFile multipartFile: multipartFileList){
             File uploadFile = convert(multipartFile)
                     .orElseThrow(() -> new IllegalArgumentException("MultipartFile -> File로 전환이 실패했습니다."));
-            fileUploadResponseList.add(upload(recipeId, uploadFile, dirName));
+            fileUploadResponseList.add(uploadRecipeDetailsImage(recipeId, uploadFile, dirName));
         }
         return fileUploadResponseList;
     }
 
 
-    private FileUploadResponse upload(String userId, File uploadFile, String dirName) {
+    private FileUploadResponse uploadS3ProfileImage(String userId, File uploadFile, String dirName) {
 
         log.info("파일 확장자 : " + getExtension(uploadFile));
         String Extension = getExtension(uploadFile);
@@ -63,23 +65,17 @@ public class S3Uploader {
             String fileName = dirName + "/" + uuid4 + "." + getExtension(uploadFile);
             String uploadImageUrl = putS3(uploadFile, fileName);
             removeNewFile(uploadFile);
-            // 프로필 등록 아직 테스트중.
-    //        UserEntity user = userRepository.findById(userId).get();
-    //        user.setProfilePhoto(uploadImageUrl);
 
-    //FileUploadResponse DTO로 반환해준다.
+            //FileUploadResponse DTO로 반환해준다.
             return new FileUploadResponse(fileName, uploadImageUrl);
-            //return uploadImageUrl;
         } else {
             removeNewFile(uploadFile);
             log.warn("업로드 형식이 올바르지 않습니다.");
             return new FileUploadResponse("null", "null");
         }
-
-
     }
 
-    private FileUploadResponse upload(Long recipeId, File uploadFile, String dirName) {
+    private FileUploadResponse uploadRecipeDetailsImage(Long recipeId, File uploadFile, String dirName) {
 
         log.info("파일 확장자 : " + getExtension(uploadFile));
         String Extension = getExtension(uploadFile);
@@ -99,7 +95,7 @@ public class S3Uploader {
     //        UserEntity user = userRepository.findById(userId).get();
     //        user.setProfilePhoto(uploadImageUrl);
 
-    //FileUploadResponse DTO로 반환해준다.
+            //FileUploadResponse DTO로 반환해준다.
             return new FileUploadResponse(fileName, uploadImageUrl);
             //return uploadImageUrl;
         } else {
@@ -110,7 +106,7 @@ public class S3Uploader {
 
     }
 
-
+    // S3로 파일 올리기
     private String putS3(File uploadFile, String fileName) {
         amazonS3Client.putObject(new PutObjectRequest(bucket, fileName, uploadFile).withCannedAcl(
                 CannedAccessControlList.PublicRead));

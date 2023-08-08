@@ -49,4 +49,5 @@ public class S3UploadController {
 
         return new ResponseEntity(DefaultRes.res(StatusCode.OK, ResponseMessage.UPLOAD_SUCCESS, fileUploadResponseList), HttpStatus.OK);
     }
+
 }
