@@ -4,6 +4,7 @@ import com.kkkj.yorijori_be.Dto.Cloud.FileUploadResponse;
 import com.kkkj.yorijori_be.Security.Status.DefaultRes;
 import com.kkkj.yorijori_be.Security.Status.ResponseMessage;
 import com.kkkj.yorijori_be.Security.Status.StatusCode;
+import com.kkkj.yorijori_be.Service.Recipe.RecipeSaveUpdateService;
 import com.kkkj.yorijori_be.Service.User.UserSaveUpdateService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -24,28 +25,42 @@ public class S3UploadController {
 
     private final S3Uploader s3Uploader;
     private final UserSaveUpdateService userSaveUpdateService;
+    private final RecipeSaveUpdateService recipeSaveUpdateService;
 
-    //유저 프로필 업로드
+    //유저 프로필 업로드 후 유저 테이블에서 프로필 업데이트.
     @PostMapping("user/update/profileImage/{userId}")
     public ResponseEntity uploadProfileImage(@PathVariable String userId, @RequestParam("profileImage") MultipartFile multipartFile) throws IOException {
 
         //S3 Bucket 내부에 "/userImage" 폴더
         FileUploadResponse fileUploadResponse = s3Uploader.uploadProfile(userId, multipartFile, "userImage");
-        // 유저 프로필이미지 정보를 업데이트 시켜줘야함.
+        // 유저 프로필이미지 정보를 업데이트
         String dbFileName = "https://yorizori-s3.s3.ap-northeast-2.amazonaws.com/" + fileUploadResponse.getFileName();
-
         userSaveUpdateService.updateProfile(userId, dbFileName);
 
         return new ResponseEntity(DefaultRes.res(StatusCode.OK, ResponseMessage.UPLOAD_SUCCESS, fileUploadResponse), HttpStatus.OK);
     }
 
-    //레시피 이미지 업로드
-    @PostMapping("recipe/save/recipeImage/{recipeId}")
-    public ResponseEntity uploadRecipeImage(@PathVariable Long recipeId, @RequestParam("recipeImage") List<MultipartFile> multipartFileList) throws IOException {
+    //레시피 썸네일 이미지 업로드 후 레시피 테이블에서 썸네일 업데이트.
+    @PostMapping("/recipe/save/thumbnail/{recipeId}")
+    public ResponseEntity uploadRecipeThumbnailImage(@PathVariable Long recipeId, @RequestParam("recipeImage") MultipartFile multipartFile) throws IOException {
+
+        //S3 Bucket 내부에 "src" 폴더
+        FileUploadResponse fileUploadResponse = s3Uploader.uploadImage(multipartFile, "src");
+        // 레시피 이미지 정보를 업데이트
+        String dbFileName = fileUploadResponse.getFileName();
+        recipeSaveUpdateService.updateThumbnail(recipeId, dbFileName);
+
+        return new ResponseEntity(DefaultRes.res(StatusCode.OK, ResponseMessage.UPLOAD_SUCCESS, fileUploadResponse), HttpStatus.OK);
+    }
+
+    //레시피 이미지들 업로드 후 레시피 디테일 테이블에서 이미지들 업데이트.
+    @PostMapping("recipe/save/recipeImages/{recipeId}")
+    public ResponseEntity uploadRecipeImages(@PathVariable Long recipeId, @RequestParam("recipeImages") List<MultipartFile> multipartFileList) throws IOException {
 
         //S3 Bucket 내부에 "/recipeImage" 폴더
-        List<FileUploadResponse> fileUploadResponseList = s3Uploader.uploadRecipeImage(recipeId, multipartFileList, "src");
+        List<FileUploadResponse> fileUploadResponseList = s3Uploader.uploadImages(multipartFileList, "src");
         // 레시피 List에 든 정보에다가 entity들을 업데이트 시켜줘야함.
+        recipeSaveUpdateService.updateRecipeDetailImage(recipeId, fileUploadResponseList);
 
         return new ResponseEntity(DefaultRes.res(StatusCode.OK, ResponseMessage.UPLOAD_SUCCESS, fileUploadResponseList), HttpStatus.OK);
     }

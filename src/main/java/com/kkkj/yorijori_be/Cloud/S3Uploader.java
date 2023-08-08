@@ -4,9 +4,6 @@ import com.amazonaws.services.s3.AmazonS3Client;
 import com.amazonaws.services.s3.model.CannedAccessControlList;
 import com.amazonaws.services.s3.model.PutObjectRequest;
 import com.kkkj.yorijori_be.Dto.Cloud.FileUploadResponse;
-import com.kkkj.yorijori_be.Entity.User.UserEntity;
-import com.kkkj.yorijori_be.Repository.User.UserRepository;
-import lombok.extern.java.Log;
 import lombok.extern.slf4j.Slf4j;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
@@ -24,7 +21,6 @@ import java.util.*;
 public class S3Uploader {
 
     private final AmazonS3Client amazonS3Client;
-    private final UserRepository userRepository;
 
     @Value("${cloud.aws.s3.bucket}")
     private String bucket;
@@ -38,16 +34,24 @@ public class S3Uploader {
         return uploadS3ProfileImage(userId, uploadFile, dirName);
 
     }
+    // 이미지 1개 저장하기
+    public FileUploadResponse uploadImage(MultipartFile multipartFile, String dirName) throws IOException {
+
+        File uploadFile = convert(multipartFile)
+                .orElseThrow(() -> new IllegalArgumentException("MultipartFile -> File로 전환이 실패했습니다."));
+        return uploadS3Image(uploadFile, dirName);
+
+    }
 
     // 레시피 이미지 여러개 저장하기.
-    public List<FileUploadResponse> uploadRecipeImage(Long recipeId, List<MultipartFile> multipartFileList, String dirName) throws IOException {
+    public List<FileUploadResponse> uploadImages(List<MultipartFile> multipartFileList, String dirName) throws IOException {
 
         List<FileUploadResponse> fileUploadResponseList = new ArrayList<>();
 
         for(MultipartFile multipartFile: multipartFileList){
             File uploadFile = convert(multipartFile)
                     .orElseThrow(() -> new IllegalArgumentException("MultipartFile -> File로 전환이 실패했습니다."));
-            fileUploadResponseList.add(uploadRecipeDetailsImage(recipeId, uploadFile, dirName));
+            fileUploadResponseList.add(uploadS3Images(uploadFile, dirName));
         }
         return fileUploadResponseList;
     }
@@ -75,7 +79,29 @@ public class S3Uploader {
         }
     }
 
-    private FileUploadResponse uploadRecipeDetailsImage(Long recipeId, File uploadFile, String dirName) {
+    private FileUploadResponse uploadS3Image(File uploadFile, String dirName) {
+
+        log.info("파일 확장자 : " + getExtension(uploadFile));
+        String Extension = getExtension(uploadFile);
+
+        if (Objects.equals(Extension, "png") || Objects.equals(Extension, "jpeg") || Objects.equals(Extension, "jpg")){
+
+            // UUID 생성하여 이미지 네이밍
+            UUID uuid4 = UUID.randomUUID();
+            String fileName = dirName + "/" + uuid4 + "." + getExtension(uploadFile);
+            String uploadImageUrl = putS3(uploadFile, fileName);
+            removeNewFile(uploadFile);
+
+            //FileUploadResponse DTO로 반환해준다.
+            return new FileUploadResponse(fileName, uploadImageUrl);
+        } else {
+            removeNewFile(uploadFile);
+            log.warn("업로드 형식이 올바르지 않습니다.");
+            return new FileUploadResponse("null", "null");
+        }
+    }
+
+    private FileUploadResponse uploadS3Images(File uploadFile, String dirName) {
 
         log.info("파일 확장자 : " + getExtension(uploadFile));
         String Extension = getExtension(uploadFile);
@@ -90,17 +116,13 @@ public class S3Uploader {
             UUID uuid4 = UUID.randomUUID();
             String fileName = dirName + "/" + uuid4 + "." + getExtension(uploadFile);
             String uploadImageUrl = putS3(uploadFile, fileName);
-            removeNewFile(uploadFile);
-            // 프로필 등록 아직 테스트중.
-    //        UserEntity user = userRepository.findById(userId).get();
-    //        user.setProfilePhoto(uploadImageUrl);
+            removeNewFile(uploadFile); // 파일 삭제
 
             //FileUploadResponse DTO로 반환해준다.
             return new FileUploadResponse(fileName, uploadImageUrl);
-            //return uploadImageUrl;
         } else {
             removeNewFile(uploadFile);
-            return new FileUploadResponse("null", "null");
+            return new FileUploadResponse(null, null);
         }
 
 

@@ -83,4 +83,8 @@ public class RecipeEntity extends BaseTimeEntity {
     private List<UserCommentEntity> comments;
 
 
+    // 레시피 썸네일 주소 업데이트
+    public void updateThumbnail(String thumbnailAddress) {
+        this.recipeThumbnail = thumbnailAddress;
+    }
 }
