@@ -52,6 +52,13 @@ public class S3UploadController {
 
         return new ResponseEntity(DefaultRes.res(StatusCode.OK, ResponseMessage.UPLOAD_SUCCESS, fileUploadResponse), HttpStatus.OK);
     }
+    //이미지 템프 업로드
+    @PostMapping("/image/upload")
+    public ResponseEntity uploadRecipeTemp(@RequestParam("recipeImage") MultipartFile multipartFile) throws IOException {
+        //S3 Bucket 내부에 "src" 폴더
+        FileUploadResponse fileUploadResponse = s3Uploader.uploadImage(multipartFile, "src");
+        return new ResponseEntity(DefaultRes.res(StatusCode.OK, ResponseMessage.UPLOAD_SUCCESS, fileUploadResponse), HttpStatus.OK);
+    }
 
     //레시피 이미지들 업로드 후 레시피 디테일 테이블에서 이미지들 업데이트.
     @PostMapping("recipe/save/recipeImages/{recipeId}")

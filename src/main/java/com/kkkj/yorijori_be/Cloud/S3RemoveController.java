@@ -22,5 +22,12 @@ public class S3RemoveController {
         return result;
     }
 
+    @GetMapping("/recipe")
+    public String removeRecipeByAddress(@RequestParam String imageAddress){
+        String result = s3Remover.deleteFile(imageAddress); // 이미지 S3에서 삭제
+        // 프로필 이미지 default로 수정 ->
+        return result;
+    }
+
 
 }

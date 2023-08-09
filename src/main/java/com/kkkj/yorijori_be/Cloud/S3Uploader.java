@@ -66,7 +66,7 @@ public class S3Uploader {
 
             // UUID 생성하여 이미지 네이밍
             UUID uuid4 = UUID.randomUUID();
-            String fileName = dirName + "/" + uuid4 + "." + getExtension(uploadFile);
+            String fileName = "/" + dirName + "/" + uuid4 + "." + getExtension(uploadFile);
             String uploadImageUrl = putS3(uploadFile, fileName);
             removeNewFile(uploadFile);
 
@@ -88,7 +88,7 @@ public class S3Uploader {
 
             // UUID 생성하여 이미지 네이밍
             UUID uuid4 = UUID.randomUUID();
-            String fileName = dirName + "/" + uuid4 + "." + getExtension(uploadFile);
+            String fileName = "/" + dirName + "/" + uuid4 + "." + getExtension(uploadFile);
             String uploadImageUrl = putS3(uploadFile, fileName);
             removeNewFile(uploadFile);
 
@@ -114,7 +114,7 @@ public class S3Uploader {
 
             // UUID 생성하여 이미지 네이밍
             UUID uuid4 = UUID.randomUUID();
-            String fileName = dirName + "/" + uuid4 + "." + getExtension(uploadFile);
+            String fileName = "/" + dirName + "/" + uuid4 + "." + getExtension(uploadFile);
             String uploadImageUrl = putS3(uploadFile, fileName);
             removeNewFile(uploadFile); // 파일 삭제
 
