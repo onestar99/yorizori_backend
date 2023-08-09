@@ -66,12 +66,12 @@ public class S3Uploader {
 
             // UUID 생성하여 이미지 네이밍
             UUID uuid4 = UUID.randomUUID();
-            String fileName = "/" + dirName + "/" + uuid4 + "." + getExtension(uploadFile);
+            String fileName = dirName + "/" + uuid4 + "." + getExtension(uploadFile);
             String uploadImageUrl = putS3(uploadFile, fileName);
             removeNewFile(uploadFile);
 
             //FileUploadResponse DTO로 반환해준다.
-            return new FileUploadResponse(fileName, uploadImageUrl);
+            return new FileUploadResponse("/" + fileName, uploadImageUrl);
         } else {
             removeNewFile(uploadFile);
             log.warn("업로드 형식이 올바르지 않습니다.");
@@ -88,12 +88,12 @@ public class S3Uploader {
 
             // UUID 생성하여 이미지 네이밍
             UUID uuid4 = UUID.randomUUID();
-            String fileName = "/" + dirName + "/" + uuid4 + "." + getExtension(uploadFile);
+            String fileName = dirName + "/" + uuid4 + "." + getExtension(uploadFile);
             String uploadImageUrl = putS3(uploadFile, fileName);
             removeNewFile(uploadFile);
 
             //FileUploadResponse DTO로 반환해준다.
-            return new FileUploadResponse(fileName, uploadImageUrl);
+            return new FileUploadResponse("/" + fileName, uploadImageUrl);
         } else {
             removeNewFile(uploadFile);
             log.warn("업로드 형식이 올바르지 않습니다.");
@@ -114,12 +114,12 @@ public class S3Uploader {
 
             // UUID 생성하여 이미지 네이밍
             UUID uuid4 = UUID.randomUUID();
-            String fileName = "/" + dirName + "/" + uuid4 + "." + getExtension(uploadFile);
+            String fileName = dirName + "/" + uuid4 + "." + getExtension(uploadFile);
             String uploadImageUrl = putS3(uploadFile, fileName);
             removeNewFile(uploadFile); // 파일 삭제
 
             //FileUploadResponse DTO로 반환해준다.
-            return new FileUploadResponse(fileName, uploadImageUrl);
+            return new FileUploadResponse("/" + fileName, uploadImageUrl);
         } else {
             removeNewFile(uploadFile);
             return new FileUploadResponse(null, null);
