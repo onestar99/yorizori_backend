@@ -30,13 +30,12 @@ public class TipDetailDto {
                 .id(tipEntity.getTipId())
                 .title(tipEntity.getTipTitle())
                 .heartCount(tipEntity.getTipHits())
-                .contents(tipEntity.getTipDetail())
                 .thumbnail(tipEntity.getTipThumbnail())
                 .nickname(tipEntity.getUser().getNickname())
                 .profileImg(tipEntity.getUser().getImageAddress())
-                .viewCount(builder().viewCount)
+                .viewCount(tipEntity.getTipScope())
                 .date(tipEntity.getCreatedTime())
-                .reviewCount(builder().reviewCount)
+                .reviewCount(tipEntity.getTipReviewCount())
                 .build();
         return tipDetailDto;
     }

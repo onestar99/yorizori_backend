@@ -1,8 +1,9 @@
 package com.kkkj.yorijori_be.Repository.Tip;
 
+import com.kkkj.yorijori_be.Entity.Tip.TipDetailEntity;
 import com.kkkj.yorijori_be.Entity.Tip.TipEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface TipRepository extends JpaRepository<TipEntity, String> {
+public interface TipDetailRepository extends JpaRepository<TipDetailEntity, String> {
 
 }

@@ -6,6 +6,8 @@ import com.kkkj.yorijori_be.Entity.User.UserEntity;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.List;
+
 @ToString
 @Getter
 @Builder
@@ -31,8 +33,12 @@ public class TipEntity extends BaseTimeEntity {
     @Column(name = "tip_hits", nullable = false)
     private int tipHits;
 
-    @Column(name = "tip_detail")
-    private String tipDetail;
+    @Column(name = "tip_scope")
+    private int tipScope;
+
+    @Column(name = "tip_reviewCount", nullable = false)
+    private int tipReviewCount;
+
 
     @Column(name = "tip_thumbnail")
     private String tipThumbnail;
@@ -41,4 +47,8 @@ public class TipEntity extends BaseTimeEntity {
     public void setUser(UserEntity user) {
         this.user = user;
     }
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "tip", cascade = CascadeType.ALL)
+    private List<TipDetailEntity> details;
 }
