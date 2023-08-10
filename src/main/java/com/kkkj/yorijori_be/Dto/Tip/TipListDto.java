@@ -27,7 +27,7 @@ public class TipListDto {
                 .thumbnail(tipEntity.getTipThumbnail())
                 .nickname(tipEntity.getUser().getNickname())
                 .profileImg(tipEntity.getUser().getImageAddress())
-                .viewCount(builder().viewCount)
+                .viewCount(tipEntity.getTipHits())
                 .build();
         return tipListDto;
     }

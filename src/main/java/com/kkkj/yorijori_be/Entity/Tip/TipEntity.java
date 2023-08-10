@@ -33,7 +33,7 @@ public class TipEntity extends BaseTimeEntity {
     @Column(name = "tip_hits", nullable = false)
     private int tipHits;
 
-    @Column(name = "tip_scope")
+    @Column(name = "tip_scope", nullable = false)
     private int tipScope;
 
     @Column(name = "tip_reviewCount", nullable = false)
