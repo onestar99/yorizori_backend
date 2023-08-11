@@ -74,11 +74,12 @@ public class S3UploadController {
 
     }
 
-    // Get 이미지 주소, 유저 토큰아이디를 받아서 MyPage 양식 반환.
+    // Get 이미지 주소,  유저 토큰아이디를 받아서 MyPage 양식 반환.
     @GetMapping("/image/apply")
-    public UserDto applyImage(@RequestParam("userId")String userId, @RequestParam("postImage")String postImage) throws IOException {
+    public UserDto applyImage(@RequestParam("userId")String userId, @RequestParam("postNickname")String nickName, @RequestParam("postImage")String postImage) throws IOException {
 
         userSaveUpdateService.updateProfile(userId, postImage); // 프로필 업데이트
+        userSaveUpdateService.updateNickNameById(userId, nickName); // 닉네임 업데이트
         return userGetService.findUserByTokenId(userId);
     }
 
