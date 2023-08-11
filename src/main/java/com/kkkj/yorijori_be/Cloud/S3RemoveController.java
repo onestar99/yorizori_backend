@@ -6,14 +6,14 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/image/remove")
+@RequestMapping("/image")
 public class S3RemoveController {
 
     private final S3Remover s3Remover;
     private final UserSaveUpdateService userSaveUpdateService;
 
 
-    @GetMapping("/profile")
+    @GetMapping("/remove/profile")
     public String removeProfileByAddress(@RequestParam String userId, @RequestParam String imageAddress){
         String result = s3Remover.deleteProfileImage(imageAddress); // 이미지 S3에서 삭제
         // 프로필 이미지 default로 수정 ->
@@ -22,7 +22,7 @@ public class S3RemoveController {
         return result;
     }
 
-    @GetMapping("/recipe")
+    @PostMapping("/remove")
     public String removeRecipeByAddress(@RequestParam String imageAddress){
         String result = s3Remover.deleteFile(imageAddress); // 이미지 S3에서 삭제
         // 프로필 이미지 default로 수정 ->

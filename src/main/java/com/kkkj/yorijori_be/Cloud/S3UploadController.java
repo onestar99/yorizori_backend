@@ -1,18 +1,17 @@
 package com.kkkj.yorijori_be.Cloud;
 
 import com.kkkj.yorijori_be.Dto.Cloud.FileUploadResponse;
+import com.kkkj.yorijori_be.Dto.User.UserDto;
 import com.kkkj.yorijori_be.Security.Status.DefaultRes;
 import com.kkkj.yorijori_be.Security.Status.ResponseMessage;
 import com.kkkj.yorijori_be.Security.Status.StatusCode;
 import com.kkkj.yorijori_be.Service.Recipe.RecipeSaveUpdateService;
+import com.kkkj.yorijori_be.Service.User.UserGetService;
 import com.kkkj.yorijori_be.Service.User.UserSaveUpdateService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
@@ -26,6 +25,8 @@ public class S3UploadController {
     private final S3Uploader s3Uploader;
     private final UserSaveUpdateService userSaveUpdateService;
     private final RecipeSaveUpdateService recipeSaveUpdateService;
+    private final UserGetService userGetService;
+    private final S3Remover s3Remover;
 
     //유저 프로필 업로드 후 유저 테이블에서 프로필 업데이트.
     @PostMapping("user/update/profileImage/{userId}")
@@ -52,13 +53,6 @@ public class S3UploadController {
 
         return new ResponseEntity(DefaultRes.res(StatusCode.OK, ResponseMessage.UPLOAD_SUCCESS, fileUploadResponse), HttpStatus.OK);
     }
-    //이미지 템프 업로드
-    @PostMapping("/image/upload")
-    public ResponseEntity uploadRecipeTemp(@RequestParam("recipeImage") MultipartFile multipartFile) throws IOException {
-        //S3 Bucket 내부에 "src" 폴더
-        FileUploadResponse fileUploadResponse = s3Uploader.uploadImage(multipartFile, "src");
-        return new ResponseEntity(DefaultRes.res(StatusCode.OK, ResponseMessage.UPLOAD_SUCCESS, fileUploadResponse), HttpStatus.OK);
-    }
 
     //레시피 이미지들 업로드 후 레시피 디테일 테이블에서 이미지들 업데이트.
     @PostMapping("recipe/save/recipeImages/{recipeId}")
@@ -71,5 +65,22 @@ public class S3UploadController {
 
         return new ResponseEntity(DefaultRes.res(StatusCode.OK, ResponseMessage.UPLOAD_SUCCESS, fileUploadResponseList), HttpStatus.OK);
     }
+    //이미지 템프 업로드
+    @PostMapping("/image/upload")
+    public ResponseEntity uploadRecipeTemp(@RequestParam("recipeImage") MultipartFile multipartFile) throws IOException {
+        //S3 Bucket 내부에 "src" 폴더
+        FileUploadResponse fileUploadResponse = s3Uploader.uploadImage(multipartFile, "src");
+        return new ResponseEntity(DefaultRes.res(StatusCode.OK, ResponseMessage.UPLOAD_SUCCESS, fileUploadResponse), HttpStatus.OK);
+
+    }
+
+    // Get 이미지 주소, 유저 토큰아이디를 받아서 MyPage 양식 반환.
+    @GetMapping("/image/apply")
+    public UserDto applyImage(@RequestParam("userId")String userId, @RequestParam("postImage")String postImage) throws IOException {
+
+        userSaveUpdateService.updateProfile(userId, postImage); // 프로필 업데이트
+        return userGetService.findUserByTokenId(userId);
+    }
+
 
 }
