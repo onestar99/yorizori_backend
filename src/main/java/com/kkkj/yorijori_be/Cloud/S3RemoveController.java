@@ -13,19 +13,17 @@ public class S3RemoveController {
     private final UserSaveUpdateService userSaveUpdateService;
 
 
+    // 프로필 S3 삭제
     @GetMapping("/remove/profile")
-    public String removeProfileByAddress(@RequestParam String userId, @RequestParam String imageAddress){
+    public String removeProfileByAddress(@RequestParam String imageAddress){
         String result = s3Remover.deleteProfileImage(imageAddress); // 이미지 S3에서 삭제
-        // 프로필 이미지 default로 수정 ->
-        String defaultImage = "https://yorizori-s3.s3.ap-northeast-2.amazonaws.com/default/defaultProfile.png";
-        userSaveUpdateService.updateProfile(userId, defaultImage);
         return result;
     }
 
-    @PostMapping("/remove")
+    // 일반 이미지 S3 삭제
+    @PostMapping("/remove/recipe")
     public String removeRecipeByAddress(@RequestParam String imageAddress){
         String result = s3Remover.deleteFile(imageAddress); // 이미지 S3에서 삭제
-        // 프로필 이미지 default로 수정 ->
         return result;
     }
 

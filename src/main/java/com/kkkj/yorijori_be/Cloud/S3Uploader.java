@@ -27,11 +27,11 @@ public class S3Uploader {
 
 
     // 프로필 이미지 1개 저장하기
-    public FileUploadResponse uploadProfile(String userId, MultipartFile multipartFile, String dirName) throws IOException {
+    public FileUploadResponse uploadProfile(MultipartFile multipartFile, String dirName) throws IOException {
 
         File uploadFile = convert(multipartFile)
                 .orElseThrow(() -> new IllegalArgumentException("MultipartFile -> File로 전환이 실패했습니다."));
-        return uploadS3ProfileImage(userId, uploadFile, dirName);
+        return uploadS3ProfileImage(uploadFile, dirName);
 
     }
     // 이미지 1개 저장하기
@@ -57,7 +57,7 @@ public class S3Uploader {
     }
 
 
-    private FileUploadResponse uploadS3ProfileImage(String userId, File uploadFile, String dirName) {
+    private FileUploadResponse uploadS3ProfileImage(File uploadFile, String dirName) {
 
         log.info("파일 확장자 : " + getExtension(uploadFile));
         String Extension = getExtension(uploadFile);

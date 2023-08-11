@@ -33,7 +33,7 @@ public class S3UploadController {
     public ResponseEntity uploadProfileImage(@PathVariable String userId, @RequestParam("profileImage") MultipartFile multipartFile) throws IOException {
 
         //S3 Bucket 내부에 "/userImage" 폴더
-        FileUploadResponse fileUploadResponse = s3Uploader.uploadProfile(userId, multipartFile, "userImage");
+        FileUploadResponse fileUploadResponse = s3Uploader.uploadProfile(multipartFile, "userImage");
         // 유저 프로필이미지 정보를 업데이트
         String dbFileName = "https://yorizori-s3.s3.ap-northeast-2.amazonaws.com/" + fileUploadResponse.getFileName();
         userSaveUpdateService.updateProfile(userId, dbFileName);
@@ -65,11 +65,20 @@ public class S3UploadController {
 
         return new ResponseEntity(DefaultRes.res(StatusCode.OK, ResponseMessage.UPLOAD_SUCCESS, fileUploadResponseList), HttpStatus.OK);
     }
-    //이미지 템프 업로드
-    @PostMapping("/image/upload")
-    public ResponseEntity uploadUserImageTemp(@RequestParam("profileImage") MultipartFile multipartFile) throws IOException {
+
+    // 유저 프로필 이미지 템프 업로드
+    @PostMapping("/image/upload/profile")
+    public ResponseEntity uploadProfileTemp(@RequestParam("profileImage") MultipartFile multipartFile) throws IOException {
         //S3 Bucket 내부에 "userImage" 폴더
         FileUploadResponse fileUploadResponse = s3Uploader.uploadImage(multipartFile, "userImage");
+        return new ResponseEntity(DefaultRes.res(StatusCode.OK, ResponseMessage.UPLOAD_SUCCESS, fileUploadResponse), HttpStatus.OK);
+    }
+
+    // 레시피 이미지 템프 업로드
+    @PostMapping("/image/upload/recipe")
+    public ResponseEntity uploadRecipeImageTemp(@RequestParam("recipeImage") MultipartFile multipartFile) throws IOException {
+        //S3 Bucket 내부에 "src" 폴더
+        FileUploadResponse fileUploadResponse = s3Uploader.uploadImage(multipartFile, "src");
         return new ResponseEntity(DefaultRes.res(StatusCode.OK, ResponseMessage.UPLOAD_SUCCESS, fileUploadResponse), HttpStatus.OK);
 
     }
@@ -78,7 +87,8 @@ public class S3UploadController {
     @GetMapping("/image/apply")
     public UserDto applyImage(@RequestParam("userId")String userId, @RequestParam("postNickname")String nickName, @RequestParam("postImage")String postImage) throws IOException {
 
-        userSaveUpdateService.updateProfile(userId, postImage); // 프로필 업데이트
+        String dbFileName = "https://yorizori-s3.s3.ap-northeast-2.amazonaws.com/" + postImage.toString();
+        userSaveUpdateService.updateProfile(userId, dbFileName); // 프로필 업데이트
         userSaveUpdateService.updateNickNameById(userId, nickName); // 닉네임 업데이트
         return userGetService.findUserByTokenId(userId);
     }
