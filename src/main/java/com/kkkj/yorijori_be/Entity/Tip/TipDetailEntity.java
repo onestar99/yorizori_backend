@@ -31,5 +31,8 @@ public class TipDetailEntity extends BaseTimeEntity {
     @Column(name = "tip_image")
     private String tipImage;
 
+    @Column(name = "order_index")
+    private Integer order; // 순서
+
 
 }
