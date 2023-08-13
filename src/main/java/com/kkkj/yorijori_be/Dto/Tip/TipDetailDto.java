@@ -1,5 +1,6 @@
 package com.kkkj.yorijori_be.Dto.Tip;
 
+import com.kkkj.yorijori_be.Entity.Tip.TipDetailEntity;
 import com.kkkj.yorijori_be.Entity.Tip.TipEntity;
 import lombok.Builder;
 import lombok.Getter;
@@ -38,6 +39,15 @@ public class TipDetailDto {
                 .reviewCount(tipEntity.getTipReviewCount())
                 .build();
         return tipDetailDto;
+    }
+
+    public TipDetailEntity toEntity(){
+        TipDetailEntity build = TipDetailEntity.builder()
+                .tipDetail(contents)
+                .tipImage(thumbnail)
+                .build();
+
+        return build;
     }
 
 }

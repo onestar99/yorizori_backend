@@ -2,6 +2,7 @@ package com.kkkj.yorijori_be.Entity.Tip;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.kkkj.yorijori_be.Entity.BaseTimeEntity;
+import com.kkkj.yorijori_be.Entity.Recipe.RecipeEntity;
 import com.kkkj.yorijori_be.Entity.User.UserEntity;
 import jakarta.persistence.*;
 import lombok.*;
@@ -33,6 +34,14 @@ public class TipDetailEntity extends BaseTimeEntity {
 
     @Column(name = "order_index")
     private Integer order; // 순서
+
+    // 팁 디테일 저장할 때 순서 설정
+    public void setOrder(int orderIndex) {
+        this.order = orderIndex;
+    }
+
+    // tipid setting
+    public void setTip(TipEntity tip) { this.tip = tip; }
 
 
 }
