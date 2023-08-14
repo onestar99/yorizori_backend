@@ -1,6 +1,7 @@
 package com.kkkj.yorijori_be.Controller.Tip;
 
 import com.kkkj.yorijori_be.Dto.Tip.TipDetailDto;
+import com.kkkj.yorijori_be.Dto.Tip.TipDetailsDto;
 import com.kkkj.yorijori_be.Dto.Tip.TipListDto;
 import com.kkkj.yorijori_be.Entity.Tip.TipEntity;
 import com.kkkj.yorijori_be.Repository.Tip.TipRepository;
@@ -49,18 +50,21 @@ public class TipGetController {
         return tipGetService.getTipsPart();
     }
 
-    @GetMapping("/details/{userTokenId}") @ResponseBody
-    public Page<TipDetailDto> getTipDetailsById(
-            @PathVariable String userTokenId,
-            @RequestParam(value = "pageNo", defaultValue = "1", required = false) int pageNo,
-            @RequestParam(value = "pageSize", defaultValue = "8", required = false) int pageSize
+    @GetMapping("/details/{tipId}") @ResponseBody
+    public TipDetailsDto getTipDetailsById(
+            @PathVariable Long tipId
+//            ,@RequestParam(value = "pageNo", defaultValue = "1", required = false) int pageNo,
+//            @RequestParam(value = "pageSize", defaultValue = "8", required = false) int pageSize
     ){
-        List<TipDetailDto> tipDetailDtos= tipGetService.getTipDetailById(userTokenId);
-        PageRequest pageRequest = PageRequest.of(pageNo,pageSize);
-        int start = (int) pageRequest.getOffset();
-        int end = Math.min((start + pageRequest.getPageSize()),tipDetailDtos.size());
-        Page<TipDetailDto> tipDetailDtosPage = new PageImpl<>(tipDetailDtos.subList(start,end),pageRequest,tipDetailDtos.size());
-        return tipDetailDtosPage;
+        TipDetailsDto tipDetailsDto = tipGetService.getTipDetailByTipId(tipId);
+        return tipDetailsDto;
+
+//        List<TipDetailDto> tipDetailDtos= tipGetService.getTipDetailById(userTokenId);
+//        PageRequest pageRequest = PageRequest.of(pageNo,pageSize);
+//        int start = (int) pageRequest.getOffset();
+//        int end = Math.min((start + pageRequest.getPageSize()),tipDetailDtos.size());
+//        Page<TipDetailDto> tipDetailDtosPage = new PageImpl<>(tipDetailDtos.subList(start,end),pageRequest,tipDetailDtos.size());
+//        return tipDetailDtosPage;
     }
 
 }
