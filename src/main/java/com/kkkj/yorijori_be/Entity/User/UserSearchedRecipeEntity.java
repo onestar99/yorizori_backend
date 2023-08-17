@@ -28,5 +28,6 @@ public class UserSearchedRecipeEntity extends BaseTimeEntity {
     @Column(name = "searched_log")
     private String searchedlog;
 
-
+    @Column(name = "scope", length = 4)
+    private Integer scope;
 }

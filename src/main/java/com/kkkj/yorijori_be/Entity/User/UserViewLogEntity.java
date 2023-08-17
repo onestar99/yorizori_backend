@@ -30,5 +30,7 @@ public class UserViewLogEntity extends BaseTimeEntity {
     @JoinColumn(name = "view_recipe_id")
     private RecipeEntity viewrecipeid;
 
+    @Column(name = "scope", length = 4)
+    private int scope;
 
 }

@@ -6,6 +6,7 @@ import com.kkkj.yorijori_be.Dto.Recipe.RecipeListDto;
 import com.kkkj.yorijori_be.Entity.Recipe.RecipeEntity;
 import com.kkkj.yorijori_be.Service.Recipe.RecipeGetService;
 import com.kkkj.yorijori_be.Service.Recipe.RecipeSaveUpdateService;
+import com.kkkj.yorijori_be.Service.User.UserSaveUpdateService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -25,7 +26,7 @@ public class RecipeGetController {
 
     private final RecipeGetService recipeGetService;
     private final RecipeSaveUpdateService recipeSaveUpdateService;
-
+    private final UserSaveUpdateService userSaveUpdateService;
 
     // 모든 레시피 정보 페이징 처리
     @GetMapping("/all/paging") @ResponseBody
@@ -47,6 +48,8 @@ public class RecipeGetController {
         recipeSaveUpdateService.updateRecipeHits(recipeId);
         // DTO 만들기
         RecipeDetailsDto recipeDetailsDto = recipeGetService.getRecipeDetailsByRecipeId(recipeId);
+        // 유저 로그
+
 
         return recipeDetailsDto;
     }
