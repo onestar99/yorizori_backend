@@ -28,18 +28,7 @@ public class S3UploadController {
     private final UserGetService userGetService;
     private final S3Remover s3Remover;
 
-    //유저 프로필 업로드 후 유저 테이블에서 프로필 업데이트.
-    @PostMapping("user/update/profileImage/{userId}")
-    public ResponseEntity uploadProfileImage(@PathVariable String userId, @RequestParam("profileImage") MultipartFile multipartFile) throws IOException {
 
-        //S3 Bucket 내부에 "/userImage" 폴더
-        FileUploadResponse fileUploadResponse = s3Uploader.uploadProfile(multipartFile, "userImage");
-        // 유저 프로필이미지 정보를 업데이트
-        String dbFileName = "https://yorizori-s3.s3.ap-northeast-2.amazonaws.com/" + fileUploadResponse.getFileName();
-        userSaveUpdateService.updateProfile(userId, dbFileName);
-
-        return new ResponseEntity(DefaultRes.res(StatusCode.OK, ResponseMessage.UPLOAD_SUCCESS, fileUploadResponse), HttpStatus.OK);
-    }
 
     //레시피 썸네일 이미지 업로드 후 레시피 테이블에서 썸네일 업데이트.
     @PostMapping("/recipe/save/thumbnail/{recipeId}")

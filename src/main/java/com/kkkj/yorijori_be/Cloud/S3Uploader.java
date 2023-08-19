@@ -13,6 +13,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.security.cert.Extension;
 import java.util.*;
 
 @Slf4j
@@ -84,7 +85,7 @@ public class S3Uploader {
         log.info("파일 확장자 : " + getExtension(uploadFile));
         String Extension = getExtension(uploadFile);
 
-        if (Objects.equals(Extension, "png") || Objects.equals(Extension, "jpeg") || Objects.equals(Extension, "jpg")){
+        if (fileExtensionConfirm(Extension)){
 
             // UUID 생성하여 이미지 네이밍
             UUID uuid4 = UUID.randomUUID();
@@ -110,7 +111,7 @@ public class S3Uploader {
         * -완료-
         * */
 
-        if (Objects.equals(Extension, "png") || Objects.equals(Extension, "jpeg") || Objects.equals(Extension, "jpg")){
+        if (fileExtensionConfirm(Extension)){
 
             // UUID 생성하여 이미지 네이밍
             UUID uuid4 = UUID.randomUUID();
@@ -171,6 +172,27 @@ public class S3Uploader {
         String extension = fileName.substring(fileName.lastIndexOf(".") + 1);
         return extension;
     }
+
+
+    // 파일 확장자 확인 검증
+    private boolean fileExtensionConfirm(String Extension){
+
+        ArrayList<String> stringArrayList = new ArrayList<String>();
+        stringArrayList.add("png");
+        stringArrayList.add("PNG");
+        stringArrayList.add("jpeg");
+        stringArrayList.add("JPEG");
+        stringArrayList.add("jpg");
+        stringArrayList.add("JPG");
+
+        for(String str: stringArrayList){
+            if (Objects.equals(Extension, str)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
 
 
 }
