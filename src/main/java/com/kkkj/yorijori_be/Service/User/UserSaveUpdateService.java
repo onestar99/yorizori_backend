@@ -2,12 +2,15 @@ package com.kkkj.yorijori_be.Service.User;
 
 import com.kkkj.yorijori_be.Dto.User.UserCommentDto;
 import com.kkkj.yorijori_be.Dto.User.UserDto;
+import com.kkkj.yorijori_be.Dto.User.UserLogDto;
 import com.kkkj.yorijori_be.Entity.Recipe.RecipeEntity;
 import com.kkkj.yorijori_be.Entity.User.UserCommentEntity;
 import com.kkkj.yorijori_be.Entity.User.UserEntity;
+import com.kkkj.yorijori_be.Entity.User.UserViewLogEntity;
 import com.kkkj.yorijori_be.Repository.Recipe.RecipeRepository;
 import com.kkkj.yorijori_be.Repository.User.UserCommentRepository;
 import com.kkkj.yorijori_be.Repository.User.UserRepository;
+import com.kkkj.yorijori_be.Repository.User.UserViewLogRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.java.Log;
@@ -25,6 +28,7 @@ public class UserSaveUpdateService {
     private final UserRepository userRepository;
     private final UserCommentRepository userCommentRepository;
     private final RecipeRepository recipeRepository;
+    private final UserViewLogRepository userViewLogRepository;
 
     // 유저 저장
     @Transactional
@@ -104,5 +108,19 @@ public class UserSaveUpdateService {
         return userCommentDto.getUserTokenId() != null;
     }
 
-
+    @Transactional
+    public void saveUserLog(String usertokenId, Long recipeId){
+        UserEntity userEntity = userRepository.findByUserTokenId(usertokenId);
+        RecipeEntity recipeEntity = recipeRepository.findByRecipeId(recipeId);
+        UserViewLogEntity userViewLogEntity = userViewLogRepository.findByUserIdAndRecipeId(userEntity,recipeEntity);
+        if(userViewLogEntity==null){
+            userViewLogEntity = new UserViewLogEntity();
+            userViewLogEntity.setRecipe(recipeEntity);
+            userViewLogEntity.setUser(userEntity);
+            userViewLogEntity.setScope(1);
+            userViewLogRepository.save(userViewLogEntity);
+        }else{
+            userViewLogRepository.updateView(userViewLogEntity.getUserviewlogid());
+        }
+    }
 }

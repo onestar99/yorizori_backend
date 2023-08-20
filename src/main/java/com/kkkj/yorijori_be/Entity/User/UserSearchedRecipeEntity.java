@@ -18,12 +18,12 @@ public class UserSearchedRecipeEntity extends BaseTimeEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "searched_Recipe_log_id")
-    private Long searchedrecipeid;
+    private Long recipeId;
 
     @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "user_token_id")
-    private UserEntity user;
+    private UserEntity userId;
 
     @Column(name = "searched_log")
     private String searchedlog;

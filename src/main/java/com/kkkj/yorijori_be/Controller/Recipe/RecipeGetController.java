@@ -41,16 +41,16 @@ public class RecipeGetController {
 
     // 레시피 디테일 정보 recipeId를 파라미터로 받아 RecipeDetailsDto 반환
     @ResponseBody
-    @GetMapping("/details/{recipeId}")
-    public RecipeDetailsDto getRecipeDetails(@PathVariable Long recipeId){
+//    @GetMapping("/details/{recipeId}/{usertokenId}")
+    @RequestMapping(value = "/details/{recipeId}/{usertokenId}",method = {RequestMethod.GET, RequestMethod.POST})
+    public RecipeDetailsDto getRecipeDetails(@PathVariable Long recipeId, @PathVariable String usertokenId){
 
         // 레시피 조회이므로 조회수 1 올리기.
         recipeSaveUpdateService.updateRecipeHits(recipeId);
         // DTO 만들기
         RecipeDetailsDto recipeDetailsDto = recipeGetService.getRecipeDetailsByRecipeId(recipeId);
         // 유저 로그
-
-
+        userSaveUpdateService.saveUserLog(usertokenId,recipeId);
         return recipeDetailsDto;
     }
 

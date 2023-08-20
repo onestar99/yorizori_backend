@@ -1,5 +1,6 @@
 package com.kkkj.yorijori_be.Dto.User;
 
+import com.kkkj.yorijori_be.Entity.User.UserViewLogEntity;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -12,8 +13,14 @@ import java.time.LocalDateTime;
 @ToString
 @NoArgsConstructor
 public class UserLogDto {
-    private String userTokenId;
-    private String recipeId;
     private int scope;
     private LocalDateTime createdTime;
+
+    public UserViewLogEntity toEntity(){
+        UserViewLogEntity build = UserViewLogEntity.builder()
+                .scope(scope)
+                .build();
+
+        return build;
+    }
 }
