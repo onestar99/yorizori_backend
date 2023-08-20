@@ -50,7 +50,9 @@ public class RecipeGetController {
         // DTO 만들기
         RecipeDetailsDto recipeDetailsDto = recipeGetService.getRecipeDetailsByRecipeId(recipeId);
         // 유저 로그
-        userSaveUpdateService.saveUserLog(usertokenId,recipeId);
+        if(usertokenId !=null){
+            userSaveUpdateService.saveUserLog(usertokenId,recipeId);
+        }
         return recipeDetailsDto;
     }
 
