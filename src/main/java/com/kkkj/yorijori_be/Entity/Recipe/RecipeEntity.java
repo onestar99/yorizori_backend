@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.kkkj.yorijori_be.Entity.BaseTimeEntity;
 import com.kkkj.yorijori_be.Entity.User.UserCommentEntity;
 import com.kkkj.yorijori_be.Entity.User.UserEntity;
+import com.kkkj.yorijori_be.Entity.User.UserViewLogEntity;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -82,6 +83,9 @@ public class RecipeEntity extends BaseTimeEntity {
     @OneToMany(mappedBy = "board", cascade = CascadeType.ALL)
     private List<UserCommentEntity> comments;
 
+    @JsonIgnore
+    @OneToMany(mappedBy = "board", cascade = CascadeType.ALL)
+    private List<UserViewLogEntity> viewlog;
 
     // 레시피 썸네일 주소 업데이트
     public void updateThumbnail(String thumbnailAddress) {

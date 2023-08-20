@@ -1,10 +1,13 @@
 package com.kkkj.yorijori_be.Service.User;
 
 import com.kkkj.yorijori_be.Dto.User.UserDto;
+import com.kkkj.yorijori_be.Dto.User.UserLogDto;
 import com.kkkj.yorijori_be.Entity.User.UserCommentEntity;
 import com.kkkj.yorijori_be.Entity.User.UserEntity;
 import com.kkkj.yorijori_be.Entity.User.UserTipCommentEntity;
+import com.kkkj.yorijori_be.Entity.User.UserViewLogEntity;
 import com.kkkj.yorijori_be.Repository.User.UserRepository;
+import com.kkkj.yorijori_be.Repository.User.UserViewLogRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -22,6 +25,7 @@ import java.util.Optional;
 public class UserGetService {
 
     private final UserRepository userRepository;
+    private final UserViewLogRepository userViewLogRepository;
 
 
     // 모든 유저 검색
@@ -72,6 +76,10 @@ public class UserGetService {
         return user.getTipComments();
     }
 
+//    public List<UserViewLogEntity> getUserViewLog(String userTokenId){
+//        UserEntity user = userRepository.findByUserTokenId(userTokenId);
+//        return user.getViewLog();
+//    }
 
 
 }
