@@ -30,9 +30,6 @@ public class UserViewLogEntity extends BaseTimeEntity {
     @JoinColumn(name = "view_recipe_id")
     private RecipeEntity recipeId;
 
-    @Column(name = "scope", length = 4)
-    private int scope;
-
     public void setUser(UserEntity user) {
         this.userId = user;
     }
@@ -41,6 +38,5 @@ public class UserViewLogEntity extends BaseTimeEntity {
         this.recipeId = recipe;
     }
 
-    public void setScope(int scope){this.scope = scope;}
 
 }

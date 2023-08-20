@@ -112,15 +112,9 @@ public class UserSaveUpdateService {
     public void saveUserLog(String usertokenId, Long recipeId){
         UserEntity userEntity = userRepository.findByUserTokenId(usertokenId);
         RecipeEntity recipeEntity = recipeRepository.findByRecipeId(recipeId);
-        UserViewLogEntity userViewLogEntity = userViewLogRepository.findByUserIdAndRecipeId(userEntity,recipeEntity);
-        if(userViewLogEntity==null){
-            userViewLogEntity = new UserViewLogEntity();
-            userViewLogEntity.setRecipe(recipeEntity);
-            userViewLogEntity.setUser(userEntity);
-            userViewLogEntity.setScope(1);
-            userViewLogRepository.save(userViewLogEntity);
-        }else{
-            userViewLogRepository.updateView(userViewLogEntity.getUserviewlogid());
-        }
+        UserViewLogEntity userViewLogEntity = new UserViewLogEntity();
+        userViewLogEntity.setRecipe(recipeEntity);
+        userViewLogEntity.setUser(userEntity);
+        userViewLogRepository.save(userViewLogEntity);
     }
 }

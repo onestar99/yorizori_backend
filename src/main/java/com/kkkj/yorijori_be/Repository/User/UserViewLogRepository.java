@@ -9,9 +9,5 @@ import org.springframework.data.repository.query.Param;
 
 public interface UserViewLogRepository extends JpaRepository<UserViewLogEntity, String> {
 
-    UserViewLogEntity findByUserIdAndRecipeId(UserEntity userEntity, RecipeEntity recipe);
 
-    @Modifying
-    @Query("update UserViewLogEntity r set r.scope = r.scope + 1 where r.userviewlogid = :viewlogid")
-    void updateView(@Param("viewlogid") Long viewlogid);
 }
