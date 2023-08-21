@@ -34,8 +34,8 @@ public class TipDetailsDto {
                 .profileImg(tipEntity.getUser().getImageAddress())
                 .nickname(tipEntity.getUser().getNickname())
                 .date(tipEntity.getCreatedTime())
-                .heartCount(tipEntity.getTipHits())
-                .viewCount(tipEntity.getTipScope())
+                .heartCount(tipEntity.getTipHeartCount())
+                .viewCount(tipEntity.getTipHits())
                 .reviewCount(tipEntity.getTipReviewCount())
                 .order(order)
                 .build();

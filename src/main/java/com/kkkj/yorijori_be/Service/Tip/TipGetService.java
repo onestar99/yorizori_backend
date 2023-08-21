@@ -28,14 +28,7 @@ public class TipGetService {
     private final TipRepository tipRepository;
     private final UserRepository userRepository;
 
-    public Page<TipEntity> getTipPaging(int pageNo, int pageSize, String sortBy){
 
-        // 페이지 인스턴스 생성
-//        Pageable pageable = PageRequest.of(pageNo, pageSize, Sort.by(sortBy).descending());
-        Pageable pageable = PageRequest.of(pageNo, pageSize);
-        return tipRepository.findAll(pageable);
-
-    }
 
 
 

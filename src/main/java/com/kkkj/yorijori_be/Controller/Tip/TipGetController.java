@@ -22,20 +22,13 @@ public class TipGetController {
 
     private final TipGetService tipGetService;
 
-    @GetMapping("/all/paging") @ResponseBody
-    public Page<TipEntity> getAllPaging(
-            @RequestParam(value = "pageNo", defaultValue = "0", required = false) int pageNo,
-            @RequestParam(value = "pageSize", defaultValue = "3", required = false) int pageSize,
-            @RequestParam(value = "sortBy", defaultValue = "user_token_id", required = false) String sortBy
-    ){
-        return tipGetService.getTipPaging(pageNo, pageSize, sortBy);
-    }
 
     @GetMapping("/all") @ResponseBody
     public Page<TipListDto> getTipAll(
-            @RequestParam(value = "pageNo", defaultValue = "1", required = false) int pageNo,
-            @RequestParam(value = "pageSize", defaultValue = "12", required = false) int pageSize
+            @RequestParam(value = "pageNo", defaultValue = "0", required = false) int pageNo
             ){
+        // 페이지 사이즈 고정
+        int pageSize = 12;
         List<TipListDto> tipListDtoList= tipGetService.getTipsPart();
         PageRequest pageRequest = PageRequest.of(pageNo,pageSize);
         int start = (int) pageRequest.getOffset();
@@ -46,12 +39,12 @@ public class TipGetController {
 
     @GetMapping("/part") @ResponseBody
     public List<TipListDto> getTipPartall(){
-        return tipGetService.getTipsPart();
+        return tipGetService.getTipsPart().subList(0,8);
     }
 
-    @GetMapping("/details/{tipId}") @ResponseBody
+    @GetMapping("/details") @ResponseBody
     public TipDetailsDto getTipDetailsById(
-            @PathVariable Long tipId
+            @RequestParam(value = "tipId", required = false) Long tipId
     ){
         TipDetailsDto tipDetailsDto = tipGetService.getTipDetailByTipId(tipId);
         return tipDetailsDto;
