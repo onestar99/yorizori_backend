@@ -26,9 +26,31 @@ public class RecipeDto {
     private String referenceRecipe;
     private String scope = "0.0";
     private String recipeIntro;
-    private int scopeCount = 0;
     private String recipeThumbnail;
     private int reviewCount = 0;
+    private String userTokenId;
+    private String level;
+    private String time;
+
+
+    static public RecipeDto recipeSaveDtoToDTO(RecipeSaveDto recipeSaveDto){
+        RecipeDto recipeDto = new RecipeDto();
+        recipeDto.setRecipeTitle(recipeSaveDto.recipeInfo.title);
+        recipeDto.setCategory(recipeSaveDto.recipeInfo.category);
+        recipeDto.setDishName(null);
+        recipeDto.setRecipeHits(0);
+        recipeDto.setAuthorship(null);
+        recipeDto.setScope("0.0");
+        recipeDto.setRecipeIntro(recipeSaveDto.recipeInfo.explain);
+        recipeDto.setRecipeThumbnail(recipeSaveDto.thumbnail);
+        recipeDto.setReviewCount(0);
+        recipeDto.setUserTokenId(recipeSaveDto.getUserId());
+        recipeDto.setLevel(recipeSaveDto.recipeInfo.getLevel());
+        recipeDto.setTime(recipeSaveDto.recipeInfo.getTime());
+
+        return recipeDto;
+
+    }
 
 
     public RecipeEntity toEntity(){
@@ -42,6 +64,8 @@ public class RecipeDto {
                 .scope(scope)
                 .recipeThumbnail(recipeThumbnail)
                 .reviewCount(reviewCount)
+                .time(time)
+                .level(level)
                 .build();
 
         return build;
