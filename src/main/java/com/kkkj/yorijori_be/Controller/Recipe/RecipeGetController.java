@@ -107,7 +107,9 @@ public class RecipeGetController {
     public List<RecipeListDto> getTitleSearchedPaging(
             @RequestParam(value = "userId", required = false) String userId,
             @RequestParam(value="keyword") String searchKeyword){
-        userSaveUpdateService.saveSearchedRecipeLog(userId,searchKeyword);
+        if(userId!=null){
+            userSaveUpdateService.saveSearchedRecipeLog(userId,searchKeyword);
+        }
         return recipeGetService.recipeSearchList(searchKeyword);
 
     }
@@ -127,7 +129,9 @@ public class RecipeGetController {
     public List<RecipeListDto> getIngredientAllSearchedPaging(
             @RequestParam(value = "userId", required = false) String userId,
             @RequestParam(value="keyword") String searchKeywords){
-        userSaveUpdateService.saveSearchedIngredientLog(userId,searchKeywords);
+        if (userId!=null){
+            userSaveUpdateService.saveSearchedIngredientLog(userId,searchKeywords);
+        }
         List<String> ingredients = Arrays.asList(searchKeywords.split(","));
         return recipeGetService.recipeIngredientAllSearchList(ingredients);
     }
