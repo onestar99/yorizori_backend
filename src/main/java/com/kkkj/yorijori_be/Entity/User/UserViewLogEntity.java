@@ -5,6 +5,9 @@ import com.kkkj.yorijori_be.Entity.BaseTimeEntity;
 import com.kkkj.yorijori_be.Entity.Recipe.RecipeEntity;
 import jakarta.persistence.*;
 import lombok.*;
+import org.springframework.data.annotation.CreatedDate;
+
+import java.time.LocalDateTime;
 
 @ToString
 @Getter
@@ -13,7 +16,7 @@ import lombok.*;
 @NoArgsConstructor
 @Table(name = "user_view_log")
 @Entity
-public class UserViewLogEntity extends BaseTimeEntity {
+public class UserViewLogEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -24,6 +27,11 @@ public class UserViewLogEntity extends BaseTimeEntity {
     @ManyToOne
     @JoinColumn(name = "user_token_id")
     private UserEntity user;
+
+    @CreatedDate
+    @Column(updatable = false)
+    private LocalDateTime createdTime;
+
 
     @JsonIgnore
     @ManyToOne
