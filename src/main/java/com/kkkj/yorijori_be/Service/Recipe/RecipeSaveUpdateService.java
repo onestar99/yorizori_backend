@@ -1,13 +1,15 @@
 package com.kkkj.yorijori_be.Service.Recipe;
 
 import com.kkkj.yorijori_be.Dto.Cloud.FileUploadResponse;
-import com.kkkj.yorijori_be.Dto.Recipe.RecipeDetailDto;
-import com.kkkj.yorijori_be.Dto.Recipe.RecipeDto;
-import com.kkkj.yorijori_be.Dto.Recipe.RecipePostDto;
+import com.kkkj.yorijori_be.Dto.Recipe.*;
+import com.kkkj.yorijori_be.Entity.Recipe.RecipeCategoryTagEntity;
 import com.kkkj.yorijori_be.Entity.Recipe.RecipeDetailEntity;
 import com.kkkj.yorijori_be.Entity.Recipe.RecipeEntity;
+import com.kkkj.yorijori_be.Entity.Recipe.RecipeIngredientTagEntity;
 import com.kkkj.yorijori_be.Entity.User.UserEntity;
+import com.kkkj.yorijori_be.Repository.Recipe.RecipeCategoryTagRepository;
 import com.kkkj.yorijori_be.Repository.Recipe.RecipeDetailRepository;
+import com.kkkj.yorijori_be.Repository.Recipe.RecipeIngredientTagRepository;
 import com.kkkj.yorijori_be.Repository.Recipe.RecipeRepository;
 import com.kkkj.yorijori_be.Repository.User.UserRepository;
 import jakarta.transaction.Transactional;
@@ -15,6 +17,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -27,9 +30,10 @@ public class RecipeSaveUpdateService {
     private final RecipeRepository recipeRepository;
     private final UserRepository userRepository;
     private final RecipeDetailRepository recipeDetailRepository;
+    private final RecipeIngredientTagRepository recipeIngredientTagRepository;
+    private final RecipeCategoryTagRepository recipeCategoryTagRepository;
 
-
-    public void saveRecipe(String userTokenId, RecipeDto recipeDto){
+    public Long saveRecipe(String userTokenId, RecipeDto recipeDto){
 
         // TokenId를 통해 유저 정보 찾기
         UserEntity userEntity = userRepository.findByUserTokenId(userTokenId);
@@ -40,31 +44,65 @@ public class RecipeSaveUpdateService {
         // User에 recipe Entity 추가
         userEntity.getRecipes().add(recipeEntity);
 
-        System.out.println(userEntity.getRecipes().get(0).getRecipeTitle());
-        System.out.println(userEntity.getUserTokenId());
-
 
         // 저장
-        userRepository.save(userEntity);
+        UserEntity user = userRepository.save(userEntity);
+        int recipeSize = user.getRecipes().size();
+        Long recipeId = user.getRecipes().get(recipeSize-1).getRecipeId();
+
+        return recipeId;
+
 
     }
 
 
-    public void saveRecipeDetails(RecipePostDto recipePostDto){
-        recipePostDto.getRecipeId();
+    // 레시피 디테일 정보들 저장
+    public void saveRecipeDetails(Long recipeId, RecipeSaveDto recipeSaveDto){
 
         // TokenId를 통해 유저 정보 찾기
-        RecipeEntity recipeEntity = recipeRepository.findByRecipeId(recipePostDto.getRecipeId());
+        RecipeEntity recipeEntity = recipeRepository.findByRecipeId(recipeId);
 
+        // 레시피 디테일 정보들 저장
+        for(int i = 0; i < recipeSaveDto.getRecipeDetail().size(); i++){
+            RecipeDetailEntity recipeDetailEntity = RecipeDetailEntity.builder()
+                    .recipeDetail(recipeSaveDto.getRecipeDetail().get(i).getText())
+                    .recipeImage(recipeSaveDto.getRecipeDetail().get(i).getImage())
+                    .recipe(recipeEntity)
+                    .order(i+1).build();
 
-        for(int i = 0; i < recipePostDto.getRecipeDetailDtoList().size(); i++){
-            RecipeDetailDto recipeDetailDto = recipePostDto.getRecipeDetailDtoList().get(i);
-            RecipeDetailEntity recipeDetailEntity = recipeDetailDto.toEntity();
-            recipeDetailEntity.setOrder(i+1);
-            recipeDetailEntity.setRecipe(recipeEntity);
-            recipeEntity.getDetails().add(recipeDetailEntity);
-            recipeRepository.save(recipeEntity);
+            recipeDetailRepository.save(recipeDetailEntity);
         }
+
+    }
+
+
+    public void saveRecipeIngredient(long recipeId, RecipeSaveDto recipeSaveDto){
+
+        RecipeEntity recipe = recipeRepository.findByRecipeId(recipeId);
+
+
+        // 반복문을 통해 main 재료 먼저 처리
+        for (RecipeIngredientSaveDto recipeIngredientSaveDto: recipeSaveDto.getMainIngredient()){
+            RecipeIngredientTagEntity recipeIngredientTagEntity = RecipeIngredientTagEntity.builder()
+                    .ingredientName(recipeIngredientSaveDto.getName())
+                    .ingredientSize(recipeIngredientSaveDto.getSize())
+                    .isMain("main")
+                    .recipe(recipe).build();
+            recipeIngredientTagRepository.save(recipeIngredientTagEntity);
+        }
+
+        // 반복문을 통해 semi 재료 처리
+        for (RecipeIngredientSaveDto recipeIngredientSaveDto: recipeSaveDto.getSemiIngredient()){
+            RecipeIngredientTagEntity recipeIngredientTagEntity = RecipeIngredientTagEntity.builder()
+                    .ingredientName(recipeIngredientSaveDto.getName())
+                    .ingredientSize(recipeIngredientSaveDto.getSize())
+                    .isMain("semi")
+                    .recipe(recipe).build();
+            recipeIngredientTagRepository.save(recipeIngredientTagEntity);
+        }
+
+
+
 
     }
 
@@ -93,5 +131,17 @@ public class RecipeSaveUpdateService {
             recipeDetailEntityList.get(i).updateRecipeImage(dbUploadStr);
         }
 
+    }
+
+
+    // 레시피 카테고리 저장
+    public void saveRecipeCategory(long recipeId, String category) {
+
+        RecipeEntity recipe = recipeRepository.findByRecipeId(recipeId);
+
+        RecipeCategoryTagEntity recipeCategoryTag = RecipeCategoryTagEntity.builder()
+                .category(category)
+                .recipe(recipe).build();
+        recipeCategoryTagRepository.save(recipeCategoryTag);
     }
 }

@@ -10,5 +10,5 @@ import lombok.ToString;
 public class RecipeDetailSaveDto {
 
     String text;
-    String size;
+    String image;
 }

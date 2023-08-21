@@ -34,6 +34,7 @@ public class RecipeDto {
 
 
     static public RecipeDto recipeSaveDtoToDTO(RecipeSaveDto recipeSaveDto){
+
         RecipeDto recipeDto = new RecipeDto();
         recipeDto.setRecipeTitle(recipeSaveDto.recipeInfo.title);
         recipeDto.setCategory(recipeSaveDto.recipeInfo.category);
@@ -42,7 +43,8 @@ public class RecipeDto {
         recipeDto.setAuthorship(null);
         recipeDto.setScope("0.0");
         recipeDto.setRecipeIntro(recipeSaveDto.recipeInfo.explain);
-        recipeDto.setRecipeThumbnail(recipeSaveDto.thumbnail);
+        String thumbnail = recipeSaveDto.thumbnail.split("https://yorizori-s3.s3.ap-northeast-2.amazonaws.com")[1];
+        recipeDto.setRecipeThumbnail(thumbnail);
         recipeDto.setReviewCount(0);
         recipeDto.setUserTokenId(recipeSaveDto.getUserId());
         recipeDto.setLevel(recipeSaveDto.recipeInfo.getLevel());
@@ -70,6 +72,7 @@ public class RecipeDto {
 
         return build;
     }
+
 
 
 }
