@@ -8,5 +8,4 @@ import java.util.List;
 
 public interface TipDetailRepository extends JpaRepository<TipDetailEntity, String> {
 
-    List<TipDetailEntity> findAllByTip_TipId(Long tip_tipId);
 }

@@ -37,10 +37,7 @@ public class TipGetService {
 
     }
 
-    public List<TipEntity> getTips(String userTokenId){
-        UserEntity user = userRepository.findByUserTokenId(userTokenId);
-        return user.getTips();
-    }
+
 
     public List<TipListDto> getTipsPart(){
         List<TipEntity> tipEntityList = tipRepository.findAll();

@@ -114,15 +114,6 @@ public class RecipeGetController {
 
     }
 
-//    @ResponseBody
-//    @GetMapping("/searchedingredient")
-//    public List<RecipeListDto> getIngredientSearchedPaging(
-//            @RequestParam(value = "usertokenId", required = false) String usertokenId,
-//            @RequestParam(value="keyword") String searchKeyword){
-//        userSaveUpdateService.saveSearchedIngredientLog(usertokenId,searchKeyword);
-//        return recipeGetService.recipeIngredientSearchList(searchKeyword);
-//    }
-
 
     @ResponseBody
     @GetMapping("/searchedingredientall")

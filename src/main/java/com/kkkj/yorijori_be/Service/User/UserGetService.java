@@ -21,7 +21,6 @@ import java.util.Optional;
 public class UserGetService {
 
     private final UserRepository userRepository;
-    private final UserViewLogRepository userViewLogRepository;
 
 
     // 모든 유저 검색
@@ -60,16 +59,5 @@ public class UserGetService {
         }
     }
 
-
-
-    public List<UserCommentEntity> getUserComments(String userTokenId){
-        UserEntity user = userRepository.findByUserTokenId(userTokenId);
-        return user.getComments();
-    }
-
-    public List<UserTipCommentEntity> getUserTipComments(String userTokenId){
-        UserEntity user = userRepository.findByUserTokenId(userTokenId);
-        return user.getTipComments();
-    }
 
 }

@@ -66,13 +66,6 @@ public class RecipeSaveUpdateService {
             recipeRepository.save(recipeEntity);
         }
 
-//        for(RecipeDetailDto recipeDetailDto : recipePostDto.getRecipeDetailDtoList()){
-//            RecipeDetailEntity recipeDetailEntity = recipeDetailDto.toEntity();
-//            recipeDetailEntity.setOrder()
-//            recipeDetailEntity.setRecipe(recipeEntity);
-//            recipeEntity.getDetails().add(recipeDetailEntity);
-//            recipeRepository.save(recipeEntity);
-//        }
     }
 
     @Transactional
