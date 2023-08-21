@@ -1,9 +1,7 @@
 package com.kkkj.yorijori_be.Service.User;
 
 import com.kkkj.yorijori_be.Dto.User.UserDto;
-import com.kkkj.yorijori_be.Entity.User.UserCommentEntity;
-import com.kkkj.yorijori_be.Entity.User.UserEntity;
-import com.kkkj.yorijori_be.Entity.User.UserTipCommentEntity;
+import com.kkkj.yorijori_be.Entity.User.*;
 import com.kkkj.yorijori_be.Repository.User.UserRepository;
 import com.kkkj.yorijori_be.Repository.User.UserViewLogRepository;
 import lombok.RequiredArgsConstructor;
@@ -73,13 +71,5 @@ public class UserGetService {
         UserEntity user = userRepository.findByUserTokenId(userTokenId);
         return user.getTipComments();
     }
-
-
-
-//    public List<UserViewLogEntity> getUserViewLog(String userTokenId){
-//        UserEntity user = userRepository.findByUserTokenId(userTokenId);
-//        return user.getViewLog();
-//    }
-
 
 }
