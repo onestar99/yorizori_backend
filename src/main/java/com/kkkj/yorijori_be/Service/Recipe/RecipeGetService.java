@@ -172,14 +172,7 @@ public class RecipeGetService {
         return recipeListDtoList;
     }
 
-    public List<RecipeListDto> recipeIngredientSearchList(String searchKeyword){
-        List<RecipeIngredientTagEntity> recipeIngredientTagEntityList = recipeIngredientTagRepository.findByIngredientNameContaining(searchKeyword);
-        List<RecipeListDto> recipeListDtoList = new ArrayList<>();
-        for(int i=0;i<recipeIngredientTagEntityList.size();i++){
-            recipeListDtoList.add(RecipeListDto.toDto(recipeIngredientTagEntityList.get(i).getRecipe()));
-        }
-        return recipeListDtoList;
-    }
+
 
     // 동적으로 재료 포함한 레시피 검색
     public List<RecipeListDto> recipeIngredientAllSearchList(List<String> ingredients){
