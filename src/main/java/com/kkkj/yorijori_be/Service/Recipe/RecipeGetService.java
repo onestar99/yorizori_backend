@@ -181,27 +181,23 @@ public class RecipeGetService {
         return recipeListDtoList;
     }
 
+    // 동적으로 재료 포함한 레시피 검색
     public List<RecipeListDto> recipeIngredientAllSearchList(List<String> ingredients){
-//        List<RecipeIngredientTagEntity> recipeIngredientTagEntityList = recipeIngredientTagRepository.findByIngredientNameIn(ingredients);
-        List<RecipeListDto> recipeListDtoList = new ArrayList<>();
-//        for(int i=0;i<recipeIngredientTagEntityList.size();i++){
-//            recipeListDtoList.add(RecipeListDto.toDto(recipeIngredientTagEntityList.get(i).getRecipe()));
-//        }
+        List<RecipeListDto> recipeListDtoList = new ArrayList<>();//레시피를 받는 리스트
         for(int i=0;i<ingredients.size();i++) {
-            List<RecipeIngredientTagEntity> recipeIngredientTagEntityList = new ArrayList<>();
-            recipeIngredientTagEntityList = recipeIngredientTagRepository.findByIngredientNameContaining(ingredients.get(i));
+            List<RecipeEntity> recipeEntityList = recipeRepository.searchingredient(ingredients.get(i));//재료를 가지고 있는 레시피 리스트
             if(i==0){
-                for (int j = 0; j < recipeIngredientTagEntityList.size(); j++) {
-                    recipeListDtoList.add(RecipeListDto.toDto(recipeIngredientTagEntityList.get(j).getRecipe()));
+                for (RecipeEntity recipeEntity: recipeEntityList) {
+                    recipeListDtoList.add(RecipeListDto.toDto(recipeEntity));
                 }
             }
             else{
-                List<RecipeListDto> temprecipeListDtoList = new ArrayList<>();
-                for (int j = 0; j < recipeIngredientTagEntityList.size(); j++) {
-                    temprecipeListDtoList.add(RecipeListDto.toDto(recipeIngredientTagEntityList.get(j).getRecipe()));
+                List<RecipeListDto> temprecipeListDtoList = new ArrayList<>();//재료를 가진 임시 레시피 리스트
+                for (RecipeEntity recipeEntity : recipeEntityList) {
+                    temprecipeListDtoList.add(RecipeListDto.toDto(recipeEntity));
                 }
-                List<RecipeListDto> finalRecipeListDtoList = recipeListDtoList;
-                List<RecipeListDto> matchList = temprecipeListDtoList.stream().filter(o -> finalRecipeListDtoList.stream().anyMatch(n->{return o.getId().equals(n.getId());})).collect(Collectors.toList());
+                List<RecipeListDto> finalRecipeListDtoList = recipeListDtoList;//이전 조건문의 재료를 가진 레시피 리스트
+                List<RecipeListDto> matchList = temprecipeListDtoList.stream().filter(o -> finalRecipeListDtoList.stream().anyMatch(n->{return o.getId().equals(n.getId());})).collect(Collectors.toList());// 재료를 가진 레시피 리스트를 비교하여 중복되는 레시피 추출
                 recipeListDtoList=matchList;
             }
         }

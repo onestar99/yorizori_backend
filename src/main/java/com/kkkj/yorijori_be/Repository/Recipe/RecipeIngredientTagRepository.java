@@ -14,8 +14,6 @@ public interface RecipeIngredientTagRepository extends JpaRepository<RecipeIngre
 
     List<RecipeIngredientTagEntity> findByIngredientNameContaining(String searchKeyword);
 
-    @Query("select r from RecipeIngredientTagEntity r where r.ingredientName in : searchKeyWord")
-    List<RecipeIngredientTagEntity> searchingredient(String searchKeyWord);
-//    @Query("select r from RecipeIngredientTagEntity r where r.ingredientName in :names")
-//    List<RecipeIngredientTagEntity> findByIngredientNameIn(@Param("names") List<String> names);
+
+
 }
