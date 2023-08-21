@@ -76,6 +76,8 @@ public class UserGetService {
         return user.getTipComments();
     }
 
+
+
 //    public List<UserViewLogEntity> getUserViewLog(String userTokenId){
 //        UserEntity user = userRepository.findByUserTokenId(userTokenId);
 //        return user.getViewLog();

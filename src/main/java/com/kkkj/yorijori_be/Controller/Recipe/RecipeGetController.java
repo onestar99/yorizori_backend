@@ -41,9 +41,11 @@ public class RecipeGetController {
 
     // 레시피 디테일 정보 recipeId를 파라미터로 받아 RecipeDetailsDto 반환
     @ResponseBody
-//    @GetMapping("/details/{recipeId}/{usertokenId}")
-    @RequestMapping(value = "/details/{recipeId}/{usertokenId}",method = {RequestMethod.GET, RequestMethod.POST})
-    public RecipeDetailsDto getRecipeDetails(@PathVariable Long recipeId, @PathVariable String usertokenId){
+    @GetMapping("/details")
+//    @RequestMapping(value = "/details",method = {RequestMethod.GET, RequestMethod.POST})
+    public RecipeDetailsDto getRecipeDetails(
+            @RequestParam(value = "recipeId", required = false) Long recipeId,
+            @RequestParam(value = "usertokenId", required = false) String usertokenId){
 
         // 레시피 조회이므로 조회수 1 올리기.
         recipeSaveUpdateService.updateRecipeHits(recipeId);
@@ -101,9 +103,13 @@ public class RecipeGetController {
 
     // 검색
     @ResponseBody
-    @GetMapping("/searched/recipe")
-    public List<RecipeListDto> getTitleSearchedPaging(@RequestParam(value="keyword") String searchKeyword){
+    @GetMapping("/searched/recipe/{usertokenId}")
+    public List<RecipeListDto> getTitleSearchedPaging(
+            @PathVariable String userTokenId,
+            @RequestParam(value="keyword") String searchKeyword){
+
         return recipeGetService.recipeSearchList(searchKeyword);
+
     }
 
     @ResponseBody

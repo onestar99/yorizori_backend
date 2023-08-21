@@ -23,7 +23,7 @@ public class UserSearchedIngredientEntity extends BaseTimeEntity {
     @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "user_token_id")
-    private UserEntity userId;
+    private UserEntity user;
 
     @Column(name = "searched_log")
     private String searchedlog;
