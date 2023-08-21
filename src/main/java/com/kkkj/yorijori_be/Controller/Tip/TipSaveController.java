@@ -27,9 +27,6 @@ public class TipSaveController {
     @PostMapping("/details")
     public ResponseEntity saveTip(@RequestBody TipPostDto tipPostDto){
 
-        System.out.println(tipPostDto.getTipId());
-        System.out.println(tipPostDto.getTipDetailDtoList());
-
         tipSaveUpdateService.saveTipDetails(tipPostDto);
 
         // 모든 내용이 괜찮은지 검토한다. (Validation)
