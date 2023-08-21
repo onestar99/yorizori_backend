@@ -59,6 +59,13 @@ public class UserEntity extends BaseTimeEntity {
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<UserViewLogEntity> ViewLog;
 
+    @JsonIgnore
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    private List<UserSearchedRecipeEntity> SearchedRecipe;
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    private List<UserSearchedIngredientEntity> SearchedIngredient;
 
     public void updateProfile(String profileAddress){
         this.imageAddress = profileAddress;

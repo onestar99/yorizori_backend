@@ -2,18 +2,12 @@ package com.kkkj.yorijori_be.Service.User;
 
 import com.kkkj.yorijori_be.Dto.User.UserCommentDto;
 import com.kkkj.yorijori_be.Dto.User.UserDto;
-import com.kkkj.yorijori_be.Dto.User.UserLogDto;
 import com.kkkj.yorijori_be.Entity.Recipe.RecipeEntity;
-import com.kkkj.yorijori_be.Entity.User.UserCommentEntity;
-import com.kkkj.yorijori_be.Entity.User.UserEntity;
-import com.kkkj.yorijori_be.Entity.User.UserViewLogEntity;
+import com.kkkj.yorijori_be.Entity.User.*;
 import com.kkkj.yorijori_be.Repository.Recipe.RecipeRepository;
-import com.kkkj.yorijori_be.Repository.User.UserCommentRepository;
-import com.kkkj.yorijori_be.Repository.User.UserRepository;
-import com.kkkj.yorijori_be.Repository.User.UserViewLogRepository;
+import com.kkkj.yorijori_be.Repository.User.*;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.java.Log;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
@@ -29,6 +23,8 @@ public class UserSaveUpdateService {
     private final UserCommentRepository userCommentRepository;
     private final RecipeRepository recipeRepository;
     private final UserViewLogRepository userViewLogRepository;
+    private final UserSearchedRecipeRepository userSearchedRecipeRepository;
+    private final UserSearchedIngredientRepository userSearchedIngredientRepository;
 
     // 유저 저장
     @Transactional
@@ -116,5 +112,23 @@ public class UserSaveUpdateService {
         userViewLogEntity.setRecipe(recipeEntity);
         userViewLogEntity.setUser(userEntity);
         userViewLogRepository.save(userViewLogEntity);
+    }
+
+    @Transactional
+    public void saveSearchedRecipeLog(String usertokenId, String keyWord){
+        UserEntity userEntity = userRepository.findByUserTokenId(usertokenId);
+        UserSearchedRecipeEntity userSearchedRecipeEntity = new UserSearchedRecipeEntity();
+        userSearchedRecipeEntity.setUser(userEntity);
+        userSearchedRecipeEntity.setSearchedlog(keyWord);
+        userSearchedRecipeRepository.save(userSearchedRecipeEntity);
+    }
+
+    @Transactional
+    public void saveSearchedIngredientLog(String usertokenId, String keyWord){
+        UserEntity userEntity = userRepository.findByUserTokenId(usertokenId);
+        UserSearchedIngredientEntity userSearchedIngredientEntity = new UserSearchedIngredientEntity();
+        userSearchedIngredientEntity.setUser(userEntity);
+        userSearchedIngredientEntity.setSearchedlog(keyWord);
+        userSearchedIngredientRepository.save(userSearchedIngredientEntity);
     }
 }

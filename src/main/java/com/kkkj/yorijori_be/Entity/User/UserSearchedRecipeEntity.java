@@ -28,4 +28,10 @@ public class UserSearchedRecipeEntity extends BaseTimeEntity {
     @Column(name = "searched_log")
     private String searchedlog;
 
+    public void setUser(UserEntity user) {
+        this.user = user;
+    }
+
+    public void setSearchedlog(String searchedlog){this.searchedlog = searchedlog;}
+
 }

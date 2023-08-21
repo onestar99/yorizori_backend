@@ -1,10 +1,7 @@
 package com.kkkj.yorijori_be.Controller.User;
 
 import com.kkkj.yorijori_be.Dto.User.UserDto;
-import com.kkkj.yorijori_be.Entity.User.UserCommentEntity;
-import com.kkkj.yorijori_be.Entity.User.UserEntity;
-import com.kkkj.yorijori_be.Entity.User.UserTipCommentEntity;
-import com.kkkj.yorijori_be.Entity.User.UserViewLogEntity;
+import com.kkkj.yorijori_be.Entity.User.*;
 import com.kkkj.yorijori_be.Repository.User.UserRepository;
 import com.kkkj.yorijori_be.Service.User.UserGetService;
 import lombok.RequiredArgsConstructor;
@@ -75,6 +72,18 @@ public class UserGetController {
         return ResponseEntity.ok(viewLog);
     }
 
+    @GetMapping("/{userTokenId}/searchedrecipelog") @ResponseBody
+    public ResponseEntity<List<UserSearchedRecipeEntity>> getUserSearchedRecipeLog(@PathVariable String userTokenId) {
+        UserEntity user = userRepository.findByUserTokenId(userTokenId);
+        List<UserSearchedRecipeEntity> searchedRecipeEntityList = user.getSearchedRecipe();
+        return ResponseEntity.ok(searchedRecipeEntityList);
+    }
 
+    @GetMapping("/{userTokenId}/searchedingredientlog") @ResponseBody
+    public ResponseEntity<List<UserSearchedIngredientEntity>> getUserSearchedIngredientLog(@PathVariable String userTokenId) {
+        UserEntity user = userRepository.findByUserTokenId(userTokenId);
+        List<UserSearchedIngredientEntity> searchedIngredientEntityList = user.getSearchedIngredient();
+        return ResponseEntity.ok(searchedIngredientEntityList);
+    }
 
 }

@@ -103,24 +103,31 @@ public class RecipeGetController {
 
     // 검색
     @ResponseBody
-    @GetMapping("/searched/recipe/{usertokenId}")
+    @GetMapping("/searchedrecipe")
     public List<RecipeListDto> getTitleSearchedPaging(
-            @PathVariable String userTokenId,
+            @RequestParam(value = "usertokenId", required = false) String usertokenId,
             @RequestParam(value="keyword") String searchKeyword){
-
+        userSaveUpdateService.saveSearchedRecipeLog(usertokenId,searchKeyword);
         return recipeGetService.recipeSearchList(searchKeyword);
 
     }
 
-    @ResponseBody
-    @GetMapping("/searched/ingredient")
-    public List<RecipeListDto> getIngredientSearchedPaging(@RequestParam(value="keyword") String searchKeyword){
-        return recipeGetService.recipeIngredientSearchList(searchKeyword);
-    }
+//    @ResponseBody
+//    @GetMapping("/searchedingredient")
+//    public List<RecipeListDto> getIngredientSearchedPaging(
+//            @RequestParam(value = "usertokenId", required = false) String usertokenId,
+//            @RequestParam(value="keyword") String searchKeyword){
+//        userSaveUpdateService.saveSearchedIngredientLog(usertokenId,searchKeyword);
+//        return recipeGetService.recipeIngredientSearchList(searchKeyword);
+//    }
+
 
     @ResponseBody
-    @GetMapping("/searched/ingredientall")
-    public List<RecipeListDto> getIngredientAllSearchedPaging(@RequestParam(value="keyword") String searchKeywords){
+    @GetMapping("/searchedingredientall")
+    public List<RecipeListDto> getIngredientAllSearchedPaging(
+            @RequestParam(value = "usertokenId", required = false) String usertokenId,
+            @RequestParam(value="keyword") String searchKeywords){
+        userSaveUpdateService.saveSearchedIngredientLog(usertokenId,searchKeywords);
         List<String> ingredients = Arrays.asList(searchKeywords.split(","));
         return recipeGetService.recipeIngredientAllSearchList(ingredients);
     }
