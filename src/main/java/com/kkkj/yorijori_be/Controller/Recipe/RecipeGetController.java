@@ -45,15 +45,15 @@ public class RecipeGetController {
 //    @RequestMapping(value = "/details",method = {RequestMethod.GET, RequestMethod.POST})
     public RecipeDetailsDto getRecipeDetails(
             @RequestParam(value = "recipeId", required = false) Long recipeId,
-            @RequestParam(value = "usertokenId", required = false) String usertokenId){
+            @RequestParam(value = "userId", required = false) String userId){
 
         // 레시피 조회이므로 조회수 1 올리기.
         recipeSaveUpdateService.updateRecipeHits(recipeId);
         // DTO 만들기
         RecipeDetailsDto recipeDetailsDto = recipeGetService.getRecipeDetailsByRecipeId(recipeId);
         // 유저 로그
-        if(usertokenId !=null){
-            userSaveUpdateService.saveUserLog(usertokenId,recipeId);
+        if(userId !=null){
+            userSaveUpdateService.saveUserLog(userId,recipeId);
         }
         return recipeDetailsDto;
     }
@@ -105,9 +105,9 @@ public class RecipeGetController {
     @ResponseBody
     @GetMapping("/searchedrecipe")
     public List<RecipeListDto> getTitleSearchedPaging(
-            @RequestParam(value = "usertokenId", required = false) String usertokenId,
+            @RequestParam(value = "userId", required = false) String userId,
             @RequestParam(value="keyword") String searchKeyword){
-        userSaveUpdateService.saveSearchedRecipeLog(usertokenId,searchKeyword);
+        userSaveUpdateService.saveSearchedRecipeLog(userId,searchKeyword);
         return recipeGetService.recipeSearchList(searchKeyword);
 
     }
@@ -125,9 +125,9 @@ public class RecipeGetController {
     @ResponseBody
     @GetMapping("/searchedingredientall")
     public List<RecipeListDto> getIngredientAllSearchedPaging(
-            @RequestParam(value = "usertokenId", required = false) String usertokenId,
+            @RequestParam(value = "userId", required = false) String userId,
             @RequestParam(value="keyword") String searchKeywords){
-        userSaveUpdateService.saveSearchedIngredientLog(usertokenId,searchKeywords);
+        userSaveUpdateService.saveSearchedIngredientLog(userId,searchKeywords);
         List<String> ingredients = Arrays.asList(searchKeywords.split(","));
         return recipeGetService.recipeIngredientAllSearchList(ingredients);
     }
