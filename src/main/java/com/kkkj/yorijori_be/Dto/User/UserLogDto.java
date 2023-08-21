@@ -13,12 +13,10 @@ import java.time.LocalDateTime;
 @ToString
 @NoArgsConstructor
 public class UserLogDto {
-    private int scope;
     private LocalDateTime createdTime;
 
     public UserViewLogEntity toEntity(){
         UserViewLogEntity build = UserViewLogEntity.builder()
-                .scope(scope)
                 .build();
 
         return build;
