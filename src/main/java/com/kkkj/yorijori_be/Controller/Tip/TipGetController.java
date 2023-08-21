@@ -39,7 +39,7 @@ public class TipGetController {
 
     @GetMapping("/part") @ResponseBody
     public List<TipListDto> getTipPartall(){
-        return tipGetService.getTipsPart();
+        return tipGetService.getTipsPart().subList(0,8);
     }
 
     @GetMapping("/details") @ResponseBody

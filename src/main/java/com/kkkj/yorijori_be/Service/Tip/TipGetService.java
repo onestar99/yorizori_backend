@@ -38,7 +38,7 @@ public class TipGetService {
         for(TipEntity tipEntity : tipEntityList){
             tipListDtoList.add(TipListDto.toDto(tipEntity));
         }
-        return tipListDtoList.subList(0,8);
+        return tipListDtoList;
     }
 
     public TipDetailsDto getTipDetailByTipId(Long tipId){
