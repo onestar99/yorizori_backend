@@ -23,19 +23,19 @@ public class UserViewLogEntity extends BaseTimeEntity {
     @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "user_token_id")
-    private UserEntity userId;
+    private UserEntity user;
 
     @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "view_recipe_id")
-    private RecipeEntity recipeId;
+    private RecipeEntity recipe;
 
     public void setUser(UserEntity user) {
-        this.userId = user;
+        this.user = user;
     }
 
     public void setRecipe(RecipeEntity recipe) {
-        this.recipeId = recipe;
+        this.recipe = recipe;
     }
 
 

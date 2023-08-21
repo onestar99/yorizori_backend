@@ -84,7 +84,7 @@ public class RecipeEntity extends BaseTimeEntity {
     private List<UserCommentEntity> comments;
 
     @JsonIgnore
-    @OneToMany(mappedBy = "board", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "recipe", cascade = CascadeType.ALL)
     private List<UserViewLogEntity> viewlog;
 
     // 레시피 썸네일 주소 업데이트
