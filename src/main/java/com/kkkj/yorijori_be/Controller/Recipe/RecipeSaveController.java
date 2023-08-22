@@ -27,6 +27,7 @@ public class RecipeSaveController {
 
 
     @PostMapping("/details")
+    @ResponseBody
     public long saveRecipe(@RequestBody RecipeSaveDto recipeSaveDto){
 
         // 모든 내용이 괜찮은지 검토한다. (Validation) - 현재 미완성
