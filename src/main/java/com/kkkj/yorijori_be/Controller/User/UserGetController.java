@@ -1,6 +1,7 @@
 package com.kkkj.yorijori_be.Controller.User;
 
 import com.kkkj.yorijori_be.Dto.User.UserDto;
+import com.kkkj.yorijori_be.Entity.Tip.TipEntity;
 import com.kkkj.yorijori_be.Entity.User.*;
 import com.kkkj.yorijori_be.Repository.User.UserRepository;
 import com.kkkj.yorijori_be.Service.User.UserGetService;
@@ -70,6 +71,13 @@ public class UserGetController {
         UserEntity user = userRepository.findByUserTokenId(userTokenId);
         List<UserViewLogEntity> viewLog = user.getViewLog();
         return ResponseEntity.ok(viewLog);
+    }
+
+    @GetMapping("/{userTokenId}/tips") @ResponseBody
+    public ResponseEntity<List<TipEntity>> getTips(@PathVariable String userTokenId) {
+        UserEntity user = userRepository.findByUserTokenId(userTokenId);
+        List<TipEntity> usertip = user.getTips();
+        return ResponseEntity.ok(usertip);
     }
 
     @GetMapping("/{userTokenId}/searchedrecipelog") @ResponseBody
