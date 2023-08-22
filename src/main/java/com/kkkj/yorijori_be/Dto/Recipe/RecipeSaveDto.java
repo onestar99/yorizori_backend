@@ -14,11 +14,11 @@ import java.util.List;
 @NoArgsConstructor
 public class RecipeSaveDto {
 
-    String userId;
-    RecipeInfo recipeInfo;
-    String thumbnail;
-    List<RecipeIngredientSaveDto> mainIngredient;
-    List<RecipeIngredientSaveDto> semiIngredient;
-    List<RecipeDetailSaveDto> recipeDetail;
+    private String userId;
+    private RecipeInfo recipeInfo;
+    private String thumbnail;
+    private List<RecipeIngredientSaveDto> mainIngredient;
+    private List<RecipeIngredientSaveDto> semiIngredient;
+    private List<RecipeDetailSaveDto> recipeDetail;
 
 }

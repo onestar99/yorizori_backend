@@ -36,19 +36,19 @@ public class RecipeDto {
     static public RecipeDto recipeSaveDtoToDTO(RecipeSaveDto recipeSaveDto){
 
         RecipeDto recipeDto = new RecipeDto();
-        recipeDto.setRecipeTitle(recipeSaveDto.recipeInfo.title);
-        recipeDto.setCategory(recipeSaveDto.recipeInfo.category);
+        recipeDto.setRecipeTitle(recipeSaveDto.getRecipeInfo().getTitle());
+        recipeDto.setCategory(recipeSaveDto.getRecipeInfo().getCategory());
         recipeDto.setDishName(null);
         recipeDto.setRecipeHits(0);
         recipeDto.setAuthorship(null);
         recipeDto.setScope("0.0");
-        recipeDto.setRecipeIntro(recipeSaveDto.recipeInfo.explain);
-        String thumbnail = recipeSaveDto.thumbnail.split("https://yorizori-s3.s3.ap-northeast-2.amazonaws.com")[1];
+        recipeDto.setRecipeIntro(recipeSaveDto.getRecipeInfo().getExplain());
+        String thumbnail = recipeSaveDto.getThumbnail().split("https://yorizori-s3.s3.ap-northeast-2.amazonaws.com")[1];
         recipeDto.setRecipeThumbnail(thumbnail);
         recipeDto.setReviewCount(0);
         recipeDto.setUserTokenId(recipeSaveDto.getUserId());
-        recipeDto.setLevel(recipeSaveDto.recipeInfo.getLevel());
-        recipeDto.setTime(recipeSaveDto.recipeInfo.getTime());
+        recipeDto.setLevel(recipeSaveDto.getRecipeInfo().getLevel());
+        recipeDto.setTime(recipeSaveDto.getRecipeInfo().getTime());
 
         return recipeDto;
 
