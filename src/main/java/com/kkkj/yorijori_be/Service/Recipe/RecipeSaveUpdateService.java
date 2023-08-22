@@ -64,9 +64,12 @@ public class RecipeSaveUpdateService {
 
         // 레시피 디테일 정보들 저장
         for(int i = 0; i < recipeSaveDto.getRecipeDetail().size(); i++){
+
+            String image = recipeSaveDto.getThumbnail().split("https://yorizori-s3.s3.ap-northeast-2.amazonaws.com")[1];
+
             RecipeDetailEntity recipeDetailEntity = RecipeDetailEntity.builder()
                     .recipeDetail(recipeSaveDto.getRecipeDetail().get(i).getText())
-                    .recipeImage(recipeSaveDto.getRecipeDetail().get(i).getImage())
+                    .recipeImage(image)
                     .recipe(recipeEntity)
                     .order(i+1).build();
 
