@@ -5,11 +5,11 @@ import com.kkkj.yorijori_be.Entity.Recipe.RecipeCategoryTagEntity;
 import com.kkkj.yorijori_be.Entity.Recipe.RecipeDetailEntity;
 import com.kkkj.yorijori_be.Entity.Recipe.RecipeEntity;
 import com.kkkj.yorijori_be.Entity.Recipe.RecipeIngredientTagEntity;
-import com.kkkj.yorijori_be.Repository.Log.UserViewLogRepository;
 import com.kkkj.yorijori_be.Repository.Recipe.RecipeCategoryTagRepository;
 import com.kkkj.yorijori_be.Repository.Recipe.RecipeDetailRepository;
 import com.kkkj.yorijori_be.Repository.Recipe.RecipeIngredientTagRepository;
 import com.kkkj.yorijori_be.Repository.Recipe.RecipeRepository;
+import com.kkkj.yorijori_be.Service.Log.LogDeleteService;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -27,6 +27,7 @@ public class RecipeDeleteService {
     private final RecipeDetailRepository recipeDetailRepository;
     private final RecipeCategoryTagRepository recipeCategoryTagRepository;
     private final S3Remover s3Remover;
+    private final LogDeleteService logDeleteService;
 
 
     /*
@@ -91,6 +92,7 @@ public class RecipeDeleteService {
         RecipeEntity recipe = recipeRepository.findByRecipeId(recipeId);
         if(recipe != null){
             List<RecipeCategoryTagEntity> categories = recipe.getCategories();
+
             recipeCategoryTagRepository.deleteAllInBatch(categories);
             recipeCategoryTagRepository.flush();
             return true;
@@ -109,13 +111,13 @@ public class RecipeDeleteService {
     public boolean DeleteRecipeByRecipeId(long recipeId){
         RecipeEntity recipe = recipeRepository.findByRecipeId(recipeId);
         if(recipe != null){
+//            recipeRepository.delete(recipe);
             recipeRepository.deleteByRecipeId(recipeId);
+//            recipeRepository.flush();
             return true;
         }
         return false;
     }
-
-
 
 
 }

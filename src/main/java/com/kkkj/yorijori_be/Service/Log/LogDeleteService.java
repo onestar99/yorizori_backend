@@ -23,6 +23,7 @@ public class LogDeleteService {
      * 레시피 아이디를 받는다.
      * 유저 view 테이블에서 레시피 아이디를 조회하고 삭제한다.
      * */
+    @Transactional
     public boolean DeleteUserViewLogsByRecipeId(long recipeId){
         RecipeEntity recipe = recipeRepository.findByRecipeId(recipeId);
         if(recipe != null){
