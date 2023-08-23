@@ -52,4 +52,7 @@ public interface RecipeRepository extends JpaRepository<RecipeEntity, Long> {
     List<RecipeEntity> searchingredient(@Param("searchKeyWord") String searchKeyWord);
 
 
+    void deleteByRecipeId(long recipeId);
+
+
 }

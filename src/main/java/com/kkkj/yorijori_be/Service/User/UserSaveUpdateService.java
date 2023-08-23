@@ -4,6 +4,7 @@ import com.kkkj.yorijori_be.Dto.User.UserCommentDto;
 import com.kkkj.yorijori_be.Dto.User.UserDto;
 import com.kkkj.yorijori_be.Entity.Recipe.RecipeEntity;
 import com.kkkj.yorijori_be.Entity.User.*;
+import com.kkkj.yorijori_be.Repository.Log.UserViewLogRepository;
 import com.kkkj.yorijori_be.Repository.Recipe.RecipeRepository;
 import com.kkkj.yorijori_be.Repository.User.*;
 import jakarta.transaction.Transactional;
