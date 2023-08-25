@@ -43,6 +43,9 @@ public class TipEntity extends BaseTimeEntity {
     @Column(name = "tip_thumbnail")
     private String tipThumbnail;
 
+    @Column(name = "tip_detail",columnDefinition = "TEXT")
+    private String tipDetail;
+
     // userTokenId setting
     public void setUser(UserEntity user) {
         this.user = user;
