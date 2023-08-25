@@ -103,27 +103,27 @@ public class RecipeGetController {
 
     // 검색
     @ResponseBody
-    @GetMapping("/searchedrecipe")
+    @GetMapping("/search/food")
     public List<RecipeListDto> getTitleSearchedPaging(
             @RequestParam(value = "userId", required = false) String userId,
-            @RequestParam(value="keyword") String searchKeyword){
+            @RequestParam(value = "search") String search){
         if(userId!=null){
-            userSaveUpdateService.saveSearchedRecipeLog(userId,searchKeyword);
+            userSaveUpdateService.saveSearchedRecipeLog(userId,search);
         }
-        return recipeGetService.recipeSearchList(searchKeyword);
+        return recipeGetService.recipeSearchList(search);
 
     }
 
 
     @ResponseBody
-    @GetMapping("/searchedingredientall")
+    @GetMapping("/search/ingredient")
     public List<RecipeListDto> getIngredientAllSearchedPaging(
             @RequestParam(value = "userId", required = false) String userId,
-            @RequestParam(value="keyword") String searchKeywords){
+            @RequestParam(value="search") String search){
         if (userId!=null){
-            userSaveUpdateService.saveSearchedIngredientLog(userId,searchKeywords);
+            userSaveUpdateService.saveSearchedIngredientLog(userId,search);
         }
-        List<String> ingredients = Arrays.asList(searchKeywords.split(","));
+        List<String> ingredients = Arrays.asList(search.split(","));
         return recipeGetService.recipeIngredientAllSearchList(ingredients);
     }
 
