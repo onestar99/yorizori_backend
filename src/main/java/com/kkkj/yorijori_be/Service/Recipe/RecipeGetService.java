@@ -42,7 +42,6 @@ public class RecipeGetService {
         // json 형식을 Entity에 맞춰서 칼럼 명칭 변환
         String columnName = sortToColumnName(sortBy);
 
-        System.out.println(columnName);
         // 페이지 인스턴스 생성
 //        Pageable pageable = PageRequest.of(pageNo, pageSize, Sort.by(sortBy).descending());
         Pageable pageable = PageRequest.of(pageNo, pageSize, Sort.by(columnName).descending());
@@ -118,10 +117,10 @@ public class RecipeGetService {
     }
 
 
-    // 조회수순으로 랭크 20위까지 정렬
-    public List<RecipeListDto> getTop20ItemsByViews() {
+    // 조회수순으로 랭크 9위까지 정렬
+    public List<RecipeListDto> getTop9ItemsByViews() {
 
-        List<RecipeEntity> recipeEntityList = recipeRepository.findTop20ByOrderByRecipeHitsDesc();
+        List<RecipeEntity> recipeEntityList = recipeRepository.findTop9ByOrderByRecipeHitsDesc();
         List<RecipeListDto> recipeListDtoList = new ArrayList<>();
         for(RecipeEntity recipeEntity: recipeEntityList){
             recipeListDtoList.add(RecipeListDto.toDto(recipeEntity));
@@ -138,6 +137,15 @@ public class RecipeGetService {
             recipeListDtoList.add(RecipeListDto.toDto(recipeEntity));
         }
         return recipeListDtoList;
+    }
+
+    // 조회수순으로 랭크 100위까지 정렬
+    public Page<RecipeListDto> getTopPagingItemsByViews(int pageNo, int pageSize) {
+        Pageable pageable = PageRequest.of(pageNo, pageSize, Sort.by("recipeHits").descending());
+        Page<RecipeEntity> recipeEntityPage = recipeRepository.findAll(pageable);
+        Page<RecipeListDto> recipeListDtoPage = RecipeListDto.toDtoPage(recipeEntityPage);
+
+        return recipeListDtoPage;
     }
 
 

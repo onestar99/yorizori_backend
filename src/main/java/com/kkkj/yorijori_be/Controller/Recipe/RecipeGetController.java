@@ -58,11 +58,11 @@ public class RecipeGetController {
         return recipeDetailsDto;
     }
 
-    // 메인화면에서 rank1부터 rank20까지 불러오는 api
+    // 메인화면에서 rank1부터 rank9까지 불러오는 api
     @ResponseBody
     @GetMapping("/rank/part")
     public List<RecipeListDto> getRecipeRank9(){
-        return recipeGetService.getTop20ItemsByViews();
+        return recipeGetService.getTop9ItemsByViews();
     }
 
     // 랭킹화면에서 rank1부터 rank100까지 불러오는 api
@@ -71,6 +71,13 @@ public class RecipeGetController {
     public List<RecipeListDto> getRecipeTotal100(){
         return recipeGetService.getTop100ItemsByViews();
     }
+
+    @ResponseBody
+    @GetMapping("/rank")
+    public Page<RecipeListDto> getRecipePagingByHits(@RequestParam(value = "page", defaultValue = "0", required = false) int pageNo) {
+        return recipeGetService.getRecipePaging(pageNo, 20, "viewCount");
+    }
+
 
 
     // 카테고리별로 12개씩 페이징해서 보내주는 api
