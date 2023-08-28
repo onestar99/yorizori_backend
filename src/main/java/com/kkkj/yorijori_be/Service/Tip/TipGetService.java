@@ -58,8 +58,8 @@ public class TipGetService {
         return tipDetailsDto;
     }
 
-    public Page<TipListDto> getTipsPagingByUserId(String userId){
-        Pageable pageable = PageRequest.of(0, 12, Sort.by("createdTime").descending());
+    public Page<TipListDto> getTipsPagingByUserId(int pageNo, int pageSize,String userId){
+        Pageable pageable = PageRequest.of(pageNo, pageSize, Sort.by("createdTime").descending());
         Page<TipEntity> tipEntityPage = tipRepository.findAllByUser_UserTokenId(userId,pageable);
         Page<TipListDto> tipListDtoPage = TipListDto.toDtoPage(tipEntityPage);
         return tipListDtoPage;

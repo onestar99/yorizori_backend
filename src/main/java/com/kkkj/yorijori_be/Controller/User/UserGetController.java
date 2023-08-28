@@ -78,16 +78,12 @@ public class UserGetController {
         return ResponseEntity.ok(viewLog);
     }
 
-    @GetMapping("/{userTokenId}/tips") @ResponseBody
-    public ResponseEntity<List<TipEntity>> getTips(@PathVariable String userTokenId) {
-        UserEntity user = userRepository.findByUserTokenId(userTokenId);
-        List<TipEntity> usertip = user.getTips();
-        return ResponseEntity.ok(usertip);
-    }
 
-    @GetMapping("/{userTokenId}/mypage/tips") @ResponseBody
-    public Page<TipListDto> getTipsPaging(@PathVariable String userTokenId){
-        Page<TipListDto> tipListDtoPage = tipGetService.getTipsPagingByUserId(userTokenId);
+    @GetMapping("/{userTokenId}/tips") @ResponseBody
+    public Page<TipListDto> getTipsPaging(@PathVariable String userTokenId,@RequestParam(value = "pageNo", defaultValue = "0", required = false) int pageNo){
+        // 페이지 사이즈 고정
+        int pageSize = 12;
+        Page<TipListDto> tipListDtoPage = tipGetService.getTipsPagingByUserId(pageNo,pageSize,userTokenId);
         return tipListDtoPage;
     }
 
