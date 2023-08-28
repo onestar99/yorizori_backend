@@ -72,6 +72,13 @@ public class RecipeGetController {
         return recipeGetService.getTop100ItemsByViews();
     }
 
+    @ResponseBody
+    @GetMapping("/rank")
+    public Page<RecipeListDto> getRecipePagingByHits(@RequestParam(value = "page", defaultValue = "0", required = false) int pageNo) {
+        return recipeGetService.getRecipePaging(pageNo, 20, "viewCount");
+    }
+
+
 
     // 카테고리별로 12개씩 페이징해서 보내주는 api
     @ResponseBody
