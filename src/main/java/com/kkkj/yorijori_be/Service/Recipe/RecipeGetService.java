@@ -118,10 +118,10 @@ public class RecipeGetService {
     }
 
 
-    // 조회수순으로 랭크 9위까지 정렬
-    public List<RecipeListDto> getTop9ItemsByViews() {
+    // 조회수순으로 랭크 20위까지 정렬
+    public List<RecipeListDto> getTop20ItemsByViews() {
 
-        List<RecipeEntity> recipeEntityList = recipeRepository.findTop9ByOrderByRecipeHitsDesc();
+        List<RecipeEntity> recipeEntityList = recipeRepository.findTop20ByOrderByRecipeHitsDesc();
         List<RecipeListDto> recipeListDtoList = new ArrayList<>();
         for(RecipeEntity recipeEntity: recipeEntityList){
             recipeListDtoList.add(RecipeListDto.toDto(recipeEntity));

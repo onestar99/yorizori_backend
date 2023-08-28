@@ -20,7 +20,7 @@ public interface RecipeRepository extends JpaRepository<RecipeEntity, Long> {
     @Query("update RecipeEntity r set r.recipeHits = r.recipeHits + 1 where r.recipeId = :id")
     void updateView(@Param("id")Long id);
 
-    List<RecipeEntity> findTop9ByOrderByRecipeHitsDesc();
+    List<RecipeEntity> findTop20ByOrderByRecipeHitsDesc();
     List<RecipeEntity> findTop100ByOrderByRecipeHitsDesc();
 
     List<RecipeEntity> findByRecipeTitleContaining(String searchKeyword);
