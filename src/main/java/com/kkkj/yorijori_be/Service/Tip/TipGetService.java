@@ -1,10 +1,12 @@
 package com.kkkj.yorijori_be.Service.Tip;
 
 import com.kkkj.yorijori_be.Dto.Recipe.RecipeDetailDto;
+import com.kkkj.yorijori_be.Dto.Recipe.RecipeListDto;
 import com.kkkj.yorijori_be.Dto.Tip.TipDetailDto;
 import com.kkkj.yorijori_be.Dto.Tip.TipDetailsDto;
 import com.kkkj.yorijori_be.Dto.Tip.TipListDto;
 import com.kkkj.yorijori_be.Dto.Tip.TipOrderDto;
+import com.kkkj.yorijori_be.Entity.Recipe.RecipeEntity;
 import com.kkkj.yorijori_be.Entity.Tip.TipDetailEntity;
 import com.kkkj.yorijori_be.Entity.Tip.TipEntity;
 import com.kkkj.yorijori_be.Entity.User.UserEntity;
@@ -15,6 +17,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -55,7 +58,12 @@ public class TipGetService {
         return tipDetailsDto;
     }
 
-
+    public Page<TipListDto> getTipsPagingByUserId(String userId){
+        Pageable pageable = PageRequest.of(0, 12, Sort.by("createdTime").descending());
+        Page<TipEntity> tipEntityPage = tipRepository.findAllByUser_UserTokenId(userId,pageable);
+        Page<TipListDto> tipListDtoPage = TipListDto.toDtoPage(tipEntityPage);
+        return tipListDtoPage;
+    }
 
 
 
