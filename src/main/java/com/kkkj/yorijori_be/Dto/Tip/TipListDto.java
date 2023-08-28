@@ -5,6 +5,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
+import org.springframework.data.domain.Page;
 
 @Builder
 @Getter
@@ -30,6 +31,20 @@ public class TipListDto {
                 .viewCount(tipEntity.getTipHits())
                 .build();
         return tipListDto;
+    }
+
+    public static Page<TipListDto> toDtoPage(Page<TipEntity> tipEntityPage){
+        Page<TipListDto> tipListDtoPage = tipEntityPage.map(m -> TipListDto.builder()
+                .id(m.getTipId())
+                .viewCount(m.getTipHits())
+                .heartCount(m.getTipHeartCount())
+                .thumbnail(m.getTipThumbnail())
+                .nickname(m.getUser().getNickname())
+                .profileImg(m.getUser().getImageAddress())
+                .title(m.getTipTitle())
+                .build());
+        return tipListDtoPage;
+
     }
 
 }

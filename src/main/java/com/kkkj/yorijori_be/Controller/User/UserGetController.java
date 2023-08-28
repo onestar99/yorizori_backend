@@ -1,11 +1,13 @@
 package com.kkkj.yorijori_be.Controller.User;
 
 import com.kkkj.yorijori_be.Dto.Recipe.RecipeListDto;
+import com.kkkj.yorijori_be.Dto.Tip.TipListDto;
 import com.kkkj.yorijori_be.Dto.User.UserDto;
 import com.kkkj.yorijori_be.Entity.Tip.TipEntity;
 import com.kkkj.yorijori_be.Entity.User.*;
 import com.kkkj.yorijori_be.Repository.User.UserRepository;
 import com.kkkj.yorijori_be.Service.Recipe.RecipeGetService;
+import com.kkkj.yorijori_be.Service.Tip.TipGetService;
 import com.kkkj.yorijori_be.Service.User.UserGetService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -24,6 +26,7 @@ public class UserGetController {
     private final UserGetService userGetService;
     private final UserRepository userRepository;
     private final RecipeGetService recipeGetService;
+    private final TipGetService tipGetService;
 
     // 모든 유저 정보 조회
     // return -> json
@@ -80,6 +83,12 @@ public class UserGetController {
         UserEntity user = userRepository.findByUserTokenId(userTokenId);
         List<TipEntity> usertip = user.getTips();
         return ResponseEntity.ok(usertip);
+    }
+
+    @GetMapping("/{userTokenId}/mypage/tips") @ResponseBody
+    public Page<TipListDto> getTipsPaging(@PathVariable String userTokenId){
+        Page<TipListDto> tipListDtoPage = tipGetService.getTipsPagingByUserId(userTokenId);
+        return tipListDtoPage;
     }
 
     @GetMapping("/{userTokenId}/searchedrecipelog") @ResponseBody
