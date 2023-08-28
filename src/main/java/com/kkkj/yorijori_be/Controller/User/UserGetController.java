@@ -87,6 +87,7 @@ public class UserGetController {
         return tipListDtoPage;
     }
 
+
     @GetMapping("/{userTokenId}/searchedrecipelog") @ResponseBody
     public ResponseEntity<List<UserSearchedRecipeEntity>> getUserSearchedRecipeLog(@PathVariable String userTokenId) {
         UserEntity user = userRepository.findByUserTokenId(userTokenId);
