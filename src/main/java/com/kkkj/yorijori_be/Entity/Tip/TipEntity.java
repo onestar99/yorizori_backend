@@ -6,6 +6,8 @@ import com.kkkj.yorijori_be.Entity.User.UserEntity;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.List;
+
 @ToString
 @Getter
 @Builder
@@ -29,16 +31,27 @@ public class TipEntity extends BaseTimeEntity {
     private UserEntity user;
 
     @Column(name = "tip_hits", nullable = false)
-    private int tipHits;
+    private int tipHits;//조회수
 
-    @Column(name = "tip_detail")
-    private String tipDetail;
+    @Column(name = "tip_heart_count", nullable = false)
+    private int tipHeartCount;//좋아요 수(하트 수)
+
+    @Column(name = "tip_reviewCount", nullable = false)
+    private int tipReviewCount;//댓글 수
+
 
     @Column(name = "tip_thumbnail")
     private String tipThumbnail;
+
+    @Column(name = "tip_detail",columnDefinition = "TEXT")
+    private String tipDetail;
 
     // userTokenId setting
     public void setUser(UserEntity user) {
         this.user = user;
     }
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "tip", cascade = CascadeType.ALL)
+    private List<TipDetailEntity> details;
 }

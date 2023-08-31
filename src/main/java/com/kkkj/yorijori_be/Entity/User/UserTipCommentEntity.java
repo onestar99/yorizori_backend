@@ -3,6 +3,7 @@ package com.kkkj.yorijori_be.Entity.User;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.kkkj.yorijori_be.Entity.BaseTimeEntity;
 import com.kkkj.yorijori_be.Entity.Recipe.RecipeEntity;
+import com.kkkj.yorijori_be.Entity.Tip.TipEntity;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -11,9 +12,9 @@ import lombok.*;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "user_comment")
+@Table(name = "user_tip_comment")
 @Entity
-public class UserCommentEntity extends BaseTimeEntity {
+public class UserTipCommentEntity extends BaseTimeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -28,13 +29,13 @@ public class UserCommentEntity extends BaseTimeEntity {
     @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "board_id")
-    private RecipeEntity board;
+    private TipEntity board;
 
     @Column(name = "comment")
     private String comment;
 
     @Column(name = "scope", length = 4)
-    private Integer scope;
+    private String scope;
 
     // userTokenId setting
     public void setUser(UserEntity user) {
@@ -42,8 +43,8 @@ public class UserCommentEntity extends BaseTimeEntity {
     }
 
     // board setting
-    public void setBoard(RecipeEntity recipe) {
-        this.board = recipe;
+    public void setBoard(TipEntity tipEntity) {
+        this.board = tipEntity;
     }
 
 

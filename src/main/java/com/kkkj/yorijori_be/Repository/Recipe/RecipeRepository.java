@@ -1,6 +1,7 @@
 package com.kkkj.yorijori_be.Repository.Recipe;
 
 import com.kkkj.yorijori_be.Entity.Recipe.RecipeEntity;
+import com.kkkj.yorijori_be.Entity.Recipe.RecipeIngredientTagEntity;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -32,5 +33,27 @@ public interface RecipeRepository extends JpaRepository<RecipeEntity, Long> {
 
     // recipeId List를 이용하여 recipe 테이블 컬럼 조회
     Page<RecipeEntity> findAllByRecipeIdIn(List<Long> recipeIdList, Pageable pageable);
+    // recipeId를 이용하여 recipe 테이블 컬럼 조회
+    Page<RecipeEntity> findAllByUser_UserTokenId(String user_userTokenId, Pageable pageable);
+
+    @Modifying
+    @Query("update RecipeEntity r set r.scope = :scope where r.recipeId = :id")
+    void updateScope(@Param("scope")String scope, @Param("id")Long id);
+
+    @Modifying
+    @Query("update RecipeEntity r set r.reviewCount = :reviewCount where r.recipeId = :id")
+    void updateReviewCount(@Param("reviewCount")Integer reviewCount, @Param("id")Long id);
+
+    //재료테이블에서 재료검색값(searchKeyWord)를 재료의 레시피 추출
+    @Query(value = "SELECT r.*\n" +
+            "FROM recipe AS r\n" +
+            "JOIN recipe_ingredient_tag AS rit ON r.recipe_id = rit.recipe_id\n" +
+            "WHERE rit.ingredient_name LIKE :searchKeyWord",nativeQuery = true)
+    List<RecipeEntity> searchingredient(@Param("searchKeyWord") String searchKeyWord);
+
+
+    @Modifying
+    @Query("DELETE FROM RecipeEntity rl WHERE rl.recipeId = :recipeId")
+    void deleteByRecipeId(@Param("recipeId") Long recipeId);
 
 }

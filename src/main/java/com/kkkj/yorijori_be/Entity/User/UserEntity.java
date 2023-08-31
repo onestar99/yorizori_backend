@@ -45,6 +45,10 @@ public class UserEntity extends BaseTimeEntity {
 
     @JsonIgnore
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    private List<UserTipCommentEntity> TipComments;
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<RecipeEntity> Recipes;
 
     @JsonIgnore
@@ -53,8 +57,15 @@ public class UserEntity extends BaseTimeEntity {
 
     @JsonIgnore
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
-    private List<UserScopeEntity> scopes;
+    private List<UserViewLogEntity> ViewLog;
 
+    @JsonIgnore
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    private List<UserSearchedRecipeEntity> SearchedRecipe;
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    private List<UserSearchedIngredientEntity> SearchedIngredient;
 
     public void updateProfile(String profileAddress){
         this.imageAddress = profileAddress;

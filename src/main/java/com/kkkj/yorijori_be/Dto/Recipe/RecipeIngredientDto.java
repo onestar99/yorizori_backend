@@ -14,6 +14,7 @@ public class RecipeIngredientDto {
     private String detail;
 
 
+
     public RecipeIngredientTagEntity toEntity(){
         RecipeIngredientTagEntity recipeIngredientTagEntity = RecipeIngredientTagEntity.builder()
                 .ingredientName(name)

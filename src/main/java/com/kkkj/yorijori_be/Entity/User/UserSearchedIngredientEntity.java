@@ -5,47 +5,41 @@ import com.kkkj.yorijori_be.Entity.BaseTimeEntity;
 import com.kkkj.yorijori_be.Entity.Recipe.RecipeEntity;
 import jakarta.persistence.*;
 import lombok.*;
+import org.springframework.data.annotation.CreatedDate;
+
+import java.time.LocalDateTime;
 
 @ToString
 @Getter
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "user_comment")
+@Table(name = "user_searched_ingredient_log")
 @Entity
-public class UserCommentEntity extends BaseTimeEntity {
+public class UserSearchedIngredientEntity{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "comment_id")
-    private Long commentId;
+    @Column(name = "searched_ingredient_log_id")
+    private Long ingredientId;
 
     @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "user_token_id")
     private UserEntity user;
 
-    @JsonIgnore
-    @ManyToOne
-    @JoinColumn(name = "board_id")
-    private RecipeEntity board;
+    @CreatedDate
+    @Column(updatable = false)
+    private LocalDateTime createdTime;
 
-    @Column(name = "comment")
-    private String comment;
 
-    @Column(name = "scope", length = 4)
-    private Integer scope;
+    @Column(name = "searched_log")
+    private String searchedlog;
 
-    // userTokenId setting
     public void setUser(UserEntity user) {
         this.user = user;
     }
 
-    // board setting
-    public void setBoard(RecipeEntity recipe) {
-        this.board = recipe;
-    }
-
-
+    public void setSearchedlog(String searchedlog){this.searchedlog = searchedlog;}
 
 }

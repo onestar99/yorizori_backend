@@ -17,7 +17,7 @@ public class RecipeListDto {
     private String starRate; // 별점
     private int starCount; // 별점수
     private String profileImg; // 프로필 이미지 주소
-    private String nickName; // 회원 닉네임
+    private String nickname; // 회원 닉네임
     private int viewCount; // 조회수
     private int reviewCount; // 댓글 수
 
@@ -28,9 +28,8 @@ public class RecipeListDto {
                 .title(m.getRecipeTitle())
                 .thumbnail(m.getRecipeThumbnail())
                 .starRate(m.getScope())
-                .starCount(m.getScopeCount())
                 .profileImg(m.getUser().getImageAddress())
-                .nickName(m.getUser().getNickname())
+                .nickname(m.getUser().getNickname())
                 .viewCount(m.getRecipeHits())
                 .reviewCount(m.getReviewCount()).build());
         return recipeListDtoPage;
@@ -42,9 +41,8 @@ public class RecipeListDto {
                 .title(recipeEntity.getRecipeTitle())
                 .thumbnail(recipeEntity.getRecipeThumbnail())
                 .starRate(recipeEntity.getScope())
-                .starCount(recipeEntity.getScopeCount())
                 .profileImg(recipeEntity.getUser().getImageAddress())
-                .nickName(recipeEntity.getUser().getNickname())
+                .nickname(recipeEntity.getUser().getNickname())
                 .viewCount(recipeEntity.getRecipeHits())
                 .reviewCount(recipeEntity.getReviewCount())
                 .build();

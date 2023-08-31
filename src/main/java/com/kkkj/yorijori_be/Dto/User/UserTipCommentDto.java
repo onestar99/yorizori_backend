@@ -1,10 +1,7 @@
 package com.kkkj.yorijori_be.Dto.User;
 
 import com.kkkj.yorijori_be.Entity.User.UserCommentEntity;
-import com.kkkj.yorijori_be.Entity.User.UserEntity;
-import jakarta.persistence.Column;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
+import com.kkkj.yorijori_be.Entity.User.UserTipCommentEntity;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -14,14 +11,14 @@ import lombok.ToString;
 @Setter
 @ToString
 @NoArgsConstructor
-public class UserCommentDto {
+public class UserTipCommentDto {
 
     private String userTokenId;
     private String text;
-    private Integer star;
+    private String star;
 
-    public UserCommentEntity toEntity(){
-        UserCommentEntity build = UserCommentEntity.builder()
+    public UserTipCommentEntity toEntity(){
+        UserTipCommentEntity build = UserTipCommentEntity.builder()
                 .comment(text)
                 .scope(star)
                 .build();

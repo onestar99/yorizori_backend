@@ -30,9 +30,6 @@ public class TipDeleteService {
     public boolean deleteAllTipById(String tokenId){
         UserEntity user = userRepository.findByUserTokenId(tokenId);
         if (user != null){
-//            List<UserCommentEntity> comments = user.getComments();
-//            userCommentRepository.deleteAllInBatch(comments);
-//            userCommentRepository.flush();
             List<TipEntity> tips = user.getTips();
             tipRepository.deleteAllInBatch(tips);
             tipRepository.flush();

@@ -1,16 +1,16 @@
 package com.kkkj.yorijori_be.Service.Recipe;
 
-import com.kkkj.yorijori_be.Dto.Recipe.RecipeDetailsDto;
-import com.kkkj.yorijori_be.Dto.Recipe.RecipeIngredientDto;
-import com.kkkj.yorijori_be.Dto.Recipe.RecipeListDto;
-import com.kkkj.yorijori_be.Dto.Recipe.RecipeOrderDto;
+import com.kkkj.yorijori_be.Dto.Recipe.*;
+import com.kkkj.yorijori_be.Dto.User.UserCommentDto;
 import com.kkkj.yorijori_be.Entity.Recipe.RecipeDetailEntity;
 import com.kkkj.yorijori_be.Entity.Recipe.RecipeEntity;
 import com.kkkj.yorijori_be.Entity.Recipe.RecipeIngredientTagEntity;
+import com.kkkj.yorijori_be.Entity.User.UserCommentEntity;
 import com.kkkj.yorijori_be.Repository.Recipe.RecipeCategoryTagRepository;
 import com.kkkj.yorijori_be.Repository.Recipe.RecipeDetailRepository;
 import com.kkkj.yorijori_be.Repository.Recipe.RecipeIngredientTagRepository;
 import com.kkkj.yorijori_be.Repository.Recipe.RecipeRepository;
+import com.kkkj.yorijori_be.Repository.User.UserCommentRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -22,6 +22,8 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.function.Predicate;
+import java.util.stream.Collectors;
 
 @Slf4j
 @Service
@@ -32,6 +34,7 @@ public class RecipeGetService {
     private final RecipeDetailRepository recipeDetailRepository;
     private final RecipeIngredientTagRepository recipeIngredientTagRepository;
     private final RecipeCategoryTagRepository recipeCategoryTagRepository;
+    private final UserCommentRepository userCommentRepository;
 
     // 레시피 정보 페이징해서 보내기.
     public Page<RecipeListDto> getRecipePaging(int pageNo, int pageSize, String sortBy){
@@ -39,7 +42,6 @@ public class RecipeGetService {
         // json 형식을 Entity에 맞춰서 칼럼 명칭 변환
         String columnName = sortToColumnName(sortBy);
 
-        System.out.println(columnName);
         // 페이지 인스턴스 생성
 //        Pageable pageable = PageRequest.of(pageNo, pageSize, Sort.by(sortBy).descending());
         Pageable pageable = PageRequest.of(pageNo, pageSize, Sort.by(columnName).descending());
@@ -50,12 +52,21 @@ public class RecipeGetService {
 
     public Page<RecipeListDto> getRecipeCategoryPaging(int pageNo, int pageSize, String categoryName){
 
-        Pageable pageable = PageRequest.of(pageNo, pageSize, Sort.by("recipeId").descending());
+        Pageable pageable = PageRequest.of(pageNo, pageSize, Sort.by("createdTime").descending());
         // 카테고리 이름 이용해서 레시피 아이디들을 받기
         List<Long> recipeIdList = getRecipeIdsByCategory(categoryName);
         Page<RecipeEntity> recipeEntityPage = recipeRepository.findAllByRecipeIdIn(recipeIdList, pageable);
         Page<RecipeListDto> recipeListDtoPage = RecipeListDto.toDtoPage(recipeEntityPage);
         return recipeListDtoPage;
+    }
+
+    // 유저 아이디를 통해 레시피 목록 페이징 제공
+    public Page<RecipeListDto> getRecipePagingByUserId(int pageNo, int pageSize, String userId){
+        Pageable pageable = PageRequest.of(pageNo, pageSize, Sort.by("createdTime").descending());
+        Page<RecipeEntity> recipeEntityPage = recipeRepository.findAllByUser_UserTokenId(userId, pageable);
+        Page<RecipeListDto> recipeListDtoPage = RecipeListDto.toDtoPage(recipeEntityPage);
+        return recipeListDtoPage;
+
     }
 
 
@@ -128,6 +139,15 @@ public class RecipeGetService {
         return recipeListDtoList;
     }
 
+    // 조회수순으로 랭크 100위까지 정렬
+    public Page<RecipeListDto> getTopPagingItemsByViews(int pageNo, int pageSize) {
+        Pageable pageable = PageRequest.of(pageNo, pageSize, Sort.by("recipeHits").descending());
+        Page<RecipeEntity> recipeEntityPage = recipeRepository.findAll(pageable);
+        Page<RecipeListDto> recipeListDtoPage = RecipeListDto.toDtoPage(recipeEntityPage);
+
+        return recipeListDtoPage;
+    }
+
 
 
 
@@ -152,7 +172,6 @@ public class RecipeGetService {
     }
 
     public List<RecipeListDto> recipeSearchList(String searchKeyword){
-
         List<RecipeEntity> recipeEntityList = recipeRepository.findByRecipeTitleContaining(searchKeyword);
         List<RecipeListDto> recipeListDtoList = new ArrayList<>();
         for(RecipeEntity recipeEntity : recipeEntityList){
@@ -162,4 +181,65 @@ public class RecipeGetService {
     }
 
 
+
+    // 동적으로 재료 포함한 레시피 검색
+    public List<RecipeListDto> recipeIngredientAllSearchList(List<String> ingredients){
+        List<RecipeListDto> recipeListDtoList = new ArrayList<>();//레시피를 받는 리스트
+        for(int i=0;i<ingredients.size();i++) {
+            List<RecipeEntity> recipeEntityList = recipeRepository.searchingredient(ingredients.get(i));//재료를 가지고 있는 레시피 리스트
+            if(i==0){
+                for (RecipeEntity recipeEntity: recipeEntityList) {
+                    recipeListDtoList.add(RecipeListDto.toDto(recipeEntity));
+                }
+            }
+            else{
+                List<RecipeListDto> temprecipeListDtoList = new ArrayList<>();//재료를 가진 임시 레시피 리스트
+                for (RecipeEntity recipeEntity : recipeEntityList) {
+                    temprecipeListDtoList.add(RecipeListDto.toDto(recipeEntity));
+                }
+                List<RecipeListDto> finalRecipeListDtoList = recipeListDtoList;//이전 조건문의 재료를 가진 레시피 리스트
+                List<RecipeListDto> matchList = temprecipeListDtoList.stream().filter(o -> finalRecipeListDtoList.stream().anyMatch(n->{return o.getId().equals(n.getId());})).collect(Collectors.toList());// 재료를 가진 레시피 리스트를 비교하여 중복되는 레시피 추출
+                recipeListDtoList=matchList;
+            }
+        }
+        return recipeListDtoList;
+    }
+
+
+    // 레시피 디테일을 보낼 때 리뷰를 보내줌.
+    public RecipeDetailReviewDto getRecipeDetailReview(Long boardId) {
+
+        RecipeEntity recipe = recipeRepository.findByRecipeId(boardId);
+
+        List<Integer> starCount = new ArrayList<>();
+        List<ReviewDto> reviewDtoList = new ArrayList<>();
+
+        // starCount 만들기
+        starCount.add(userCommentRepository.countCommentsWithScope5ForBoard(boardId));
+        starCount.add(userCommentRepository.countCommentsWithScope4ForBoard(boardId));
+        starCount.add(userCommentRepository.countCommentsWithScope3ForBoard(boardId));
+        starCount.add(userCommentRepository.countCommentsWithScope2ForBoard(boardId));
+        starCount.add(userCommentRepository.countCommentsWithScope1ForBoard(boardId));
+
+
+        // ReviewDto 만들기
+        List<UserCommentEntity> userCommentEntityList = userCommentRepository.findByBoardOrderByCreatedTimeDesc(recipe);
+        for(UserCommentEntity userCommentEntity: userCommentEntityList){
+            reviewDtoList.add(ReviewDto.toDto(userCommentEntity));
+        }
+
+        String status = "ok";
+        if(userCommentEntityList.isEmpty()){
+            status = "null";
+        }
+
+        return RecipeDetailReviewDto.builder()
+                .status(status)
+                .starRate(recipe.getScope())
+                .starCount(starCount)
+                .reviewCount(recipe.getReviewCount())
+                .reviews(reviewDtoList)
+                .build();
+
+    }
 }
