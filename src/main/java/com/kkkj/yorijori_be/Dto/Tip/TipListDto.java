@@ -24,11 +24,11 @@ public class TipListDto {
         TipListDto tipListDto = TipListDto.builder()
                 .id(tipEntity.getTipId())
                 .title(tipEntity.getTipTitle())
-                .heartCount(tipEntity.getTipHits())
+                .heartCount(tipEntity.getTipHeartCount())
                 .thumbnail(tipEntity.getTipThumbnail())
                 .nickname(tipEntity.getUser().getNickname())
                 .profileImg(tipEntity.getUser().getImageAddress())
-                .viewCount(tipEntity.getTipHits())
+                .viewCount(tipEntity.getTipViewCount())
                 .build();
         return tipListDto;
     }
@@ -36,7 +36,7 @@ public class TipListDto {
     public static Page<TipListDto> toDtoPage(Page<TipEntity> tipEntityPage){
         Page<TipListDto> tipListDtoPage = tipEntityPage.map(m -> TipListDto.builder()
                 .id(m.getTipId())
-                .viewCount(m.getTipHits())
+                .viewCount(m.getTipViewCount())
                 .heartCount(m.getTipHeartCount())
                 .thumbnail(m.getTipThumbnail())
                 .nickname(m.getUser().getNickname())

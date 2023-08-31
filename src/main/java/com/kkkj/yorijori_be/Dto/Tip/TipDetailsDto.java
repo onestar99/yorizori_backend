@@ -35,7 +35,7 @@ public class TipDetailsDto {
                 .nickname(tipEntity.getUser().getNickname())
                 .date(tipEntity.getCreatedTime())
                 .heartCount(tipEntity.getTipHeartCount())
-                .viewCount(tipEntity.getTipHits())
+                .viewCount(tipEntity.getTipViewCount())
                 .reviewCount(tipEntity.getTipReviewCount())
                 .order(order)
                 .build();

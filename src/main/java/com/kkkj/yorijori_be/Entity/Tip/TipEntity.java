@@ -30,8 +30,8 @@ public class TipEntity extends BaseTimeEntity {
     @JoinColumn(name = "user_token_id")
     private UserEntity user;
 
-    @Column(name = "tip_hits", nullable = false)
-    private int tipHits;//조회수
+    @Column(name = "tip_view_count", nullable = false)
+    private int tipViewCount;//조회수
 
     @Column(name = "tip_heart_count", nullable = false)
     private int tipHeartCount;//좋아요 수(하트 수)

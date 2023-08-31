@@ -21,10 +21,10 @@ public class RecipeDto {
     private String recipeTitle;
     private String category;
     private String dishName;
-    private int recipeHits = 0;
+    private int recipeViewCount = 0;
     private String authorship;
     private String referenceRecipe;
-    private String scope = "0.0";
+    private String starCount = "0.0";
     private String recipeIntro;
     private String recipeThumbnail;
     private int reviewCount = 0;
@@ -39,9 +39,9 @@ public class RecipeDto {
         recipeDto.setRecipeTitle(recipeSaveDto.getRecipeInfo().getTitle());
         recipeDto.setCategory(recipeSaveDto.getRecipeInfo().getCategory());
         recipeDto.setDishName(null);
-        recipeDto.setRecipeHits(0);
+        recipeDto.setRecipeViewCount(0);
         recipeDto.setAuthorship(null);
-        recipeDto.setScope("0.0");
+        recipeDto.setStarCount("0.0");
         recipeDto.setRecipeIntro(recipeSaveDto.getRecipeInfo().getExplain());
         String thumbnail = recipeSaveDto.getThumbnail().split("https://yorizori-s3.s3.ap-northeast-2.amazonaws.com")[1];
         recipeDto.setRecipeThumbnail(thumbnail);
@@ -59,11 +59,11 @@ public class RecipeDto {
         RecipeEntity build = RecipeEntity.builder()
                 .recipeTitle(recipeTitle)
                 .dishName(dishName)
-                .recipeHits(recipeHits)
+                .recipeViewCount(recipeViewCount)
                 .recipeIntro(recipeIntro)
                 .authorship(authorship)
                 .referenceRecipe(referenceRecipe)
-                .scope(scope)
+                .starCount(starCount)
                 .recipeThumbnail(recipeThumbnail)
                 .reviewCount(reviewCount)
                 .time(time)

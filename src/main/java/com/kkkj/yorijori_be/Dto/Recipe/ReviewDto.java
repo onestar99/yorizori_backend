@@ -17,7 +17,7 @@ public class ReviewDto {
 
     private String nickname; // 유저 닉네임
     private String profileImg; // 유저 프로필 이미지
-    private Integer scope;// 별점
+    private Integer starCount;// 별점
     private String review;// 댓글
     private String date;// 리뷰 시간
 
@@ -27,7 +27,7 @@ public class ReviewDto {
         return ReviewDto.builder()
                 .nickname(userCommentEntity.getUser().getNickname())
                 .profileImg(userCommentEntity.getUser().getImageAddress())
-                .scope(userCommentEntity.getScope())
+                .starCount(userCommentEntity.getStarCount())
                 .review(userCommentEntity.getComment())
                 .date(userCommentEntity.getCreatedTime().format(DateTimeFormatter.ISO_DATE))
                 .build();

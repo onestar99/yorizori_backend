@@ -71,7 +71,7 @@ public class UserSaveUpdateService {
 
     // 레시피 리뷰, 카운트 업데이트
     @Transactional
-    public void updateRecipeReviewCountAndScope(Long recipeId){
+    public void updateRecipeReviewCountAndStarCount(Long recipeId){
 
         double mean = 0.0;
 
@@ -79,14 +79,14 @@ public class UserSaveUpdateService {
         RecipeEntity recipeEntity = recipeRepository.findByRecipeId(recipeId);
         List<UserCommentEntity> userCommentEntityList = recipeEntity.getComments();
 
-        mean = userCommentRepository.averageRecipeScopeByBoardId(recipeId);
+        mean = userCommentRepository.averageRecipeStarCountByBoardId(recipeId);
         mean = (Math.round(mean * 10) / 10.0); // 반올림 처리
 
         String meanToString = Double.toString(mean); // String으로 전환
 
 
         // 업데이트하기
-        recipeRepository.updateScope(meanToString, recipeId);
+        recipeRepository.updateStarCount(meanToString, recipeId);
         recipeRepository.updateReviewCount(userCommentEntityList.size(), recipeId);
 
 

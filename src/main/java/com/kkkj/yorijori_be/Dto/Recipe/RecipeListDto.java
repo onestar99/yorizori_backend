@@ -27,10 +27,10 @@ public class RecipeListDto {
                 .id(m.getRecipeId())
                 .title(m.getRecipeTitle())
                 .thumbnail(m.getRecipeThumbnail())
-                .starRate(m.getScope())
+                .starRate(m.getStarCount())
                 .profileImg(m.getUser().getImageAddress())
                 .nickname(m.getUser().getNickname())
-                .viewCount(m.getRecipeHits())
+                .viewCount(m.getRecipeViewCount())
                 .reviewCount(m.getReviewCount()).build());
         return recipeListDtoPage;
     }
@@ -40,10 +40,10 @@ public class RecipeListDto {
                 .id(recipeEntity.getRecipeId())
                 .title(recipeEntity.getRecipeTitle())
                 .thumbnail(recipeEntity.getRecipeThumbnail())
-                .starRate(recipeEntity.getScope())
+                .starRate(recipeEntity.getStarCount())
                 .profileImg(recipeEntity.getUser().getImageAddress())
                 .nickname(recipeEntity.getUser().getNickname())
-                .viewCount(recipeEntity.getRecipeHits())
+                .viewCount(recipeEntity.getRecipeViewCount())
                 .reviewCount(recipeEntity.getReviewCount())
                 .build();
         return recipeListDto;

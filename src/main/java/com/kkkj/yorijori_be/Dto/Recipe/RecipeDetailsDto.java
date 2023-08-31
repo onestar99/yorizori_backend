@@ -60,7 +60,7 @@ public class RecipeDetailsDto {
                 .semiIngredient(semiIngredient)
                 .order(order)
                 .category(category)
-                .viewCount(recipeEntity.getRecipeHits())
+                .viewCount(recipeEntity.getRecipeViewCount())
                 .build();
 
         return recipeDetailsDto;

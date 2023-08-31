@@ -15,12 +15,12 @@ public class UserTipCommentDto {
 
     private String userTokenId;
     private String text;
-    private String star;
+    private String starCount;
 
     public UserTipCommentEntity toEntity(){
         UserTipCommentEntity build = UserTipCommentEntity.builder()
                 .comment(text)
-                .scope(star)
+                .starCount(starCount)
                 .build();
 
         return build;

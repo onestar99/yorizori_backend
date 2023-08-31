@@ -34,8 +34,8 @@ public class UserTipCommentEntity extends BaseTimeEntity {
     @Column(name = "comment")
     private String comment;
 
-    @Column(name = "scope", length = 4)
-    private String scope;
+    @Column(name = "star_count", length = 4)
+    private String starCount;
 
     // userTokenId setting
     public void setUser(UserEntity user) {

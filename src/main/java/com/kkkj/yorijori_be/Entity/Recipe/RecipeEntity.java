@@ -38,8 +38,8 @@ public class RecipeEntity extends BaseTimeEntity {
     @Column(name = "recipe_intro")
     private String recipeIntro;
 
-    @Column(name = "recipe_hits", nullable = false)
-    private int recipeHits;
+    @Column(name = "recipe_view_count", nullable = false)
+    private int recipeViewCount;
 
     @Column(name = "authorship")
     private String authorship;
@@ -47,8 +47,8 @@ public class RecipeEntity extends BaseTimeEntity {
     @Column(name = "reference_recipe")
     private String referenceRecipe;
 
-    @Column(name = "scope", length = 4, nullable = false)
-    private String scope;
+    @Column(name = "star_count", length = 4, nullable = false)
+    private String starCount;
 
     @Column(name = "recipe_thumbnail")
     private String recipeThumbnail;

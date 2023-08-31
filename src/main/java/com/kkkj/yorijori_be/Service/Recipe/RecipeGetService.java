@@ -120,7 +120,7 @@ public class RecipeGetService {
     // 조회수순으로 랭크 9위까지 정렬
     public List<RecipeListDto> getTop9ItemsByViews() {
 
-        List<RecipeEntity> recipeEntityList = recipeRepository.findTop9ByOrderByRecipeHitsDesc();
+        List<RecipeEntity> recipeEntityList = recipeRepository.findTop9ByOrderByRecipeViewCountDesc();
         List<RecipeListDto> recipeListDtoList = new ArrayList<>();
         for(RecipeEntity recipeEntity: recipeEntityList){
             recipeListDtoList.add(RecipeListDto.toDto(recipeEntity));
@@ -131,7 +131,7 @@ public class RecipeGetService {
     // 조회수순으로 랭크 100위까지 정렬
     public List<RecipeListDto> getTop100ItemsByViews() {
 
-        List<RecipeEntity> recipeEntityList = recipeRepository.findTop100ByOrderByRecipeHitsDesc();
+        List<RecipeEntity> recipeEntityList = recipeRepository.findTop100ByOrderByRecipeViewCountDesc();
         List<RecipeListDto> recipeListDtoList = new ArrayList<>();
         for(RecipeEntity recipeEntity: recipeEntityList){
             recipeListDtoList.add(RecipeListDto.toDto(recipeEntity));
@@ -162,7 +162,7 @@ public class RecipeGetService {
                 columnName = "recipeId";
                 break;
             case "viewCount":
-                columnName = "recipeHits";
+                columnName = "recipeViewCount";
                 break;
             case "starRate":
                 columnName = "scope";
@@ -215,11 +215,11 @@ public class RecipeGetService {
         List<ReviewDto> reviewDtoList = new ArrayList<>();
 
         // starCount 만들기
-        starCount.add(userCommentRepository.countCommentsWithScope5ForBoard(boardId));
-        starCount.add(userCommentRepository.countCommentsWithScope4ForBoard(boardId));
-        starCount.add(userCommentRepository.countCommentsWithScope3ForBoard(boardId));
-        starCount.add(userCommentRepository.countCommentsWithScope2ForBoard(boardId));
-        starCount.add(userCommentRepository.countCommentsWithScope1ForBoard(boardId));
+        starCount.add(userCommentRepository.countCommentsWithStarCount5ForBoard(boardId));
+        starCount.add(userCommentRepository.countCommentsWithStarCount4ForBoard(boardId));
+        starCount.add(userCommentRepository.countCommentsWithStarCount3ForBoard(boardId));
+        starCount.add(userCommentRepository.countCommentsWithStarCount2ForBoard(boardId));
+        starCount.add(userCommentRepository.countCommentsWithStarCount1ForBoard(boardId));
 
 
         // ReviewDto 만들기
@@ -235,7 +235,7 @@ public class RecipeGetService {
 
         return RecipeDetailReviewDto.builder()
                 .status(status)
-                .starRate(recipe.getScope())
+                .starRate(recipe.getStarCount())
                 .starCount(starCount)
                 .reviewCount(recipe.getReviewCount())
                 .reviews(reviewDtoList)

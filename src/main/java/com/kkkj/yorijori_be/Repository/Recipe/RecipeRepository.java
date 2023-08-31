@@ -17,11 +17,11 @@ public interface RecipeRepository extends JpaRepository<RecipeEntity, Long> {
     RecipeEntity findByRecipeId(Long recipeId);
 
     @Modifying
-    @Query("update RecipeEntity r set r.recipeHits = r.recipeHits + 1 where r.recipeId = :id")
+    @Query("update RecipeEntity r set r.recipeViewCount = r.recipeViewCount + 1 where r.recipeId = :id")
     void updateView(@Param("id")Long id);
 
-    List<RecipeEntity> findTop9ByOrderByRecipeHitsDesc();
-    List<RecipeEntity> findTop100ByOrderByRecipeHitsDesc();
+    List<RecipeEntity> findTop9ByOrderByRecipeViewCountDesc();
+    List<RecipeEntity> findTop100ByOrderByRecipeViewCountDesc();
 
     List<RecipeEntity> findByRecipeTitleContaining(String searchKeyword);
 
@@ -37,8 +37,8 @@ public interface RecipeRepository extends JpaRepository<RecipeEntity, Long> {
     Page<RecipeEntity> findAllByUser_UserTokenId(String user_userTokenId, Pageable pageable);
 
     @Modifying
-    @Query("update RecipeEntity r set r.scope = :scope where r.recipeId = :id")
-    void updateScope(@Param("scope")String scope, @Param("id")Long id);
+    @Query("update RecipeEntity r set r.starCount = :starCount where r.recipeId = :id")
+    void updateStarCount(@Param("starCount")String starCount, @Param("id")Long id);
 
     @Modifying
     @Query("update RecipeEntity r set r.reviewCount = :reviewCount where r.recipeId = :id")
