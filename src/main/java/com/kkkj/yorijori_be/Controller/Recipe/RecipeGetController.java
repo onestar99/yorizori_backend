@@ -3,15 +3,13 @@ package com.kkkj.yorijori_be.Controller.Recipe;
 import com.kkkj.yorijori_be.Dto.Recipe.RecipeDetailReviewDto;
 import com.kkkj.yorijori_be.Dto.Recipe.RecipeDetailsDto;
 import com.kkkj.yorijori_be.Dto.Recipe.RecipeListDto;
-import com.kkkj.yorijori_be.Entity.Recipe.RecipeEntity;
 import com.kkkj.yorijori_be.Service.Recipe.RecipeGetService;
+import com.kkkj.yorijori_be.Service.Recipe.RecipeRecommendService;
 import com.kkkj.yorijori_be.Service.Recipe.RecipeSaveUpdateService;
 import com.kkkj.yorijori_be.Service.User.UserSaveUpdateService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -27,6 +25,8 @@ public class RecipeGetController {
     private final RecipeGetService recipeGetService;
     private final RecipeSaveUpdateService recipeSaveUpdateService;
     private final UserSaveUpdateService userSaveUpdateService;
+    private final RecipeRecommendService recipeRecommendService;
+
 
     // 모든 레시피 정보 페이징 처리
     @GetMapping("/all/paging") @ResponseBody
@@ -130,4 +130,12 @@ public class RecipeGetController {
 
         return recipeGetService.getRecipeDetailReview(boardId);
     }
+
+    // 추천 레시피 정보 넘기기
+    @ResponseBody
+    @GetMapping("/recommend/{userId}")
+    public List<RecipeListDto> sendRequestToFlask(@PathVariable String userId) {
+        return recipeRecommendService.recipeRecommendByRecipeId(userId);
+    }
+
 }

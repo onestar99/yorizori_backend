@@ -56,4 +56,6 @@ public interface RecipeRepository extends JpaRepository<RecipeEntity, Long> {
     @Query("DELETE FROM RecipeEntity rl WHERE rl.recipeId = :recipeId")
     void deleteByRecipeId(@Param("recipeId") Long recipeId);
 
+    List<RecipeEntity> findByRecipeIdIn(List<Long> ids);
+
 }
