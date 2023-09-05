@@ -29,34 +29,6 @@ public class S3UploadController {
     private final S3Remover s3Remover;
 
 
-
-    //레시피 썸네일 이미지 업로드 후 레시피 테이블에서 썸네일 업데이트.
-    @PostMapping("/recipe/save/thumbnail/{recipeId}")
-    public ResponseEntity uploadRecipeThumbnailImage(@PathVariable Long recipeId, @RequestParam("recipeImage") MultipartFile multipartFile) throws IOException {
-
-        //S3 Bucket 내부에 "src" 폴더
-        FileUploadResponse fileUploadResponse = s3Uploader.uploadImage(multipartFile, "recipe");
-        // 레시피 이미지 정보를 업데이트
-        String dbFileName = fileUploadResponse.getFileName();
-        recipeSaveUpdateService.updateThumbnail(recipeId, dbFileName);
-
-        return new ResponseEntity(DefaultRes.res(StatusCode.OK, ResponseMessage.UPLOAD_SUCCESS, fileUploadResponse), HttpStatus.OK);
-    }
-
-    //레시피 이미지들 업로드 후 레시피 디테일 테이블에서 이미지들 업데이트.
-    @PostMapping("recipe/save/recipeImages/{recipeId}")
-    public ResponseEntity uploadRecipeImages(@PathVariable Long recipeId, @RequestParam("recipeImages") List<MultipartFile> multipartFileList) throws IOException {
-
-        //S3 Bucket 내부에 "/recipeImage" 폴더
-        List<FileUploadResponse> fileUploadResponseList = s3Uploader.uploadImages(multipartFileList, "recipe");
-        // 레시피 List에 든 정보에다가 entity들을 업데이트 시켜줘야함.
-        recipeSaveUpdateService.updateRecipeDetailImage(recipeId, fileUploadResponseList);
-
-        return new ResponseEntity(DefaultRes.res(StatusCode.OK, ResponseMessage.UPLOAD_SUCCESS, fileUploadResponseList), HttpStatus.OK);
-    }
-
-
-
     // 유저 프로필 이미지 템프 업로드
     @PostMapping("/image/upload/profile")
     public ResponseEntity uploadProfileTemp(@RequestParam("profileImage") MultipartFile multipartFile) throws IOException {
