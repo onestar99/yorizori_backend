@@ -25,7 +25,7 @@ public class TipSaveController {
         return ResponseEntity.ok("tip saved successfully : " + tipDto.getTipTitle());
     }
     @PostMapping("/details")
-    public ResponseEntity saveTip(@RequestBody TipPostDto tipPostDto){
+    public Long saveTip(@RequestBody TipPostDto tipPostDto){
 
         tipSaveUpdateService.saveTipDetails(tipPostDto);
 
@@ -34,7 +34,7 @@ public class TipSaveController {
         // 팁 정보를 저장(요청-POST)한다. (한개)
         // 팁 디테일 정보를 저장(요청-POST)한다. (여러개)
 
-        return ResponseEntity.ok("tip save successfully");
+        return tipPostDto.getTipId();
     }
 
 }
