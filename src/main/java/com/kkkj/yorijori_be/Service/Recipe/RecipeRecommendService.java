@@ -2,7 +2,8 @@ package com.kkkj.yorijori_be.Service.Recipe;
 
 import com.kkkj.yorijori_be.Dto.Recipe.RecipeListDto;
 import com.kkkj.yorijori_be.Entity.Recipe.RecipeEntity;
-import com.kkkj.yorijori_be.Repository.Recipe.RecipeRepository;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -19,8 +20,8 @@ import java.util.regex.Pattern;
 @RequiredArgsConstructor
 public class RecipeRecommendService {
 
-    private final RecipeRepository recipeRepository;
-
+    @PersistenceContext
+    private EntityManager entityManager;
 
     /*
     레시피 추천 서비스
@@ -33,7 +34,7 @@ public class RecipeRecommendService {
         // Str To List
         List<Long> userIdList = convertStringToList(userIds);
         // 레시피 정보 조회
-        List<RecipeEntity> recipeEntityList = recipeRepository.findByRecipeIdIn(userIdList);
+        List<RecipeEntity> recipeEntityList = findRecipeEntitiesByRecipeIdInOrderByRecipeId(userIds, userIdList);
         // 레시피 정보 변환
         List<RecipeListDto> recipeListDtoList = new ArrayList<>();
         for(RecipeEntity recipeEntity: recipeEntityList){
@@ -83,5 +84,23 @@ public class RecipeRecommendService {
         }
 
         return resultList;
+    }
+
+
+    // Mysql Native Query 사용한 레시피 in절 추천 받기.
+    private List<RecipeEntity> findRecipeEntitiesByRecipeIdInOrderByRecipeId(String recipeId, List<Long> recipeIds) {
+
+        // 정규 표현식을 사용하여 '['와 ']' 사이의 내용을 추출합니다.
+        Pattern pattern = Pattern.compile("\\[(.*?)\\]");
+        Matcher matcher = pattern.matcher(recipeId);
+        String recipeIdSql = null;
+        if (matcher.find()) {
+            recipeIdSql = matcher.group(1);
+        }
+        String sql = "SELECT * FROM recipe WHERE recipe_id IN :recipeIds ORDER BY FIELD(recipe_id," + recipeIdSql + ")";
+
+        return entityManager.createNativeQuery(sql, RecipeEntity.class)
+                .setParameter("recipeIds", recipeIds)
+                .getResultList();
     }
 }
