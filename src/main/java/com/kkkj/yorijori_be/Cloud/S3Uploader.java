@@ -14,6 +14,8 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.security.cert.Extension;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 @Slf4j
@@ -52,7 +54,7 @@ public class S3Uploader {
         for(MultipartFile multipartFile: multipartFileList){
             File uploadFile = convert(multipartFile)
                     .orElseThrow(() -> new IllegalArgumentException("MultipartFile -> File로 전환이 실패했습니다."));
-            fileUploadResponseList.add(uploadS3Images(uploadFile, dirName));
+            fileUploadResponseList.add(uploadS3Image(uploadFile, dirName));
         }
         return fileUploadResponseList;
     }
@@ -86,10 +88,10 @@ public class S3Uploader {
         String Extension = getExtension(uploadFile);
 
         if (fileExtensionConfirm(Extension)){
-
+            String date = nowDate();
             // UUID 생성하여 이미지 네이밍
             UUID uuid4 = UUID.randomUUID();
-            String fileName = dirName + "/" + uuid4 + "." + getExtension(uploadFile);
+            String fileName = dirName + "/" + date + "/" + uuid4 + "." + getExtension(uploadFile);
             String uploadImageUrl = putS3(uploadFile, fileName);
             removeNewFile(uploadFile);
 
@@ -101,33 +103,29 @@ public class S3Uploader {
             return new FileUploadResponse("null", "null");
         }
     }
-
-    private FileUploadResponse uploadS3Images(File uploadFile, String dirName) {
-
-        log.info("파일 확장자 : " + getExtension(uploadFile));
-        String Extension = getExtension(uploadFile);
-        /*
-        * TODO PNG, JPEG 사진 파일만을 거르도록 해주는 함수 추가하기.
-        * -완료-
-        * */
-
-        if (fileExtensionConfirm(Extension)){
-
-            // UUID 생성하여 이미지 네이밍
-            UUID uuid4 = UUID.randomUUID();
-            String fileName = dirName + "/" + uuid4 + "." + getExtension(uploadFile);
-            String uploadImageUrl = putS3(uploadFile, fileName);
-            removeNewFile(uploadFile); // 파일 삭제
-
-            //FileUploadResponse DTO로 반환해준다.
-            return new FileUploadResponse("/" + fileName, uploadImageUrl);
-        } else {
-            removeNewFile(uploadFile);
-            return new FileUploadResponse(null, null);
-        }
-
-
-    }
+//
+//    private FileUploadResponse uploadS3Images(File uploadFile, String dirName) {
+//
+//        log.info("파일 확장자 : " + getExtension(uploadFile));
+//        String Extension = getExtension(uploadFile);
+//
+//        if (fileExtensionConfirm(Extension)){
+//            String date = nowDate();
+//            // UUID 생성하여 이미지 네이밍
+//            UUID uuid4 = UUID.randomUUID();
+//            String fileName = dirName + "/" + date + "/" + uuid4 + "." + getExtension(uploadFile);
+//            String uploadImageUrl = putS3(uploadFile, fileName);
+//            removeNewFile(uploadFile); // 파일 삭제
+//
+//            //FileUploadResponse DTO로 반환해준다.
+//            return new FileUploadResponse("/" + fileName, uploadImageUrl);
+//        } else {
+//            removeNewFile(uploadFile);
+//            return new FileUploadResponse(null, null);
+//        }
+//
+//
+//    }
 
     // S3로 파일 올리기
     private String putS3(File uploadFile, String fileName) {
@@ -191,6 +189,16 @@ public class S3Uploader {
             }
         }
         return false;
+    }
+
+    private String nowDate(){
+        // 현재 날짜를 가져오기
+        LocalDate currentDate = LocalDate.now();
+
+        // 원하는 날짜 형식으로 포맷하기
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMdd");
+        String formattedDate = currentDate.format(formatter);
+        return formattedDate;
     }
 
 

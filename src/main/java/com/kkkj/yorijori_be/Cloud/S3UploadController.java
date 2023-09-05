@@ -35,7 +35,7 @@ public class S3UploadController {
     public ResponseEntity uploadRecipeThumbnailImage(@PathVariable Long recipeId, @RequestParam("recipeImage") MultipartFile multipartFile) throws IOException {
 
         //S3 Bucket 내부에 "src" 폴더
-        FileUploadResponse fileUploadResponse = s3Uploader.uploadImage(multipartFile, "src");
+        FileUploadResponse fileUploadResponse = s3Uploader.uploadImage(multipartFile, "recipe");
         // 레시피 이미지 정보를 업데이트
         String dbFileName = fileUploadResponse.getFileName();
         recipeSaveUpdateService.updateThumbnail(recipeId, dbFileName);
@@ -48,12 +48,14 @@ public class S3UploadController {
     public ResponseEntity uploadRecipeImages(@PathVariable Long recipeId, @RequestParam("recipeImages") List<MultipartFile> multipartFileList) throws IOException {
 
         //S3 Bucket 내부에 "/recipeImage" 폴더
-        List<FileUploadResponse> fileUploadResponseList = s3Uploader.uploadImages(multipartFileList, "src");
+        List<FileUploadResponse> fileUploadResponseList = s3Uploader.uploadImages(multipartFileList, "recipe");
         // 레시피 List에 든 정보에다가 entity들을 업데이트 시켜줘야함.
         recipeSaveUpdateService.updateRecipeDetailImage(recipeId, fileUploadResponseList);
 
         return new ResponseEntity(DefaultRes.res(StatusCode.OK, ResponseMessage.UPLOAD_SUCCESS, fileUploadResponseList), HttpStatus.OK);
     }
+
+
 
     // 유저 프로필 이미지 템프 업로드
     @PostMapping("/image/upload/profile")
@@ -67,7 +69,16 @@ public class S3UploadController {
     @PostMapping("/image/upload/recipe")
     public ResponseEntity uploadRecipeImageTemp(@RequestParam("recipeImage") MultipartFile multipartFile) throws IOException {
         //S3 Bucket 내부에 "src" 폴더
-        FileUploadResponse fileUploadResponse = s3Uploader.uploadImage(multipartFile, "src");
+        FileUploadResponse fileUploadResponse = s3Uploader.uploadImage(multipartFile, "recipe");
+        return new ResponseEntity(DefaultRes.res(StatusCode.OK, ResponseMessage.UPLOAD_SUCCESS, fileUploadResponse), HttpStatus.OK);
+
+    }
+
+    // 팁 이미지 템프 업로드
+    @PostMapping("/image/upload/tip")
+    public ResponseEntity uploadTipImageTemp(@RequestParam("tipImage") MultipartFile multipartFile) throws IOException {
+        //S3 Bucket 내부에 "tip" 폴더
+        FileUploadResponse fileUploadResponse = s3Uploader.uploadImage(multipartFile, "tip");
         return new ResponseEntity(DefaultRes.res(StatusCode.OK, ResponseMessage.UPLOAD_SUCCESS, fileUploadResponse), HttpStatus.OK);
 
     }
