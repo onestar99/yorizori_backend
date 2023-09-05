@@ -17,6 +17,7 @@ public class TipDto {
     private int tipReviewCount = 0;
     private String tipThumbnail;
     private String tipDetail;
+    private String userTokenId;
 
     public TipEntity toEntity(){
         TipEntity build = TipEntity.builder()
@@ -39,6 +40,16 @@ public class TipDto {
         tipDto.setTipThumbnail(tipEntity.getTipThumbnail());
         tipDto.setTipTitle(tipEntity.getTipTitle());
         tipDto.setTipDetail(tipEntity.getTipDetail());
+        return tipDto;
+    }
+
+    public static TipDto tipPostDtoToDto(TipPostDto tipPostDto){
+        TipDto tipDto = new TipDto();
+        tipDto.setTipDetail(tipPostDto.getDetail());
+        tipDto.setTipTitle(tipPostDto.getTitle());
+        tipDto.setTipThumbnail(tipPostDto.getThumbnail());
+        tipDto.setUserTokenId(tipPostDto.getUserid());
+
         return tipDto;
     }
 }

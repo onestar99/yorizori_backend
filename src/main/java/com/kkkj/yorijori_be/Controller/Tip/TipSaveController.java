@@ -1,6 +1,7 @@
 package com.kkkj.yorijori_be.Controller.Tip;
 
 import com.kkkj.yorijori_be.Dto.Tip.TipDto;
+import com.kkkj.yorijori_be.Dto.Tip.TipPostDto;
 import com.kkkj.yorijori_be.Service.Tip.TipSaveUpdateService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -20,18 +21,18 @@ public class TipSaveController {
         return ResponseEntity.ok("tip saved successfully : " + tipDto.getTipTitle());
     }
     @PostMapping("/details")
-    public Long saveTip(
-            @RequestParam(value = "userId", required = false) String userId,
-            @RequestBody TipDto tipDto){
+    public Long saveTip(@RequestBody TipPostDto tipPostDto){
 
-        tipSaveUpdateService.saveTip(userId,tipDto);
+        TipDto tipDto = TipDto.tipPostDtoToDto(tipPostDto);
+
+        long tipId = tipSaveUpdateService.saveTip(tipPostDto.getUserid(),tipDto);
 
         // 모든 내용이 괜찮은지 검토한다. (Validation)
 
         // 팁 정보를 저장(요청-POST)한다. (한개)
         // 팁 디테일 정보를 저장(요청-POST)한다. (여러개)
 
-        return tipDto.toEntity().getTipId();
+        return tipId;
     }
 
 }

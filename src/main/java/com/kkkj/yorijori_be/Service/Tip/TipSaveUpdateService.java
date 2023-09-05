@@ -18,7 +18,7 @@ public class TipSaveUpdateService {
     private final UserRepository userRepository;
 
 
-    public void saveTip(String userTokenId, TipDto tipDto){
+    public long saveTip(String userTokenId, TipDto tipDto){
 
         // TokenId를 통해 유저 정보 찾기
         UserEntity userEntity = userRepository.findByUserTokenId(userTokenId);
@@ -30,6 +30,7 @@ public class TipSaveUpdateService {
         userEntity.getTips().add(tipEntity);
         // 저장
         userRepository.save(userEntity);
+        return tipEntity.getTipId();
     }
 
 
