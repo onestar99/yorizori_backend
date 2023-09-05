@@ -19,7 +19,6 @@ public class TipSaveUpdateService {
 
 
     public long saveTip(String userTokenId, TipDto tipDto){
-
         // TokenId를 통해 유저 정보 찾기
         UserEntity userEntity = userRepository.findByUserTokenId(userTokenId);
         // 전달받은 DTO를 Entity로 변경
@@ -29,8 +28,10 @@ public class TipSaveUpdateService {
         // User에 tip Entity 추가
         userEntity.getTips().add(tipEntity);
         // 저장
-        userRepository.save(userEntity);
-        return tipEntity.getTipId();
+        UserEntity user = userRepository.save(userEntity);
+        int tipSize = user.getTips().size();
+        long tipId = user.getTips().get(tipSize-1).getTipId();
+        return tipId;
     }
 
 
