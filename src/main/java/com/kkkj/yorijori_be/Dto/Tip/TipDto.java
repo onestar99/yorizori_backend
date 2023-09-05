@@ -16,6 +16,7 @@ public class TipDto {
     private int tipHeartCount = 0;
     private int tipReviewCount = 0;
     private String tipThumbnail;
+    private String tipDetail;
 
     public TipEntity toEntity(){
         TipEntity build = TipEntity.builder()
@@ -24,6 +25,7 @@ public class TipDto {
                 .tipHeartCount(tipHeartCount)
                 .tipReviewCount(tipReviewCount)
                 .tipThumbnail(tipThumbnail)
+                .tipDetail(tipDetail)
                 .build();
 
         return build;
@@ -36,6 +38,7 @@ public class TipDto {
         tipDto.setTipReviewCount(tipEntity.getTipReviewCount());
         tipDto.setTipThumbnail(tipEntity.getTipThumbnail());
         tipDto.setTipTitle(tipEntity.getTipTitle());
+        tipDto.setTipDetail(tipEntity.getTipDetail());
         return tipDto;
     }
 }

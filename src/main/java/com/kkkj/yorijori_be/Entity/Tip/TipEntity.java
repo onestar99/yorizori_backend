@@ -51,7 +51,4 @@ public class TipEntity extends BaseTimeEntity {
         this.user = user;
     }
 
-    @JsonIgnore
-    @OneToMany(mappedBy = "tip", cascade = CascadeType.ALL)
-    private List<TipDetailEntity> details;
 }

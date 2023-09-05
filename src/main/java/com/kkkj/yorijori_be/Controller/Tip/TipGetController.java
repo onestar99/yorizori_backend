@@ -1,10 +1,6 @@
 package com.kkkj.yorijori_be.Controller.Tip;
 
-import com.kkkj.yorijori_be.Dto.Tip.TipDetailDto;
-import com.kkkj.yorijori_be.Dto.Tip.TipDetailsDto;
 import com.kkkj.yorijori_be.Dto.Tip.TipListDto;
-import com.kkkj.yorijori_be.Entity.Tip.TipEntity;
-import com.kkkj.yorijori_be.Repository.Tip.TipRepository;
 import com.kkkj.yorijori_be.Service.Tip.TipGetService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -42,14 +38,14 @@ public class TipGetController {
         return tipGetService.getTipsPart().subList(0,8);
     }
 
-    @GetMapping("/details") @ResponseBody
-    public TipDetailsDto getTipDetailsById(
-            @RequestParam(value = "tipId", required = false) Long tipId
-    ){
-        TipDetailsDto tipDetailsDto = tipGetService.getTipDetailByTipId(tipId);
-        return tipDetailsDto;
-
-
-    }
+//    @GetMapping("/details") @ResponseBody
+//    public TipDetailsDto getTipDetailsById(
+//            @RequestParam(value = "tipId", required = false) Long tipId
+//    ){
+//        TipDetailsDto tipDetailsDto = tipGetService.getTipDetailByTipId(tipId);
+//        return tipDetailsDto;
+//
+//
+//    }
 
 }

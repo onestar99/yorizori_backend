@@ -1,15 +1,7 @@
 package com.kkkj.yorijori_be.Service.Tip;
 
-import com.kkkj.yorijori_be.Dto.Recipe.RecipeDetailDto;
-import com.kkkj.yorijori_be.Dto.Recipe.RecipeListDto;
-import com.kkkj.yorijori_be.Dto.Tip.TipDetailDto;
-import com.kkkj.yorijori_be.Dto.Tip.TipDetailsDto;
 import com.kkkj.yorijori_be.Dto.Tip.TipListDto;
-import com.kkkj.yorijori_be.Dto.Tip.TipOrderDto;
-import com.kkkj.yorijori_be.Entity.Recipe.RecipeEntity;
-import com.kkkj.yorijori_be.Entity.Tip.TipDetailEntity;
 import com.kkkj.yorijori_be.Entity.Tip.TipEntity;
-import com.kkkj.yorijori_be.Entity.User.UserEntity;
 import com.kkkj.yorijori_be.Repository.Tip.TipRepository;
 import com.kkkj.yorijori_be.Repository.User.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -44,19 +36,19 @@ public class TipGetService {
         return tipListDtoList;
     }
 
-    public TipDetailsDto getTipDetailByTipId(Long tipId){
-        TipEntity tipEntity = tipRepository.findByTipId(tipId);
-
-        List<TipDetailEntity> tipDetailEntityList = tipEntity.getDetails();
-        List<TipOrderDto> tipOrderDtoList = new ArrayList<>();
-        for(TipDetailEntity tipDetailEntity: tipDetailEntityList){
-            tipOrderDtoList.add(TipOrderDto.toDto(tipDetailEntity));
-        }
-
-        TipDetailsDto tipDetailsDto = TipDetailsDto.toDto(tipEntity,tipOrderDtoList);
-
-        return tipDetailsDto;
-    }
+//    public TipDetailsDto getTipDetailByTipId(Long tipId){
+//        TipEntity tipEntity = tipRepository.findByTipId(tipId);
+//
+//        List<TipDetailEntity> tipDetailEntityList = tipEntity.getDetails();
+//        List<TipOrderDto> tipOrderDtoList = new ArrayList<>();
+//        for(TipDetailEntity tipDetailEntity: tipDetailEntityList){
+//            tipOrderDtoList.add(TipOrderDto.toDto(tipDetailEntity));
+//        }
+//
+//        TipDetailsDto tipDetailsDto = TipDetailsDto.toDto(tipEntity,tipOrderDtoList);
+//
+//        return tipDetailsDto;
+//    }
 
     public Page<TipListDto> getTipsPagingByUserId(int pageNo, int pageSize,String userId){
         Pageable pageable = PageRequest.of(pageNo, pageSize, Sort.by("createdTime").descending());
