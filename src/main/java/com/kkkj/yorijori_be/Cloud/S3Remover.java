@@ -7,6 +7,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
+
 @RequiredArgsConstructor
 @Component
 @Slf4j
@@ -22,7 +24,7 @@ public class S3Remover {
     /**
      * S3에 업로드된 파일 삭제
      */
-    public String deleteProfileImage(String imageAddress) {
+    public String deleteAbsoluteImage(String imageAddress) {
 
         String result = "success";
 
@@ -36,6 +38,29 @@ public class S3Remover {
             }
         } catch (Exception e) {
             log.debug("Delete File failed", e);
+        }
+
+        return result;
+    }
+    /**
+     * S3에 업로드된 파일 삭제
+     */
+    public String deleteAbsoluteImages(List<String> imagesAddress) {
+
+        String result = "success";
+
+        for(String imageAddress: imagesAddress){
+            try {
+                String keyName = imageAddress.split("https://yorizori-s3.s3.ap-northeast-2.amazonaws.com/")[1]; //   s3 절대주소 제거후 s3에서 삭제
+                boolean isObjectExist = amazonS3Client.doesObjectExist(bucket, keyName);
+                if (isObjectExist) {
+                    amazonS3Client.deleteObject(bucket, keyName);
+                } else {
+                    result = "file not found";
+                }
+            } catch (Exception e) {
+                log.debug("Delete File failed", e);
+            }
         }
 
         return result;
