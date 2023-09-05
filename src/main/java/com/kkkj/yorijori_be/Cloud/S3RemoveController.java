@@ -21,8 +21,9 @@ public class S3RemoveController {
 
     // 이미지 여러개 삭제
     @PostMapping("/remove/all")
-    public String removeImagesByAddress(@RequestParam List<String> images){
-        String result = s3Remover.deleteAbsoluteImages(images); // 이미지 S3에서 삭제
+    @ResponseBody
+    public String removeImagesByAddress(@RequestBody S3ImagesDto images){
+        String result = s3Remover.deleteAbsoluteImages(images.getImages()); // 이미지 S3에서 삭제
         return result;
     }
 
