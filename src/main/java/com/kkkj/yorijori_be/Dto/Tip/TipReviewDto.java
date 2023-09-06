@@ -14,7 +14,7 @@ import java.util.List;
 @ToString
 @NoArgsConstructor
 public class TipReviewDto {
-    private int reviewcount;
+    private int reviewCount;
     private List<UserTipCommentDto> reviews;
     private Boolean isHeart;
 
