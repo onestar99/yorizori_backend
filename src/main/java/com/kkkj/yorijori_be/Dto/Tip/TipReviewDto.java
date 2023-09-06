@@ -15,8 +15,7 @@ import java.util.List;
 @NoArgsConstructor
 public class TipReviewDto {
     private int reviewcount;
-    private List<UserTipCommentEntity> reviews;
+    private List<UserTipCommentDto> reviews;
     private Boolean isHeart;
-
 
 }

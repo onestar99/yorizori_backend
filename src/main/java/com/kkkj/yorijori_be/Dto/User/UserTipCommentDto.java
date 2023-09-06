@@ -7,29 +7,32 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
+import java.time.format.DateTimeFormatter;
+
 @Getter
 @Setter
 @ToString
 @NoArgsConstructor
 public class UserTipCommentDto {
 
-    private String userTokenId;
-    private String text;
-    private Boolean isHeart;
+    private String review;
+    private String nickname;
+    private String profileImg;
+    private String date;
 
     public UserTipCommentEntity toEntity(){
         UserTipCommentEntity build = UserTipCommentEntity.builder()
-                .comment(text)
-                .isHeart(isHeart)
+                .comment(review)
                 .build();
         return build;
     }
 
-//    public static UserTipCommentDto toUserTipCommentDto(UserTipCommentEntity userTipCommentEntity){
-//        UserTipCommentDto userTipCommentDto = new UserTipCommentDto();
-//        userTipCommentDto.setUserTokenId(userTipCommentEntity.getUser().getUserTokenId());
-//        userTipCommentDto.setText(userTipCommentEntity.getComment());
-//        userTipCommentDto.setIsHeart(userTipCommentEntity.getIsHeart());
-//        return userTipCommentDto;
-//    }
+    public static UserTipCommentDto toUserTipCommentDto(UserTipCommentEntity userTipCommentEntity){
+        UserTipCommentDto userTipCommentDto = new UserTipCommentDto();
+        userTipCommentDto.setReview(userTipCommentEntity.getComment());
+        userTipCommentDto.setNickname(userTipCommentEntity.getUser().getNickname());
+        userTipCommentDto.setProfileImg(userTipCommentEntity.getUser().getImageAddress());
+        userTipCommentDto.setDate(userTipCommentEntity.getCreatedTime().format(DateTimeFormatter.ofPattern("yyyyMMdd")));
+        return userTipCommentDto;
+    }
 }

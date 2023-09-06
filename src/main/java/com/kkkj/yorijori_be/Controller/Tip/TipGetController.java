@@ -51,7 +51,7 @@ public class TipGetController {
 
     @GetMapping("/reviews") @ResponseBody
     public TipReviewDto getTipReviews(
-            @PathVariable long tipId,
+            @RequestParam(value = "tipId",required = false) Long tipId,
             @RequestParam(value = "userId",required = false) String userId
     ){
         return tipGetService.getTipReviews(tipId,userId);
