@@ -10,9 +10,9 @@ import org.springframework.data.domain.Page;
 @NoArgsConstructor
 public class TipPostDto {
     private String userId;
-    private String title;
-    private String thumbnail;
-    private String detail;
+    private String tipTitle;
+    private String tipThumbnail;
+    private String tipDetail;
 
 
 }

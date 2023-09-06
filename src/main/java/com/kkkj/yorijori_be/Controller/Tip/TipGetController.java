@@ -33,10 +33,24 @@ public class TipGetController {
         return tipListDtos;
     }
 
+
+
     @GetMapping("/part") @ResponseBody
     public List<TipListDto> getTipPartall(){
         return tipGetService.getTipsPart().subList(0,8);
     }
+
+    @GetMapping("/details") @ResponseBody
+    public TipListDto getTipDetails(
+            @RequestParam(value = "tipId",required = false) Long tipId,
+            @RequestParam(value = "userId",required = false) String userId
+    ){
+        return tipGetService.getTipDetail(tipId,userId);
+    }
+
+
+
+
 
 //    @GetMapping("/details") @ResponseBody
 //    public TipDetailsDto getTipDetailsById(
@@ -47,5 +61,7 @@ public class TipGetController {
 //
 //
 //    }
+
+
 
 }

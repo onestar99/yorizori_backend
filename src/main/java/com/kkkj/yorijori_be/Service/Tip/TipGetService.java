@@ -2,6 +2,7 @@ package com.kkkj.yorijori_be.Service.Tip;
 
 import com.kkkj.yorijori_be.Dto.Tip.TipListDto;
 import com.kkkj.yorijori_be.Entity.Tip.TipEntity;
+import com.kkkj.yorijori_be.Entity.User.UserEntity;
 import com.kkkj.yorijori_be.Repository.Tip.TipRepository;
 import com.kkkj.yorijori_be.Repository.User.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -22,10 +23,6 @@ public class TipGetService {
 
     private final TipRepository tipRepository;
     private final UserRepository userRepository;
-
-
-
-
 
     public List<TipListDto> getTipsPart(){
         List<TipEntity> tipEntityList = tipRepository.findAll();
@@ -58,6 +55,9 @@ public class TipGetService {
     }
 
 
-
-
+    public TipListDto getTipDetail(Long tipId, String userId) {
+        TipEntity tipEntity = tipRepository.findByTipId(tipId);
+        TipListDto tipListDto = TipListDto.toDto(tipEntity);
+        return tipListDto;
+    }
 }

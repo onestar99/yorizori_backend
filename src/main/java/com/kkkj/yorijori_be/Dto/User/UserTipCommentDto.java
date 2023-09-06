@@ -15,14 +15,13 @@ public class UserTipCommentDto {
 
     private String userTokenId;
     private String text;
-    private String starCount;
+    private Boolean isHeart;
 
     public UserTipCommentEntity toEntity(){
         UserTipCommentEntity build = UserTipCommentEntity.builder()
                 .comment(text)
-                .starCount(starCount)
+                .isHeart(isHeart)
                 .build();
-
         return build;
     }
 

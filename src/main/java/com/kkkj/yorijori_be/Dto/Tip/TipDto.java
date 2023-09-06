@@ -45,9 +45,9 @@ public class TipDto {
 
     public static TipDto tipPostDtoToDto(TipPostDto tipPostDto){
         TipDto tipDto = new TipDto();
-        tipDto.setTipDetail(tipPostDto.getDetail());
-        tipDto.setTipTitle(tipPostDto.getTitle());
-        tipDto.setTipThumbnail(tipPostDto.getThumbnail());
+        tipDto.setTipDetail(tipPostDto.getTipDetail());
+        tipDto.setTipTitle(tipPostDto.getTipTitle());
+        tipDto.setTipThumbnail(tipPostDto.getTipThumbnail());
         tipDto.setUserTokenId(tipPostDto.getUserId());
 
         return tipDto;

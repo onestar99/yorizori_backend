@@ -7,41 +7,48 @@ import lombok.Setter;
 import lombok.ToString;
 import org.springframework.data.domain.Page;
 
+import java.time.LocalDateTime;
+import java.util.Date;
+
 @Builder
 @Getter
 @Setter
 @ToString
 public class TipListDto {
-    private Long id;
-    private String title;
-    private int heartCount;
-    private int viewCount;
-    private String thumbnail;
+    private Long tipId;
+    private String tipTitle;
+    private int tipHeartCount;
+    private int tipViewCount;
+    private String tipThumbnail;
     private String nickname;
     private String profileImg;
+    private LocalDateTime date;
+    private String tipDetail;
 
     public static TipListDto toDto(TipEntity tipEntity){
         TipListDto tipListDto = TipListDto.builder()
-                .id(tipEntity.getTipId())
-                .title(tipEntity.getTipTitle())
-                .heartCount(tipEntity.getTipHeartCount())
-                .thumbnail(tipEntity.getTipThumbnail())
+                .tipId(tipEntity.getTipId())
+                .tipTitle(tipEntity.getTipTitle())
+                .tipDetail(tipEntity.getTipDetail())
+                .tipHeartCount(tipEntity.getTipHeartCount())
+                .tipThumbnail(tipEntity.getTipThumbnail())
                 .nickname(tipEntity.getUser().getNickname())
                 .profileImg(tipEntity.getUser().getImageAddress())
-                .viewCount(tipEntity.getTipViewCount())
+                .tipViewCount(tipEntity.getTipViewCount())
+                .date(tipEntity.getCreatedTime())
                 .build();
         return tipListDto;
     }
 
     public static Page<TipListDto> toDtoPage(Page<TipEntity> tipEntityPage){
         Page<TipListDto> tipListDtoPage = tipEntityPage.map(m -> TipListDto.builder()
-                .id(m.getTipId())
-                .viewCount(m.getTipViewCount())
-                .heartCount(m.getTipHeartCount())
-                .thumbnail(m.getTipThumbnail())
+                .tipId(m.getTipId())
+                .tipViewCount(m.getTipViewCount())
+                .tipHeartCount(m.getTipHeartCount())
+                .tipThumbnail(m.getTipThumbnail())
                 .nickname(m.getUser().getNickname())
                 .profileImg(m.getUser().getImageAddress())
-                .title(m.getTipTitle())
+                .tipTitle(m.getTipTitle())
                 .build());
         return tipListDtoPage;
 
