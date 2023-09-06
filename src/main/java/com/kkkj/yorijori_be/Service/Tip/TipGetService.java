@@ -1,10 +1,13 @@
 package com.kkkj.yorijori_be.Service.Tip;
 
 import com.kkkj.yorijori_be.Dto.Tip.TipListDto;
+import com.kkkj.yorijori_be.Dto.Tip.TipReviewDto;
 import com.kkkj.yorijori_be.Entity.Tip.TipEntity;
 import com.kkkj.yorijori_be.Entity.User.UserEntity;
+import com.kkkj.yorijori_be.Entity.User.UserTipCommentEntity;
 import com.kkkj.yorijori_be.Repository.Tip.TipRepository;
 import com.kkkj.yorijori_be.Repository.User.UserRepository;
+import com.kkkj.yorijori_be.Repository.User.UserTipCommentRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -23,6 +26,7 @@ public class TipGetService {
 
     private final TipRepository tipRepository;
     private final UserRepository userRepository;
+    private final UserTipCommentRepository userTipCommentRepository;
 
     public List<TipListDto> getTipsPart(){
         List<TipEntity> tipEntityList = tipRepository.findAll();
@@ -60,4 +64,16 @@ public class TipGetService {
         TipListDto tipListDto = TipListDto.toDto(tipEntity);
         return tipListDto;
     }
+
+    public TipReviewDto getTipReviews(Long tipId, String userId){
+        TipEntity tipEntity = tipRepository.findByTipId(tipId);
+        UserEntity userEntity = userRepository.findByUserTokenId(userId);
+        UserTipCommentEntity userTipCommentEntity = userTipCommentRepository.findByBoardAndUser(tipEntity,userEntity);
+        TipReviewDto tipReviewDto = new TipReviewDto();
+        tipReviewDto.setReviews(userTipCommentRepository.findByBoard(tipEntity));
+        tipReviewDto.setIsHeart(userTipCommentEntity.getIsHeart());
+        tipReviewDto.setReviewcount(tipEntity.getTipReviewCount());
+        return tipReviewDto;
+    }
+
 }

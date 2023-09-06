@@ -1,6 +1,7 @@
 package com.kkkj.yorijori_be.Controller.Tip;
 
 import com.kkkj.yorijori_be.Dto.Tip.TipListDto;
+import com.kkkj.yorijori_be.Dto.Tip.TipReviewDto;
 import com.kkkj.yorijori_be.Service.Tip.TipGetService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -48,7 +49,13 @@ public class TipGetController {
         return tipGetService.getTipDetail(tipId,userId);
     }
 
-
+    @GetMapping("/reviews") @ResponseBody
+    public TipReviewDto getTipReviews(
+            @PathVariable long tipId,
+            @RequestParam(value = "userId",required = false) String userId
+    ){
+        return tipGetService.getTipReviews(tipId,userId);
+    }
 
 
 

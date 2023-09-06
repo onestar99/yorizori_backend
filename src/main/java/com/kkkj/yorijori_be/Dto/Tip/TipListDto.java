@@ -8,6 +8,7 @@ import lombok.ToString;
 import org.springframework.data.domain.Page;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Date;
 
 @Builder
@@ -22,7 +23,7 @@ public class TipListDto {
     private String tipThumbnail;
     private String nickname;
     private String profileImg;
-    private LocalDateTime date;
+    private String date;
     private String tipDetail;
 
     public static TipListDto toDto(TipEntity tipEntity){
@@ -35,7 +36,7 @@ public class TipListDto {
                 .nickname(tipEntity.getUser().getNickname())
                 .profileImg(tipEntity.getUser().getImageAddress())
                 .tipViewCount(tipEntity.getTipViewCount())
-                .date(tipEntity.getCreatedTime())
+                .date(tipEntity.getCreatedTime().format(DateTimeFormatter.ofPattern("yyyyMMdd")))
                 .build();
         return tipListDto;
     }

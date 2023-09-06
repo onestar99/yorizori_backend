@@ -25,4 +25,11 @@ public class UserTipCommentDto {
         return build;
     }
 
+//    public static UserTipCommentDto toUserTipCommentDto(UserTipCommentEntity userTipCommentEntity){
+//        UserTipCommentDto userTipCommentDto = new UserTipCommentDto();
+//        userTipCommentDto.setUserTokenId(userTipCommentEntity.getUser().getUserTokenId());
+//        userTipCommentDto.setText(userTipCommentEntity.getComment());
+//        userTipCommentDto.setIsHeart(userTipCommentEntity.getIsHeart());
+//        return userTipCommentDto;
+//    }
 }
