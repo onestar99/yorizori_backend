@@ -78,7 +78,7 @@ public class TipGetService {
         if (userTipCommentEntity==null){
             List<UserTipCommentDto> userTipCommentDtoList = new ArrayList<>(0);
             tipReviewDto.setReviews(userTipCommentDtoList);
-            tipReviewDto.setReviewcount(0);
+            tipReviewDto.setReviewCount(0);
             tipReviewDto.setIsHeart(false);
         }else{
             List<UserTipCommentEntity> userTipCommentEntityList = userTipCommentRepository.findByBoard(tipEntity);
@@ -88,7 +88,7 @@ public class TipGetService {
             }
             tipReviewDto.setReviews(userTipCommentDtoList);
             tipReviewDto.setIsHeart(userTipCommentEntity.getIsHeart());
-            tipReviewDto.setReviewcount(tipEntity.getTipReviewCount());
+            tipReviewDto.setReviewCount(tipEntity.getTipReviewCount());
         }
         return tipReviewDto;
     }
