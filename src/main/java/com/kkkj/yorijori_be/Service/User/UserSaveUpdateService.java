@@ -1,7 +1,9 @@
 package com.kkkj.yorijori_be.Service.User;
 
+import com.kkkj.yorijori_be.Dto.Tip.TipReviewSaveDto;
 import com.kkkj.yorijori_be.Dto.User.UserCommentDto;
 import com.kkkj.yorijori_be.Dto.User.UserDto;
+import com.kkkj.yorijori_be.Dto.User.UserTipCommentDto;
 import com.kkkj.yorijori_be.Entity.Recipe.RecipeEntity;
 import com.kkkj.yorijori_be.Entity.User.*;
 import com.kkkj.yorijori_be.Repository.Log.UserViewLogRepository;
@@ -66,6 +68,21 @@ public class UserSaveUpdateService {
             return false;
         }
 
+    }
+
+    @Transactional
+    public boolean saveUserTipComment(Long tipId, TipReviewSaveDto tipReviewSaveDto){
+        if(tipReviewSaveDto.getUserId()!=null){
+            // TokenId를 통해 유저 정보 찾기
+            UserEntity userEntity = userRepository.findByUserTokenId(tipReviewSaveDto.getUserId());
+            UserTipCommentEntity userTipCommentEntity = tipReviewSaveDto.toEntity();
+            userTipCommentEntity.setUser(userEntity);
+            userEntity.getTipComments().add(userTipCommentEntity);
+            userRepository.save(userEntity);
+            return true;
+        }else{
+            return false;
+        }
     }
 
 

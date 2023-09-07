@@ -3,6 +3,7 @@ package com.kkkj.yorijori_be.Entity.Tip;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.kkkj.yorijori_be.Entity.BaseTimeEntity;
 import com.kkkj.yorijori_be.Entity.User.UserEntity;
+import com.kkkj.yorijori_be.Entity.User.UserTipCommentEntity;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -45,6 +46,14 @@ public class TipEntity extends BaseTimeEntity {
 
     @Column(name = "tip_detail",columnDefinition = "TEXT")
     private String tipDetail;
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "board", cascade = CascadeType.ALL)
+    private List<UserTipCommentEntity> TipComments;
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "tip", cascade = CascadeType.ALL)
+    private List<TipInfoEntity> tipsinfo;
 
     // userTokenId setting
     public void setUser(UserEntity user) {

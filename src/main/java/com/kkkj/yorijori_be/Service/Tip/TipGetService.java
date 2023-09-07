@@ -87,7 +87,6 @@ public class TipGetService {
                 userTipCommentDtoList.add(UserTipCommentDto.toUserTipCommentDto(userTipComment));
             }
             tipReviewDto.setReviews(userTipCommentDtoList);
-            tipReviewDto.setIsHeart(userTipCommentEntity.getIsHeart());
             tipReviewDto.setReviewCount(tipEntity.getTipReviewCount());
         }
         return tipReviewDto;

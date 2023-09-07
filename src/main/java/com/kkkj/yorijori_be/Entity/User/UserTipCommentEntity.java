@@ -2,7 +2,6 @@ package com.kkkj.yorijori_be.Entity.User;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.kkkj.yorijori_be.Entity.BaseTimeEntity;
-import com.kkkj.yorijori_be.Entity.Recipe.RecipeEntity;
 import com.kkkj.yorijori_be.Entity.Tip.TipEntity;
 import jakarta.persistence.*;
 import lombok.*;
@@ -33,9 +32,6 @@ public class UserTipCommentEntity extends BaseTimeEntity {
 
     @Column(name = "comment")
     private String comment;
-
-    @Column(name = "is_heart")
-    private Boolean isHeart;
 
     // userTokenId setting
     public void setUser(UserEntity user) {

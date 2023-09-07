@@ -1,5 +1,6 @@
 package com.kkkj.yorijori_be.Controller.User;
 
+import com.kkkj.yorijori_be.Dto.Tip.TipReviewSaveDto;
 import com.kkkj.yorijori_be.Dto.User.UserCommentDto;
 import com.kkkj.yorijori_be.Dto.User.UserDto;
 import com.kkkj.yorijori_be.Service.User.UserSaveUpdateService;
@@ -33,6 +34,12 @@ public class UserSaveController {
         userSaveUpdateService.saveUserComment(recipeId, userCommentDto);
         userSaveUpdateService.updateRecipeReviewCountAndStarCount(recipeId);
         return ResponseEntity.ok("User comment saved successfully : " + userCommentDto.getText());
+    }
+
+    @PostMapping("/tipReview/{tipId}")
+    public ResponseEntity saveUserTipComment(@PathVariable Long tipId, @RequestBody TipReviewSaveDto tipReviewSaveDto){
+        userSaveUpdateService.saveUserTipComment(tipId,tipReviewSaveDto);
+        return ResponseEntity.ok("User tipcomment saved");
     }
 
 }
