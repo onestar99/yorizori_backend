@@ -36,7 +36,7 @@ public class UserSaveController {
         return ResponseEntity.ok("User comment saved successfully : " + userCommentDto.getText());
     }
 
-    @PostMapping("/tipReview/{tipId}")
+    @PostMapping("/tip/review/{tipId}")
     public ResponseEntity saveUserTipComment(@PathVariable Long tipId, @RequestBody TipReviewSaveDto tipReviewSaveDto){
         userSaveUpdateService.saveUserTipComment(tipId,tipReviewSaveDto);
         return ResponseEntity.ok("User tipcomment saved");
