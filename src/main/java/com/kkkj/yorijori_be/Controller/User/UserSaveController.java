@@ -8,10 +8,7 @@ import com.kkkj.yorijori_be.Service.User.UserSaveUpdateService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 
 @Controller
@@ -43,6 +40,16 @@ public class UserSaveController {
         userSaveUpdateService.saveUserTipComment(tipId,tipReviewSaveDto);
         tipSaveUpdateService.updateReviewCount(tipId);
         return ResponseEntity.ok("User tipcomment saved");
+    }
+
+    @PostMapping("/tip/isHeart/{tipId}")
+    public ResponseEntity saveTipIsHeart(
+        @PathVariable Long tipId,
+        @RequestParam (value = "userId",required = false) String userId,
+        @RequestParam (value = "isHeart",required = false) boolean isHeart
+    ){
+        tipSaveUpdateService.saveTipInfo(tipId,userId,isHeart);
+        return ResponseEntity.ok("Tip isHeart saved");
     }
 
 }

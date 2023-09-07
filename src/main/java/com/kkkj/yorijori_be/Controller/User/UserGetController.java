@@ -1,6 +1,7 @@
 package com.kkkj.yorijori_be.Controller.User;
 
 import com.kkkj.yorijori_be.Dto.Recipe.RecipeListDto;
+import com.kkkj.yorijori_be.Dto.Tip.TipInfoDto;
 import com.kkkj.yorijori_be.Dto.Tip.TipListDto;
 import com.kkkj.yorijori_be.Dto.User.UserDto;
 import com.kkkj.yorijori_be.Entity.Tip.TipEntity;
@@ -112,6 +113,15 @@ public class UserGetController {
         // 카테고리 이름이 all 이 아니라면 카테고리에 맞춰서 조회
         Page<RecipeListDto> recipeListDtoPage = recipeGetService.getRecipePagingByUserId(pageNo, pageSize, userTokenId);
         return recipeListDtoPage;
+    }
+
+    @ResponseBody
+    @GetMapping("/tip/get/isHeart")
+    public TipInfoDto getTipInfoByUserIdAndTipId(
+            @PathVariable Long tipId,
+            @RequestParam(value = "userId",required = false) String userId
+    ){
+        return tipGetService.getTipIsHeart(tipId,userId);
     }
 
 }

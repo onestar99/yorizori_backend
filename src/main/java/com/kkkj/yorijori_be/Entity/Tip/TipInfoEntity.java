@@ -34,13 +34,13 @@ public class TipInfoEntity extends BaseTimeEntity{
     @JoinColumn(name = "tip_id")
     private TipEntity tip;
 
-//    public void setUser(UserEntity user) {
-//        this.user = user;
-//    }
-//
-//    public void setTips(TipEntity tip){
-//        this.tip = tip;
-//    }
-//
+    public void setUser(UserEntity user) {
+        this.user = user;
+    }
+
+    public void setTips(TipEntity tip){
+        this.tip = tip;
+    }
+
 
 }

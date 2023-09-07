@@ -2,7 +2,9 @@ package com.kkkj.yorijori_be.Service.Tip;
 
 import com.kkkj.yorijori_be.Dto.Tip.TipDto;
 import com.kkkj.yorijori_be.Entity.Tip.TipEntity;
+import com.kkkj.yorijori_be.Entity.Tip.TipInfoEntity;
 import com.kkkj.yorijori_be.Entity.User.UserEntity;
+import com.kkkj.yorijori_be.Repository.Tip.TipInfoRepository;
 import com.kkkj.yorijori_be.Repository.Tip.TipRepository;
 import com.kkkj.yorijori_be.Repository.User.UserRepository;
 import jakarta.transaction.Transactional;
@@ -16,7 +18,7 @@ import org.springframework.stereotype.Service;
 public class TipSaveUpdateService {
     private final TipRepository tipRepository;
     private final UserRepository userRepository;
-
+    private final TipInfoRepository tipInfoRepository;
 
     public long saveTip(String userTokenId, TipDto tipDto){
         // TokenId를 통해 유저 정보 찾기
@@ -49,5 +51,15 @@ public class TipSaveUpdateService {
     @Transactional
     public void updateReviewCount(Long id){tipRepository.updateReviewCount(id);}
 
+    public void saveTipInfo(long tipId, String userId, boolean isHeart){
+        UserEntity userEntity = userRepository.findByUserTokenId(userId);
+        TipEntity tipEntity = tipRepository.findByTipId(tipId);
+        TipInfoEntity tipInfoEntity = TipInfoEntity.builder()
+                .tip(tipEntity)
+                .user(userEntity)
+                .isHeart(isHeart)
+                .build();
+        tipInfoRepository.save(tipInfoEntity);
+    }
 
 }

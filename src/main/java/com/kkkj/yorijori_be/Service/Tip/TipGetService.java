@@ -1,12 +1,15 @@
 package com.kkkj.yorijori_be.Service.Tip;
 
+import com.kkkj.yorijori_be.Dto.Tip.TipInfoDto;
 import com.kkkj.yorijori_be.Dto.Tip.TipListDto;
 import com.kkkj.yorijori_be.Dto.Tip.TipReviewDto;
 import com.kkkj.yorijori_be.Dto.User.UserCommentDto;
 import com.kkkj.yorijori_be.Dto.User.UserTipCommentDto;
 import com.kkkj.yorijori_be.Entity.Tip.TipEntity;
+import com.kkkj.yorijori_be.Entity.Tip.TipInfoEntity;
 import com.kkkj.yorijori_be.Entity.User.UserEntity;
 import com.kkkj.yorijori_be.Entity.User.UserTipCommentEntity;
+import com.kkkj.yorijori_be.Repository.Tip.TipInfoRepository;
 import com.kkkj.yorijori_be.Repository.Tip.TipRepository;
 import com.kkkj.yorijori_be.Repository.User.UserRepository;
 import com.kkkj.yorijori_be.Repository.User.UserTipCommentRepository;
@@ -30,6 +33,7 @@ public class TipGetService {
     private final TipRepository tipRepository;
     private final UserRepository userRepository;
     private final UserTipCommentRepository userTipCommentRepository;
+    private final TipInfoRepository tipInfoRepository;
 
     public List<TipListDto> getTipsPart(){
         List<TipEntity> tipEntityList = tipRepository.findAll();
@@ -86,6 +90,15 @@ public class TipGetService {
         }
 
         return tipReviewDto;
+    }
+
+    public TipInfoDto getTipIsHeart(Long tipId,String userId){
+        TipEntity tipEntity = tipRepository.findByTipId(tipId);
+        UserEntity userEntity = userRepository.findByUserTokenId(userId);
+        TipInfoEntity tipInfoEntity = tipInfoRepository.findByTipAndUser(tipEntity,userEntity);
+        TipInfoDto tipInfoDto = new TipInfoDto();
+        tipInfoDto.setHeart(tipInfoEntity.getIsHeart());
+        return tipInfoDto;
     }
 
 }
