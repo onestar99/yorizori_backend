@@ -32,7 +32,11 @@ public class UserTipCommentDto {
         userTipCommentDto.setReview(userTipCommentEntity.getComment());
         userTipCommentDto.setNickname(userTipCommentEntity.getUser().getNickname());
         userTipCommentDto.setProfileImg(userTipCommentEntity.getUser().getImageAddress());
-        userTipCommentDto.setDate(userTipCommentEntity.getCreatedTime().format(DateTimeFormatter.ofPattern("yyyyMMdd")));
+        if(userTipCommentEntity.getCreatedTime()!=null){
+            userTipCommentDto.setDate(userTipCommentEntity.getCreatedTime().format(DateTimeFormatter.ofPattern("yyyyMMdd")));
+        }else{
+            userTipCommentDto.setDate(null);
+        }
         return userTipCommentDto;
     }
 }

@@ -52,12 +52,11 @@ public class TipGetController {
         return tipGetService.getTipDetail(tipId,userId);
     }
 
-    @GetMapping("/reviews") @ResponseBody
+    @GetMapping("/reviews/{tipId}") @ResponseBody
     public TipReviewDto getTipReviews(
-            @RequestParam(value = "tipId",required = false) Long tipId,
-            @RequestParam(value = "userId",required = false) String userId
+            @PathVariable Long tipId
     ){
-        return tipGetService.getTipReviews(tipId,userId);
+        return tipGetService.getTipReviews(tipId);
     }
 
 

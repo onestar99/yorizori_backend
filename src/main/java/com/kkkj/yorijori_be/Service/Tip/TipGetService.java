@@ -68,27 +68,23 @@ public class TipGetService {
         return tipListDto;
     }
 
-    public TipReviewDto getTipReviews(Long tipId, String userId){
+    public TipReviewDto getTipReviews(Long tipId){
         TipEntity tipEntity = tipRepository.findByTipId(tipId);
-        UserEntity userEntity = userRepository.findByUserTokenId(userId);
-        UserTipCommentEntity userTipCommentEntity = userTipCommentRepository.findByBoardAndUser(tipEntity,userEntity);
+        List<UserTipCommentEntity> userTipCommentEntity = userTipCommentRepository.findByBoard(tipEntity);
         TipReviewDto tipReviewDto = new TipReviewDto();
-
-
-        if (userTipCommentEntity==null){
+        if(tipEntity==null){
             List<UserTipCommentDto> userTipCommentDtoList = new ArrayList<>(0);
             tipReviewDto.setReviews(userTipCommentDtoList);
             tipReviewDto.setReviewCount(0);
-            tipReviewDto.setIsHeart(false);
-        }else{
-            List<UserTipCommentEntity> userTipCommentEntityList = userTipCommentRepository.findByBoard(tipEntity);
+        }else {
             List<UserTipCommentDto> userTipCommentDtoList = new ArrayList<>();
-            for(UserTipCommentEntity userTipComment : userTipCommentEntityList){
+            for (UserTipCommentEntity userTipComment : userTipCommentEntity) {
                 userTipCommentDtoList.add(UserTipCommentDto.toUserTipCommentDto(userTipComment));
             }
             tipReviewDto.setReviews(userTipCommentDtoList);
             tipReviewDto.setReviewCount(tipEntity.getTipReviewCount());
         }
+
         return tipReviewDto;
     }
 

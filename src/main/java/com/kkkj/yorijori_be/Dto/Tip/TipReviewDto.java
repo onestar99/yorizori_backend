@@ -16,6 +16,4 @@ import java.util.List;
 public class TipReviewDto {
     private int reviewCount;
     private List<UserTipCommentDto> reviews;
-    private Boolean isHeart;
-
 }
