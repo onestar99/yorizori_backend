@@ -72,9 +72,9 @@ public class UserSaveUpdateService {
 
     @Transactional
     public boolean saveUserTipComment(Long tipId, TipReviewSaveDto tipReviewSaveDto){
-        if(tipReviewSaveDto.getUserId()!=null){
+        if(tipReviewSaveDto.getUserTokenId()!=null){
             // TokenId를 통해 유저 정보 찾기
-            UserEntity userEntity = userRepository.findByUserTokenId(tipReviewSaveDto.getUserId());
+            UserEntity userEntity = userRepository.findByUserTokenId(tipReviewSaveDto.getUserTokenId());
             UserTipCommentEntity userTipCommentEntity = tipReviewSaveDto.toEntity();
             userTipCommentEntity.setUser(userEntity);
             userEntity.getTipComments().add(userTipCommentEntity);

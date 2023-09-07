@@ -10,7 +10,7 @@ import lombok.ToString;
 @ToString
 public class TipReviewSaveDto {
     private String text;
-    private String userId;
+    private String userTokenId;
 
     public UserTipCommentEntity toEntity(){
         UserTipCommentEntity userTipCommentEntity = UserTipCommentEntity.builder()
