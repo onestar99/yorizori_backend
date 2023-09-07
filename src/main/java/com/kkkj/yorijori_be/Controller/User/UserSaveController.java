@@ -3,6 +3,7 @@ package com.kkkj.yorijori_be.Controller.User;
 import com.kkkj.yorijori_be.Dto.Tip.TipReviewSaveDto;
 import com.kkkj.yorijori_be.Dto.User.UserCommentDto;
 import com.kkkj.yorijori_be.Dto.User.UserDto;
+import com.kkkj.yorijori_be.Service.Tip.TipSaveUpdateService;
 import com.kkkj.yorijori_be.Service.User.UserSaveUpdateService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -19,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class UserSaveController {
 
     private final UserSaveUpdateService userSaveUpdateService;
+    private final TipSaveUpdateService tipSaveUpdateService;
 
     // 유저 정보 저장
     @PostMapping("")
@@ -39,6 +41,7 @@ public class UserSaveController {
     @PostMapping("/tip/review/{tipId}")
     public ResponseEntity saveUserTipComment(@PathVariable Long tipId, @RequestBody TipReviewSaveDto tipReviewSaveDto){
         userSaveUpdateService.saveUserTipComment(tipId,tipReviewSaveDto);
+        tipSaveUpdateService.updateReviewCount(tipId);
         return ResponseEntity.ok("User tipcomment saved");
     }
 

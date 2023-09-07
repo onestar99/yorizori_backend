@@ -18,4 +18,8 @@ public interface TipRepository extends JpaRepository<TipEntity, String> {
     @Query("update TipEntity t set t.tipViewCount = t.tipViewCount + 1 where t.tipId = :id")
     void updateViewCount(@Param("id")Long id);
 
+    @Modifying
+    @Query("update TipEntity t set t.tipReviewCount = t.tipReviewCount + 1 where t.tipId = :id")
+    void updateReviewCount(@Param("id")Long id);
+
 }

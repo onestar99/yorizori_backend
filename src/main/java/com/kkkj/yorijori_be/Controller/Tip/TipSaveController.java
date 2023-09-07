@@ -28,7 +28,6 @@ public class TipSaveController {
 
         long tipId = tipSaveUpdateService.saveTip(tipPostDto.getUserId(),tipDto);
 
-
         return tipId;
     }
 

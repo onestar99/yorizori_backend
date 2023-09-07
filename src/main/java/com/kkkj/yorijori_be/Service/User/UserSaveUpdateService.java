@@ -5,9 +5,11 @@ import com.kkkj.yorijori_be.Dto.User.UserCommentDto;
 import com.kkkj.yorijori_be.Dto.User.UserDto;
 import com.kkkj.yorijori_be.Dto.User.UserTipCommentDto;
 import com.kkkj.yorijori_be.Entity.Recipe.RecipeEntity;
+import com.kkkj.yorijori_be.Entity.Tip.TipEntity;
 import com.kkkj.yorijori_be.Entity.User.*;
 import com.kkkj.yorijori_be.Repository.Log.UserViewLogRepository;
 import com.kkkj.yorijori_be.Repository.Recipe.RecipeRepository;
+import com.kkkj.yorijori_be.Repository.Tip.TipRepository;
 import com.kkkj.yorijori_be.Repository.User.*;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -28,6 +30,7 @@ public class UserSaveUpdateService {
     private final UserViewLogRepository userViewLogRepository;
     private final UserSearchedRecipeRepository userSearchedRecipeRepository;
     private final UserSearchedIngredientRepository userSearchedIngredientRepository;
+    private final TipRepository tipRepository;
 
     // 유저 저장
     @Transactional
@@ -72,11 +75,13 @@ public class UserSaveUpdateService {
 
     @Transactional
     public boolean saveUserTipComment(Long tipId, TipReviewSaveDto tipReviewSaveDto){
+        TipEntity tipEntity = tipRepository.findByTipId(tipId);
         if(tipReviewSaveDto.getUserTokenId()!=null){
             // TokenId를 통해 유저 정보 찾기
             UserEntity userEntity = userRepository.findByUserTokenId(tipReviewSaveDto.getUserTokenId());
             UserTipCommentEntity userTipCommentEntity = tipReviewSaveDto.toEntity();
             userTipCommentEntity.setUser(userEntity);
+            userTipCommentEntity.setBoard(tipEntity);
             userEntity.getTipComments().add(userTipCommentEntity);
             userRepository.save(userEntity);
             return true;
