@@ -43,6 +43,8 @@ public class TipSaveUpdateService {
     }
 
 
+    @Transactional
+    public void updateViewCount(Long id){tipRepository.updateViewCount(id);}
 
 
 }

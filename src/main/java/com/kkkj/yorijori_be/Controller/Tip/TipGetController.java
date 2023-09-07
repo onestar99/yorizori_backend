@@ -3,6 +3,7 @@ package com.kkkj.yorijori_be.Controller.Tip;
 import com.kkkj.yorijori_be.Dto.Tip.TipListDto;
 import com.kkkj.yorijori_be.Dto.Tip.TipReviewDto;
 import com.kkkj.yorijori_be.Service.Tip.TipGetService;
+import com.kkkj.yorijori_be.Service.Tip.TipSaveUpdateService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -18,7 +19,7 @@ import java.util.List;
 public class TipGetController {
 
     private final TipGetService tipGetService;
-
+    private final TipSaveUpdateService tipSaveUpdateService;
 
     @GetMapping("/all") @ResponseBody
     public Page<TipListDto> getTipAll(
@@ -46,6 +47,8 @@ public class TipGetController {
             @RequestParam(value = "tipId",required = false) Long tipId,
             @RequestParam(value = "userId",required = false) String userId
     ){
+        //조회수 1 올리기
+        tipSaveUpdateService.updateViewCount(tipId);
         return tipGetService.getTipDetail(tipId,userId);
     }
 
