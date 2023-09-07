@@ -116,7 +116,7 @@ public class UserGetController {
     }
 
     @ResponseBody
-    @GetMapping("/tip/get/isHeart")
+    @GetMapping("/tip/isHeart/{tipId}")
     public TipInfoDto getTipInfoByUserIdAndTipId(
             @PathVariable Long tipId,
             @RequestParam(value = "userId",required = false) String userId

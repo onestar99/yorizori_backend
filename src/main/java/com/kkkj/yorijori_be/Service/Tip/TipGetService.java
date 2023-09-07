@@ -95,9 +95,9 @@ public class TipGetService {
     public TipInfoDto getTipIsHeart(Long tipId,String userId){
         TipEntity tipEntity = tipRepository.findByTipId(tipId);
         UserEntity userEntity = userRepository.findByUserTokenId(userId);
-        TipInfoEntity tipInfoEntity = tipInfoRepository.findByTipAndUser(tipEntity,userEntity);
+        List<TipInfoEntity> tipInfoEntity = tipInfoRepository.findByTipAndUser(tipEntity,userEntity);
         TipInfoDto tipInfoDto = new TipInfoDto();
-        tipInfoDto.setHeart(tipInfoEntity.getIsHeart());
+        tipInfoDto.setHeart(tipInfoEntity.get(tipInfoEntity.size()-1).getIsHeart());
         return tipInfoDto;
     }
 

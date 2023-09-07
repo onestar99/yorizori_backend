@@ -1,6 +1,7 @@
 package com.kkkj.yorijori_be.Service.Tip;
 
 import com.kkkj.yorijori_be.Dto.Tip.TipDto;
+import com.kkkj.yorijori_be.Dto.Tip.TipInfoDto;
 import com.kkkj.yorijori_be.Entity.Tip.TipEntity;
 import com.kkkj.yorijori_be.Entity.Tip.TipInfoEntity;
 import com.kkkj.yorijori_be.Entity.User.UserEntity;
@@ -11,6 +12,8 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Slf4j
 @Service
@@ -51,7 +54,7 @@ public class TipSaveUpdateService {
     @Transactional
     public void updateReviewCount(Long id){tipRepository.updateReviewCount(id);}
 
-    public void saveTipInfo(long tipId, String userId, boolean isHeart){
+    public TipInfoDto saveTipInfo(long tipId, String userId, boolean isHeart){
         UserEntity userEntity = userRepository.findByUserTokenId(userId);
         TipEntity tipEntity = tipRepository.findByTipId(tipId);
         TipInfoEntity tipInfoEntity = TipInfoEntity.builder()
@@ -60,6 +63,10 @@ public class TipSaveUpdateService {
                 .isHeart(isHeart)
                 .build();
         tipInfoRepository.save(tipInfoEntity);
+        TipInfoDto tipInfoDto = new TipInfoDto();
+        tipInfoDto.setHeart(isHeart);
+        return tipInfoDto;
+
     }
 
 }
