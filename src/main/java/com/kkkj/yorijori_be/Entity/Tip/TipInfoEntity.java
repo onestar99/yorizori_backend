@@ -42,5 +42,7 @@ public class TipInfoEntity extends BaseTimeEntity{
         this.tip = tip;
     }
 
+    public void setIsHeart(boolean isHeart){this.isHeart = isHeart;}
+
 
 }

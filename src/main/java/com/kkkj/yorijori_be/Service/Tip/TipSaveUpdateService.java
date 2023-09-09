@@ -57,16 +57,22 @@ public class TipSaveUpdateService {
     public TipInfoDto saveTipInfo(long tipId, String userId, boolean isHeart){
         UserEntity userEntity = userRepository.findByUserTokenId(userId);
         TipEntity tipEntity = tipRepository.findByTipId(tipId);
+        List<TipInfoEntity> tipInfoEntitys = tipInfoRepository.findByTipAndUser(tipEntity,userEntity);
         TipInfoEntity tipInfoEntity = TipInfoEntity.builder()
                 .tip(tipEntity)
                 .user(userEntity)
                 .isHeart(isHeart)
                 .build();
-        tipInfoRepository.save(tipInfoEntity);
+        if(tipInfoEntitys==null){
+            tipInfoRepository.save(tipInfoEntity);
+
+        }
+        else{
+            tipInfoEntitys.get(0).setIsHeart(isHeart);
+        }
         TipInfoDto tipInfoDto = new TipInfoDto();
         tipInfoDto.setHeart(isHeart);
         return tipInfoDto;
-
     }
 
 }
