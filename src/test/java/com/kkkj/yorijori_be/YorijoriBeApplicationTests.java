@@ -24,9 +24,6 @@ class YorijoriBeApplicationTests {
     @Value("${oauth2.google.redirect-uri}")
     private String GOOGLE_REDIRECT_URI;
 
-    @Value("${oauth2.jwt.secret-key}")
-    private String jwtSecretKey;
-
 
     private String URI = "https://accounts.google.com/o/oauth2/v2/auth" +
             "?client_id=" + GOOGLE_CLIENT_ID +
@@ -48,11 +45,6 @@ class YorijoriBeApplicationTests {
                 "&response_type=code" +
                 "&scope=profile";
         log.info(URI);
-    }
-
-    @Test
-    void confirmJWT() {
-        log.info("jwtSecretKey : " + jwtSecretKey);
     }
 
     @Test
