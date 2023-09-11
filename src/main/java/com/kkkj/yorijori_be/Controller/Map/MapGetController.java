@@ -29,7 +29,7 @@ public class MapGetController {
         System.out.println(mapLocationDto.getLatitude());
         System.out.println(mapLocationDto.getLongitude());
         String location = mapGetService.getLocation(mapLocationDto);
-        return mapGetService.getSearchResult(location + " 갈비");
+        return mapGetService.getSearchResult(location + " " + mapLocationDto.getFoodName());
 
     }
 
