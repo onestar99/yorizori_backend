@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="kr">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no">
+    <title>간단한 지도 표시하기</title>
+    <script type="text/javascript" src="https://oapi.map.naver.com/openapi/v3/maps.js?ncpClientId=r2gbdh2tvp"></script>
+</head>
+<body>
+<div id="map" style="width:900px;height:600px;"></div>
+
+<script>
+
+    function success({ coords, timestamp }) {
+        const latitude = coords.latitude;   // 위도
+        const longitude = coords.longitude; // 경도
+
+        alert(`위도: ${latitude}, 경도: ${longitude}, 위치 반환 시간: ${timestamp}`);
+
+        console.log(latitude)
+        console.log(longitude)
+
+        // 위치 정보를 객체로 만듭니다.
+        const locationData = {
+            latitude: latitude,
+            longitude: longitude
+        };
+
+        // 객체를 JSON 문자열로 변환
+        const jsonData = JSON.stringify(locationData);
+
+        // XMLHttpRequest를 사용하여 서버로 위치 정보를 보냄
+        sendLocationToServer(jsonData);
+
+
+
+        // 아래 코드로 지도의 중심을 업데이트합니다.
+        var mapOptions = {
+            center: new naver.maps.LatLng(latitude, longitude),
+            zoom: 15
+        };
+        var map = new naver.maps.Map('map', mapOptions);
+
+        var marker = new naver.maps.Marker({
+            position: new naver.maps.LatLng(37.3653702, 127.1061294),
+            map: map
+        });
+
+    }
+
+    function sendLocationToServer(locationData) {
+        if (!navigator.geolocation) {
+            throw "위치 정보가 지원되지 않습니다.";
+        }
+
+        var xhr = new XMLHttpRequest();
+        var url = "http://localhost:8080/get/api";
+
+        xhr.open("POST", url, true);
+
+        // 요청 헤더 설정
+        xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+
+        xhr.onreadystatechange = function () {
+            if (xhr.readyState === 4) {
+                if (xhr.status === 200) {
+                    // 서버 응답 처리
+                    console.log(xhr.responseText);
+                } else {
+                    // 오류 처리
+                    console.error(xhr.statusText);
+                }
+            }
+        };
+
+        // 데이터 전송
+        xhr.send(locationData);
+    }
+
+
+    function getUserLocation() {
+        if (!navigator.geolocation) {
+            throw "위치 정보가 지원되지 않습니다.";
+        }
+        navigator.geolocation.getCurrentPosition(success);
+    }
+
+    getUserLocation();
+
+</script>
+
+
+</body>
+</html>
