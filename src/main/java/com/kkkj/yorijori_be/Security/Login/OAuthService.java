@@ -34,6 +34,8 @@ public class OAuthService {
     private final String GOOGLE_TOKEN_URL = "https://oauth2.googleapis.com/token";
     private final String KAKAO_TOKEN_URL = "https://kauth.kakao.com/oauth/token";
     private final String NAVER_TOKEN_URL = "https://nid.naver.com/oauth2.0/token";
+
+    private final String KAKAO_LOGOUT_URL = "https://kapi.kakao.com/v1/user/logout";
     private String kakaoApiUrl = "https://kapi.kakao.com";
 
     @Value("${oauth2.google.client-id}")
@@ -207,17 +209,15 @@ public class OAuthService {
 
         String id = jsonNode.path("id").asText();
         String nickName = jsonNode.path("kakao_account").path("profile").path("nickname").asText();
-        String image = jsonNode.path("kakao_account").path("profile").path("thumbnail_image_url").asText();
-        String age = jsonNode.path("kakao_account").path("age_range").asText();
-        String gender = jsonNode.path("kakao_account").path("gender").asText();
+        String image = jsonNode.path("kakao_account").path("profile").path("profile_image_url").asText();
 
         UserEntity user = userRepository.findByUserTokenId(id);
         if(user == null){ // 정보가 없어서 회원가입
             System.out.println("회원가입을 시도합니다.");
             UserDto userDto = UserDto.builder()
                     .userTokenId(id)
-                    .gender(gender)
-                    .age(age)
+                    .gender(null)
+                    .age(null)
                     .imageAddress(image)
                     .oauthDivision("kakao")
                     .nickname(nickName)
@@ -301,16 +301,14 @@ public class OAuthService {
         String id = jsonNode.path("response").path("id").asText();
         String nickName = jsonNode.path("response").path("nickname").asText();
         String image = jsonNode.path("response").path("profile_image").asText();
-        String age = jsonNode.path("response").path("age").asText();
-        String gender = jsonNode.path("response").path("gender").asText();
 
         UserEntity user = userRepository.findByUserTokenId(id);
         if(user == null){ // 정보가 없어서 회원가입
             System.out.println("회원가입을 시도합니다.");
             UserDto userDto = UserDto.builder()
                     .userTokenId(id)
-                    .gender(gender)
-                    .age(age)
+                    .gender(null)
+                    .age(null)
                     .imageAddress(image)
                     .oauthDivision("naver")
                     .nickname(nickName)
@@ -347,4 +345,25 @@ public class OAuthService {
     }
 
 
+    public ResponseEntity<String> kakaoLogout(String accessCode, long userTokenId) {
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
+        headers.set("Authorization", "Bearer " + accessCode);
+
+        // 요청 본문 데이터 설정
+        String requestBody = "target_id_type=user_id&target_id=" + Long.toString(userTokenId);// 대상 회원번호를 입력하세요
+
+        HttpEntity<String> requestEntity = new HttpEntity<>(requestBody, headers);
+
+        RestTemplate restTemplate = new RestTemplate();
+
+        ResponseEntity<String> response = restTemplate.postForEntity(KAKAO_LOGOUT_URL, requestEntity, String.class);
+        if(response.getStatusCode() == HttpStatus.OK){
+            return response;
+        } else {
+            return null;
+        }
+
+    }
 }
