@@ -12,9 +12,9 @@ import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 
 
 @Controller
@@ -52,7 +52,7 @@ public class RecipeGetController {
         // DTO 만들기
         RecipeDetailsDto recipeDetailsDto = recipeGetService.getRecipeDetailsByRecipeId(recipeId);
         // 유저 로그
-        if(userId !=null){
+        if(userId != null & !Objects.equals(userId, "null")){
             userSaveUpdateService.saveUserLog(userId,recipeId);
         }
         return recipeDetailsDto;
@@ -79,7 +79,6 @@ public class RecipeGetController {
     }
 
 
-
     // 카테고리별로 12개씩 페이징해서 보내주는 api
     @ResponseBody
     @GetMapping("/category/{categoryName}")
@@ -104,7 +103,7 @@ public class RecipeGetController {
     public List<RecipeListDto> getTitleSearchedPaging(
             @RequestParam(value = "userId", required = false) String userId,
             @RequestParam(value = "search") String search){
-        if(userId!=null){
+        if(userId != null & !Objects.equals(userId, "null")){
             userSaveUpdateService.saveSearchedRecipeLog(userId,search);
         }
         return recipeGetService.recipeSearchList(search);
@@ -117,7 +116,7 @@ public class RecipeGetController {
     public List<RecipeListDto> getIngredientAllSearchedPaging(
             @RequestParam(value = "userId", required = false) String userId,
             @RequestParam(value="search") String search){
-        if (userId!=null){
+        if (userId!=null & !Objects.equals(userId, "null")){
             userSaveUpdateService.saveSearchedIngredientLog(userId,search);
         }
         List<String> ingredients = Arrays.asList(search.split(","));
