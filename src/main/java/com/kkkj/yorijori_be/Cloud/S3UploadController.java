@@ -33,7 +33,7 @@ public class S3UploadController {
     @PostMapping("/image/upload/profile")
     public ResponseEntity uploadProfileTemp(@RequestParam("profileImage") MultipartFile multipartFile) throws IOException {
         //S3 Bucket 내부에 "userImage" 폴더
-        FileUploadResponse fileUploadResponse = s3Uploader.uploadImage(multipartFile, "userImage");
+        FileUploadResponse fileUploadResponse = s3Uploader.uploadProfile(multipartFile, "userImage");
         return new ResponseEntity(DefaultRes.res(StatusCode.OK, ResponseMessage.UPLOAD_SUCCESS, fileUploadResponse), HttpStatus.OK);
     }
 
