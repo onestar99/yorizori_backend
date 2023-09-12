@@ -127,7 +127,11 @@ public class MapGetService {
             String mapx = item.getString("mapx");
             String mapy = item.getString("mapy");
 
-            MapSearchDto mapSearchDto = new MapSearchDto(title, address, category, roadAddress, mapx, mapy);
+            String mapxStr = mapx.substring(0, 3) + "." + mapx.substring(3); // 127.~
+            String mapyStr = mapy.substring(0, 2) + "." + mapy.substring(2); // 37.~
+
+
+            MapSearchDto mapSearchDto = new MapSearchDto(title, address, category, roadAddress, mapxStr, mapyStr);
             mapSearchDtoList.add(mapSearchDto);
         }
 
@@ -179,7 +183,8 @@ public class MapGetService {
             String area4 = region.getJSONObject("area4").getString("name");
 
             // 이름들을 합친 문자열을 만듭니다.
-            String combinedName = area1 + " " + area2 + " " + area3 + " " + area4;
+//            String combinedName = area1 + " " + area2 + " " + area3 + " " + area4;
+            String combinedName = area1 + " " + area2;
 
             // 공백으로 구분하여 합친 이름들을 StringBuilder에 추가합니다.
             combinedNames.append(combinedName).append(" ");

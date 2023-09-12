@@ -11,42 +11,28 @@
 <div id="map" style="width:900px;height:600px;"></div>
 
 <script>
+    var latitude;
+    var longitude;
 
     function success({ coords, timestamp }) {
-        const latitude = coords.latitude;   // 위도
-        const longitude = coords.longitude; // 경도
+        latitude = coords.latitude;   // 위도
+        longitude = coords.longitude; // 경도
 
-        alert(`위도: ${latitude}, 경도: ${longitude}, 위치 반환 시간: ${timestamp}`);
-
-        console.log(latitude)
-        console.log(longitude)
+        // alert(`위도: ${latitude}, 경도: ${longitude}, 위치 반환 시간: ${timestamp}`);
 
         // 위치 정보를 객체로 만듭니다.
         const locationData = {
             latitude: latitude,
             longitude: longitude,
-            foodName: '치킨'
+            foodName: '도넛'
         };
 
         // 객체를 JSON 문자열로 변환
         const jsonData = JSON.stringify(locationData);
 
         // XMLHttpRequest를 사용하여 서버로 위치 정보를 보냄
-        sendLocationToServer(jsonData);
+        sendLocationToServer(jsonData)
 
-
-
-        // 아래 코드로 지도의 중심을 업데이트합니다.
-        var mapOptions = {
-            center: new naver.maps.LatLng(latitude, longitude),
-            zoom: 15
-        };
-        var map = new naver.maps.Map('map', mapOptions);
-
-        var marker = new naver.maps.Marker({
-            position: new naver.maps.LatLng(37.3653702, 127.1061294),
-            map: map
-        });
 
     }
 
@@ -67,7 +53,32 @@
             if (xhr.readyState === 4) {
                 if (xhr.status === 200) {
                     // 서버 응답 처리
-                    console.log(xhr.responseText);
+                    const responseText = xhr.responseText;
+                    const data = JSON.parse(responseText); // JSON 파싱
+
+                    // 각각의 mapx 값을 배열로 추출
+                    const titleArray = data.map(item => item.title)
+                    const addressArray = data.map(item => item.address)
+                    const roadAddressArray = data.map(item => item.roadAddress)
+                    const mapxArray = data.map(item => item.mapx);
+                    const mapyArray = data.map(item => item.mapy);
+
+                    // 지도의 중심을 업데이트
+                    var mapOptions = {
+                        center: new naver.maps.LatLng(latitude, longitude),
+                        zoom: 15
+                    };
+                    // 지도 생성
+                    var map = new naver.maps.Map('map', mapOptions);
+
+                    // 마커 생성
+                    for(var i = 0; i < mapxArray.length; i++){
+                        var marker = new naver.maps.Marker({
+                            position: new naver.maps.LatLng(mapyArray[i], mapxArray[i]),
+                            map: map
+                        });
+                    }
+
                 } else {
                     // 오류 처리
                     console.error(xhr.statusText);
