@@ -63,12 +63,11 @@ public class TipSaveUpdateService {
                 .user(userEntity)
                 .isHeart(isHeart)
                 .build();
-        if(tipInfoEntitys==null){
+        if(tipInfoEntitys.isEmpty()){
             tipInfoRepository.save(tipInfoEntity);
-
         }
         else{
-            tipInfoEntitys.get(0).setIsHeart(isHeart);
+            tipInfoRepository.updateisHeart(isHeart,tipInfoEntitys.get(0).getTipInfoId());
         }
         TipInfoDto tipInfoDto = new TipInfoDto();
         tipInfoDto.setHeart(isHeart);
