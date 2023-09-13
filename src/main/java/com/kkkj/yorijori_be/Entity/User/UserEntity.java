@@ -72,8 +72,14 @@ public class UserEntity extends BaseTimeEntity {
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<UserSearchedIngredientEntity> SearchedIngredient;
 
+    // 유저 프로필 이미지 업데이트
     public void updateProfile(String profileAddress){
         this.imageAddress = profileAddress;
+    }
+
+    // 유저 프로필 닉네임 업데이트
+    public void updateNickName(String nickname) {
+        this.nickname = nickname;
     }
 
 }

@@ -46,6 +46,22 @@ public class UserSaveUpdateService {
         userRepository.save(userDto.toEntity());
     }
 
+    // 유저 프로필 적용할 때 쓰는 함수
+    @Transactional
+    public UserDto updateNickNameAndImageById(String tokenId, String nickName, String image){
+
+        UserEntity user = userRepository.findByUserTokenId(tokenId);
+        user.updateNickName(nickName);
+        user.updateProfile(image);
+
+        System.out.println("따봉2: " + user.getCreatedTime());
+        userRepository.save(user);
+        System.out.println("쌍따봉: " + user.getCreatedTime());
+
+        return UserDto.toUserDto(user);
+
+    }
+
 
     @Transactional
     public boolean saveUserComment(Long recipeId, UserCommentDto userCommentDto){
