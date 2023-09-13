@@ -60,4 +60,6 @@ public class TipEntity extends BaseTimeEntity {
         this.user = user;
     }
 
+    public void setTipHeartCount(int tipHeartCount){this.tipHeartCount=tipHeartCount;}
+
 }

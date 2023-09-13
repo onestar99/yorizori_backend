@@ -71,7 +71,15 @@ public class TipSaveUpdateService {
         }
         TipInfoDto tipInfoDto = new TipInfoDto();
         tipInfoDto.setHeart(isHeart);
+        updatetipHeartCount(tipEntity);
         return tipInfoDto;
     }
 
+    public void updatetipHeartCount(TipEntity tipEntity){
+        List<TipInfoEntity> tipInfoEntities = tipInfoRepository.findAll();
+        Long heart = tipInfoEntities.stream().filter(t -> t.getIsHeart()).count();
+        int iHeart = heart.intValue();
+        tipEntity.setTipHeartCount(iHeart);
+        tipRepository.save(tipEntity);
+    }
 }
