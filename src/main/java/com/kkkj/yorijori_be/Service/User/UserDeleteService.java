@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 @Slf4j
@@ -49,8 +50,27 @@ public class UserDeleteService {
         } else {
             return false;
         }
+    }
+
+    public ResponseEntity deleteCommentByCommentId(String userTokenId, long commentId){
+
+        // 들어온 tokenId 값이 commentId의 userTokenId와 동일한지 비교 후 동일하면 삭제, 다르면 실패 보내기
+        UserCommentEntity userComment = userCommentRepository.findById(commentId).get();
+
+        if(Objects.equals(userComment.getUser().getUserTokenId(), userTokenId)){ // 동일하다면
+            try { // 삭제 시도
+                userCommentRepository.deleteById(commentId);
+                return ResponseEntity.ok(commentId);
+            }catch (Exception e){
+                e.getMessage();
+                return null;
+            }
+        } else {
+            return null;
+        }
 
     }
+
 
 
 
