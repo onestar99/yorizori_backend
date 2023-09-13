@@ -80,7 +80,7 @@ public class UserGetController {
     }
 
 
-    @GetMapping("/{userTokenId}/tips") @ResponseBody
+    @GetMapping("/{userTokenId}/tip") @ResponseBody
     public Page<TipListDto> getTipsPaging(@PathVariable String userTokenId,@RequestParam(value = "pageNo", defaultValue = "0", required = false) int pageNo){
         // 페이지 사이즈 고정
         int pageSize = 12;
