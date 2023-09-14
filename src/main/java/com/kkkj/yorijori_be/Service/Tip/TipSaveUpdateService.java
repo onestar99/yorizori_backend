@@ -67,11 +67,9 @@ public class TipSaveUpdateService {
                 .build();
         if(isHeart){
             tipInfoRepository.save(tipInfoEntity);
-            System.out.println(1234);
             tipRepository.updateHeartCount(tipId,1);
         }else{
             tipInfoRepository.delete(tipInfoEntities.get(0));
-            System.out.println(2345);
             tipRepository.updateHeartCount(tipId,-1);
         }
         TipInfoDto tipInfoDto = new TipInfoDto();
