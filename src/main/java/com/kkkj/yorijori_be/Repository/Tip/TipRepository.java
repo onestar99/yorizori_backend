@@ -7,6 +7,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
+import org.springframework.transaction.annotation.Transactional;
 
 public interface TipRepository extends JpaRepository<TipEntity, String> {
 
@@ -22,4 +23,8 @@ public interface TipRepository extends JpaRepository<TipEntity, String> {
     @Query("update TipEntity t set t.tipReviewCount = t.tipReviewCount + 1 where t.tipId = :id")
     void updateReviewCount(@Param("id")Long id);
 
+    @Transactional
+    @Modifying
+    @Query("update TipEntity t set t.tipHeartCount = t.tipHeartCount + :var where t.tipId = :id")
+    void updateHeartCount(@Param("id")Long id,@Param("var")int var);
 }

@@ -55,44 +55,28 @@ public class TipSaveUpdateService {
     @Transactional
     public void updateReviewCount(Long id){tipRepository.updateReviewCount(id);}
 
+    //tipinfo(유저마다 팁에 좋아요를 했는지) 저장
     public TipInfoDto saveTipInfo(long tipId, String userId, boolean isHeart){
         UserEntity userEntity = userRepository.findByUserTokenId(userId);
         TipEntity tipEntity = tipRepository.findByTipId(tipId);
-        List<TipInfoEntity> tipInfoEntitys = tipInfoRepository.findByTipAndUser(tipEntity,userEntity);
+        List<TipInfoEntity> tipInfoEntities = tipInfoRepository.findByTipAndUser(tipEntity,userEntity);
         TipInfoEntity tipInfoEntity = TipInfoEntity.builder()
                 .tip(tipEntity)
                 .user(userEntity)
                 .isHeart(isHeart)
                 .build();
-        if(tipInfoEntitys.isEmpty()){
+        if(isHeart){
             tipInfoRepository.save(tipInfoEntity);
-            System.out.println("empty");
-            updatetipHeartCount(tipEntity);
-        }
-        else{
-            tipInfoRepository.updateisHeart(isHeart,tipInfoEntitys.get(0).getTipInfoId());
-            tipInfoRepository.save(tipInfoEntitys.get(0));
-            if(isHeart==true&& tipInfoEntitys.get(0).getIsHeart()==false){
-                tipEntity.setTipHeartCount(tipEntity.getTipHeartCount()+1);
-            }else if(isHeart==false&& tipInfoEntitys.get(0).getIsHeart()==true){
-                tipEntity.setTipHeartCount(tipEntity.getTipHeartCount()-1);
-            }
-            System.out.println(tipEntity.getTipHeartCount());
+            System.out.println(1234);
+            tipRepository.updateHeartCount(tipId,1);
+        }else{
+            tipInfoRepository.delete(tipInfoEntities.get(0));
+            System.out.println(2345);
+            tipRepository.updateHeartCount(tipId,-1);
         }
         TipInfoDto tipInfoDto = new TipInfoDto();
         tipInfoDto.setHeart(isHeart);
         return tipInfoDto;
     }
 
-    public void updatetipHeartCount(TipEntity tipEntity){
-        List<TipInfoEntity> tipInfoEntities = tipInfoRepository.findByTip(tipEntity);
-        for(TipInfoEntity tipInfoEntity : tipInfoEntities){
-            System.out.println(tipInfoEntity.getUser().getUserTokenId());
-            System.out.println(tipInfoEntity.getIsHeart());
-        }
-        Long iHeart = tipInfoEntities.stream().filter(t->t.getIsHeart()==true).count();
-        tipEntity.setTipHeartCount(iHeart.intValue());
-        tipRepository.save(tipEntity);
-        System.out.println(tipEntity.getTipHeartCount());
-    }
 }
