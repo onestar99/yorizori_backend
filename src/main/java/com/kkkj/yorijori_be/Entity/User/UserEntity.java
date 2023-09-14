@@ -82,4 +82,14 @@ public class UserEntity extends BaseTimeEntity {
         this.nickname = nickname;
     }
 
+    // 유저 프로필 성별 업데이트
+    public void updateGender(String gender) {
+        this.gender = gender;
+    }
+    
+    // 유저 프로필 나이 업데이트
+    public void updateAge(String age) {
+        this.age = age;
+    }
+
 }

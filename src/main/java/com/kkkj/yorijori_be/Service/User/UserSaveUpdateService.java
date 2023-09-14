@@ -48,15 +48,14 @@ public class UserSaveUpdateService {
 
     // 유저 프로필 적용할 때 쓰는 함수
     @Transactional
-    public UserDto updateNickNameAndImageById(String tokenId, String nickName, String image){
+    public UserDto updateProfileById(String tokenId, String nickName, String image, String gender, String age){
 
         UserEntity user = userRepository.findByUserTokenId(tokenId);
         user.updateNickName(nickName);
         user.updateProfile(image);
-
-        System.out.println("따봉2: " + user.getCreatedTime());
+        user.updateGender(gender);
+        user.updateAge(age);
         userRepository.save(user);
-        System.out.println("쌍따봉: " + user.getCreatedTime());
 
         return UserDto.toUserDto(user);
 
