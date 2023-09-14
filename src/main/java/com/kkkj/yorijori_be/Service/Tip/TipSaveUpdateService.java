@@ -14,6 +14,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Slf4j
 @Service
@@ -65,21 +66,33 @@ public class TipSaveUpdateService {
                 .build();
         if(tipInfoEntitys.isEmpty()){
             tipInfoRepository.save(tipInfoEntity);
+            System.out.println("empty");
+            updatetipHeartCount(tipEntity);
         }
         else{
             tipInfoRepository.updateisHeart(isHeart,tipInfoEntitys.get(0).getTipInfoId());
+            tipInfoRepository.save(tipInfoEntitys.get(0));
+            if(isHeart==true&& tipInfoEntitys.get(0).getIsHeart()==false){
+                tipEntity.setTipHeartCount(tipEntity.getTipHeartCount()+1);
+            }else if(isHeart==false&& tipInfoEntitys.get(0).getIsHeart()==true){
+                tipEntity.setTipHeartCount(tipEntity.getTipHeartCount()-1);
+            }
+            System.out.println(tipEntity.getTipHeartCount());
         }
         TipInfoDto tipInfoDto = new TipInfoDto();
         tipInfoDto.setHeart(isHeart);
-        updatetipHeartCount(tipEntity);
         return tipInfoDto;
     }
 
     public void updatetipHeartCount(TipEntity tipEntity){
-        List<TipInfoEntity> tipInfoEntities = tipInfoRepository.findAll();
-        Long heart = tipInfoEntities.stream().filter(t -> t.getIsHeart()).count();
-        int iHeart = heart.intValue();
-        tipEntity.setTipHeartCount(iHeart);
+        List<TipInfoEntity> tipInfoEntities = tipInfoRepository.findByTip(tipEntity);
+        for(TipInfoEntity tipInfoEntity : tipInfoEntities){
+            System.out.println(tipInfoEntity.getUser().getUserTokenId());
+            System.out.println(tipInfoEntity.getIsHeart());
+        }
+        Long iHeart = tipInfoEntities.stream().filter(t->t.getIsHeart()==true).count();
+        tipEntity.setTipHeartCount(iHeart.intValue());
         tipRepository.save(tipEntity);
+        System.out.println(tipEntity.getTipHeartCount());
     }
 }

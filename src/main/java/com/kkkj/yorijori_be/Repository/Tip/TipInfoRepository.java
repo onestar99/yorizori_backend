@@ -17,6 +17,8 @@ public interface TipInfoRepository extends JpaRepository<TipInfoEntity, String> 
 
     List<TipInfoEntity> findByTipAndUser(TipEntity tipEntity, UserEntity userEntity);
 
+    List<TipInfoEntity> findByTip(TipEntity tipEntity);
+
     @Transactional
     @Modifying
     @Query("update TipInfoEntity r set r.isHeart = :isHeart where r.tipInfoId = :id")
