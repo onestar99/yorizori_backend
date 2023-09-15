@@ -235,8 +235,8 @@ public class RecipeGetService {
 
         return RecipeDetailReviewDto.builder()
                 .status(status)
-                .starRate(recipe.getStarCount())
-                .starCount(starCount)
+                .recipeStarCount(recipe.getStarCount())
+                .userStarCount(starCount)
                 .reviewCount(recipe.getReviewCount())
                 .reviews(reviewDtoList)
                 .build();

@@ -14,8 +14,8 @@ import java.util.List;
 public class RecipeDetailReviewDto {
 
     private String status;
-    private String starRate;
-    private List<Integer> starCount;
+    private String recipeStarCount;
+    private List<Integer> userStarCount;
     private Integer reviewCount;
     private List<ReviewDto> reviews;
 
