@@ -15,4 +15,6 @@ import java.time.format.DateTimeFormatter;
 public class TipInfoDto {
 
     private boolean isHeart;
+
+    private int tipHeartCount;
 }

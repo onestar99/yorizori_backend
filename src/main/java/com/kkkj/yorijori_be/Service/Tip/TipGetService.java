@@ -99,8 +99,10 @@ public class TipGetService {
         TipInfoDto tipInfoDto = new TipInfoDto();
         if(tipInfoEntity.isEmpty()){
             tipInfoDto.setHeart(false);
+            tipInfoDto.setTipHeartCount(tipEntity.getTipHeartCount());
         }else{
             tipInfoDto.setHeart(tipInfoEntity.get(0).getIsHeart());
+            tipInfoDto.setTipHeartCount(tipEntity.getTipHeartCount());
         }
         return tipInfoDto;
     }
