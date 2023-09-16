@@ -17,6 +17,7 @@ import java.util.Date;
 @ToString
 public class TipListDto {
     private Long tipId;
+    private String tipUserTokenId;
     private String tipTitle;
     private int tipHeartCount;
     private int tipViewCount;
@@ -29,6 +30,7 @@ public class TipListDto {
     public static TipListDto toDto(TipEntity tipEntity){
         TipListDto tipListDto = TipListDto.builder()
                 .tipId(tipEntity.getTipId())
+                .tipUserTokenId(tipEntity.getUser().getUserTokenId())
                 .tipTitle(tipEntity.getTipTitle())
                 .tipDetail(tipEntity.getTipDetail())
                 .tipHeartCount(tipEntity.getTipHeartCount())
@@ -44,6 +46,7 @@ public class TipListDto {
     public static Page<TipListDto> toDtoPage(Page<TipEntity> tipEntityPage){
         Page<TipListDto> tipListDtoPage = tipEntityPage.map(m -> TipListDto.builder()
                 .tipId(m.getTipId())
+                .tipUserTokenId(m.getUser().getUserTokenId())
                 .tipViewCount(m.getTipViewCount())
                 .tipHeartCount(m.getTipHeartCount())
                 .tipThumbnail(m.getTipThumbnail())
