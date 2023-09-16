@@ -4,6 +4,7 @@ import com.kkkj.yorijori_be.Entity.Recipe.RecipeEntity;
 import com.kkkj.yorijori_be.Entity.User.UserEntity;
 import com.kkkj.yorijori_be.Repository.Log.UserViewLogRepository;
 import com.kkkj.yorijori_be.Repository.Recipe.RecipeRepository;
+import com.kkkj.yorijori_be.Repository.User.UserCommentRepository;
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -24,7 +25,7 @@ public class LogDeleteService {
      * 유저 view 테이블에서 레시피 아이디를 조회하고 삭제한다.
      * */
     @Transactional
-    public boolean DeleteUserViewLogsByRecipeId(long recipeId){
+    public boolean deleteUserViewLogsByRecipeId(long recipeId){
         RecipeEntity recipe = recipeRepository.findByRecipeId(recipeId);
         if(recipe != null){
             userViewLogRepository.deleteByRecipe(recipe);
@@ -32,6 +33,9 @@ public class LogDeleteService {
         }
         return false;
     }
+
+
+
 
 
 }
