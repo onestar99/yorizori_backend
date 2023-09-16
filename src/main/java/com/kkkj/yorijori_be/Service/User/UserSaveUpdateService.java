@@ -17,6 +17,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Objects;
 
 @Slf4j
 @Service
@@ -51,10 +52,18 @@ public class UserSaveUpdateService {
     public UserDto updateProfileById(String tokenId, String nickName, String image, String gender, String age){
 
         UserEntity user = userRepository.findByUserTokenId(tokenId);
-        user.updateNickName(nickName);
-        user.updateProfile(image);
-        user.updateGender(gender);
-        user.updateAge(age);
+        if(!Objects.equals(nickName, "null")){
+            user.updateNickName(nickName);
+        }
+        if(!Objects.equals(image, "null")) {
+            user.updateProfile(image);
+        }
+        if(!Objects.equals(gender, "null")) {
+            user.updateGender(gender);
+        }
+        if(!Objects.equals(age, "null")) {
+            user.updateAge(age);
+        }
         userRepository.save(user);
 
         return UserDto.toUserDto(user);
