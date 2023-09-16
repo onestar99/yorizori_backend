@@ -34,7 +34,7 @@ public class TipListDto {
                 .nickname(tipEntity.getUser().getNickname())
                 .profileImg(tipEntity.getUser().getImageAddress())
                 .tipViewCount(tipEntity.getTipViewCount())
-                .date(tipEntity.getCreatedTime().format(DateTimeFormatter.ofPattern("yyyyMMdd")))
+                .date(tipEntity.getCreatedTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")))
                 .build();
         return tipListDto;
     }
