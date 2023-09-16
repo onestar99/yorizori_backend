@@ -3,10 +3,7 @@ package com.kkkj.yorijori_be.Controller.Tip;
 import com.kkkj.yorijori_be.Service.Tip.TipDeleteService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 @Controller
 @RequiredArgsConstructor
@@ -21,6 +18,15 @@ public class TipDeleteController {
             @RequestParam(value = "tokenId", required = true) String tokenId
     ){
         tipDeleteService.deleteAllTipById(tokenId);
+        return "deleted";
+    }
+
+    @ResponseBody
+    @DeleteMapping("/all")
+    public String deleteTip(
+            @RequestParam(value = "tokenId", required = true) Long tokenId
+    ){
+        tipDeleteService.deleteTipByTipId(tokenId);
         return "deleted";
     }
 }
