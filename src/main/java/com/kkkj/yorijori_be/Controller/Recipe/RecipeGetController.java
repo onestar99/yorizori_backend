@@ -42,7 +42,6 @@ public class RecipeGetController {
     // 레시피 디테일 정보 recipeId를 파라미터로 받아 RecipeDetailsDto 반환
     @ResponseBody
     @GetMapping("/details")
-//    @RequestMapping(value = "/details",method = {RequestMethod.GET, RequestMethod.POST})
     public RecipeDetailsDto getRecipeDetails(
             @RequestParam(value = "recipeId", required = false) Long recipeId,
             @RequestParam(value = "userId", required = false) String userId){
