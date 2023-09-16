@@ -16,8 +16,6 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-
-import java.util.ArrayList;
 import java.util.List;
 
 
@@ -66,13 +64,14 @@ public class RecipeSaveUpdateService {
         for(int i = 0; i < recipeSaveDto.getRecipeDetail().size(); i++){
 
             String image = recipeSaveDto.getRecipeDetail().get(i).getImage();
+            String splitImage = "";
             if(image != null){
-                String splitImage = image.split("https://yorizori-s3.s3.ap-northeast-2.amazonaws.com")[1];
+                splitImage = image.split("https://yorizori-s3.s3.ap-northeast-2.amazonaws.com")[1];
             }
 
             RecipeDetailEntity recipeDetailEntity = RecipeDetailEntity.builder()
                     .recipeDetail(recipeSaveDto.getRecipeDetail().get(i).getText())
-                    .recipeImage(image)
+                    .recipeImage(splitImage)
                     .recipe(recipeEntity)
                     .order(i+1).build();
 
