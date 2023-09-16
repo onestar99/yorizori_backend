@@ -20,7 +20,7 @@ public class RecipeDetailsDto {
     private String title;
     private String level;
     private String time;
-    private String userTokenId;
+    private String recipeUserTokenId;
     private String profileImg;
     private String nickname;
     private String date;
@@ -53,7 +53,7 @@ public class RecipeDetailsDto {
                 .title(recipeEntity.getRecipeTitle())
                 .level(recipeEntity.getLevel())
                 .time(recipeEntity.getTime())
-                .userTokenId(recipeEntity.getUser().getUserTokenId())
+                .recipeUserTokenId(recipeEntity.getUser().getUserTokenId())
                 .profileImg(recipeEntity.getUser().getImageAddress())
                 .nickname(recipeEntity.getUser().getNickname())
                 .date(recipeEntity.getCreatedTime().format(DateTimeFormatter.ISO_DATE))
