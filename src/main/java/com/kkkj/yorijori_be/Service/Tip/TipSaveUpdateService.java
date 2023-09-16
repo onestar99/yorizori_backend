@@ -27,6 +27,12 @@ public class TipSaveUpdateService {
     public long saveTip(String userTokenId, TipDto tipDto){
         // TokenId를 통해 유저 정보 찾기
         UserEntity userEntity = userRepository.findByUserTokenId(userTokenId);
+        //image 주소 제거
+        String image = tipDto.getTipThumbnail();
+        if(image != null){
+            String splitImage = image.split("https://yorizori-s3.s3.ap-northeast-2.amazonaws.com")[1];
+            tipDto.setTipThumbnail(splitImage);
+        }
         // 전달받은 DTO를 Entity로 변경
         TipEntity tipEntity = tipDto.toEntity();
         // tip Entity 유저 정보 세팅
