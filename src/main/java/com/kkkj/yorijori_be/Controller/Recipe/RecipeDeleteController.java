@@ -24,22 +24,24 @@ public class RecipeDeleteController {
     @DeleteMapping("/{recipeId}")
     public String DeleteRecipe(@PathVariable Long recipeId){
 
-
         // 레시피 view 로그 삭제
         boolean a = logDeleteService.deleteUserViewLogsByRecipeId(recipeId);
         // 레시피 코맨트 삭제
-        boolean f = userDeleteService.deleteAllCommentByRecipeId(recipeId);
+        boolean b = userDeleteService.deleteAllCommentByRecipeId(recipeId);
         // 레시피 재료태그 삭제
-        boolean b = recipeDeleteService.deleteIngredientTagsByRecipeId(recipeId);
+        boolean c = recipeDeleteService.deleteIngredientTagsByRecipeId(recipeId);
         // 레시피 디테일 삭제
-        boolean c = recipeDeleteService.deleteRecipeDetailsByRecipeId(recipeId);
+        boolean d = recipeDeleteService.deleteRecipeDetailsByRecipeId(recipeId);
         // 레시피 카테고리 삭제
-        boolean d = recipeDeleteService.deleteRecipeCategoriesByRecipeId(recipeId);
+        boolean e = recipeDeleteService.deleteRecipeCategoriesByRecipeId(recipeId);
         // 레시피 삭제
-        boolean e = recipeDeleteService.deleteRecipeByRecipeId(recipeId);
+        boolean f = recipeDeleteService.deleteRecipeByRecipeId(recipeId);
 
-
-        return "hello";
+        // 모두가 성공하면
+        if(a && b && c && d && e && f){
+            return "delete success";
+        }
+        return "delete fail";
 
     }
 
