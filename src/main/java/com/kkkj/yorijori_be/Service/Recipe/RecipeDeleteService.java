@@ -27,7 +27,6 @@ public class RecipeDeleteService {
     private final RecipeDetailRepository recipeDetailRepository;
     private final RecipeCategoryTagRepository recipeCategoryTagRepository;
     private final S3Remover s3Remover;
-    private final LogDeleteService logDeleteService;
 
 
     /*
@@ -38,7 +37,7 @@ public class RecipeDeleteService {
     * 실패하면 False
     * */
     @Transactional
-    public boolean DeleteIngredientTagsByRecipeId(long recipeId){
+    public boolean deleteIngredientTagsByRecipeId(long recipeId){
         RecipeEntity recipe = recipeRepository.findByRecipeId(recipeId);
         if(recipe != null){
             List<RecipeIngredientTagEntity> Ingredients = recipe.getIngredients();
@@ -58,7 +57,7 @@ public class RecipeDeleteService {
     * 실패하면 False
     * */
     @Transactional
-    public boolean DeleteRecipeDetailsByRecipeId(long recipeId){
+    public boolean deleteRecipeDetailsByRecipeId(long recipeId){
 
         RecipeEntity recipe = recipeRepository.findByRecipeId(recipeId);
         if(recipe != null){
@@ -87,7 +86,7 @@ public class RecipeDeleteService {
     * 실패하면 False
     * */
     @Transactional
-    public boolean DeleteRecipeCategoriesByRecipeId(long recipeId){
+    public boolean deleteRecipeCategoriesByRecipeId(long recipeId){
 
         RecipeEntity recipe = recipeRepository.findByRecipeId(recipeId);
         if(recipe != null){
@@ -103,15 +102,22 @@ public class RecipeDeleteService {
     /*
      * ---레시피 튜플 삭제함수---
      * 레시피 아이디를 받는다.
+     * 레시피 썸네일 이미지를 S3에서 삭제한다.
      * 레시피 테이블에서 레시피 아이디를 조회하고 삭제한다.
      * 성공하면 True
      * 실패하면 False
      * */
     @Transactional
-    public boolean DeleteRecipeByRecipeId(long recipeId){
+    public boolean deleteRecipeByRecipeId(long recipeId){
         RecipeEntity recipe = recipeRepository.findByRecipeId(recipeId);
         if(recipe != null){
-//            recipeRepository.delete(recipe);
+            // S3에서 이미지 삭제
+            String image = recipe.getRecipeThumbnail();
+            if(image != null){
+                String result = s3Remover.deleteFile(image);
+                System.out.println(result);
+            }
+            // 레시피 삭제
             recipeRepository.deleteByRecipeId(recipeId);
 //            recipeRepository.flush();
             return true;
