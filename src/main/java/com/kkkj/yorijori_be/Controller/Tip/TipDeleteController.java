@@ -22,9 +22,9 @@ public class TipDeleteController {
     }
 
     @ResponseBody
-    @DeleteMapping("/all")
+    @DeleteMapping("/{tokenId}")
     public String deleteTip(
-            @RequestParam(value = "tokenId", required = true) Long tokenId
+            @PathVariable Long tokenId
     ){
         tipDeleteService.deleteTipByTipId(tokenId);
         return "deleted";
