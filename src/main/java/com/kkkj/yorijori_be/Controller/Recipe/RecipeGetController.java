@@ -3,6 +3,7 @@ package com.kkkj.yorijori_be.Controller.Recipe;
 import com.kkkj.yorijori_be.Dto.Recipe.RecipeDetailReviewDto;
 import com.kkkj.yorijori_be.Dto.Recipe.RecipeDetailsDto;
 import com.kkkj.yorijori_be.Dto.Recipe.RecipeListDto;
+import com.kkkj.yorijori_be.Dto.Recipe.RecipeTemplateDto;
 import com.kkkj.yorijori_be.Service.Recipe.RecipeGetService;
 import com.kkkj.yorijori_be.Service.Recipe.RecipeRecommendService;
 import com.kkkj.yorijori_be.Service.Recipe.RecipeSaveUpdateService;
@@ -134,6 +135,16 @@ public class RecipeGetController {
     @GetMapping("/recommend/{userId}")
     public List<RecipeListDto> sendRequestToFlask(@PathVariable String userId) {
         return recipeRecommendService.recipeRecommendByRecipeId(userId);
+    }
+
+
+    // 레시피 템플릿 내용 전달
+    @ResponseBody
+    @PostMapping("/template")
+    public String testTemplate(@RequestBody List<RecipeTemplateDto> Templates){
+
+        String detail = recipeRecommendService.getFlaskTemplateDetail(Templates);
+        return detail;
     }
 
 }

@@ -1,12 +1,13 @@
 package com.kkkj.yorijori_be.Service.Recipe;
 
 import com.kkkj.yorijori_be.Dto.Recipe.RecipeListDto;
+import com.kkkj.yorijori_be.Dto.Recipe.RecipeTemplateDto;
 import com.kkkj.yorijori_be.Entity.Recipe.RecipeEntity;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
@@ -56,6 +57,37 @@ public class RecipeRecommendService {
         RestTemplate restTemplate = new RestTemplate();
         // Flask로 GET 요청 보내기
         ResponseEntity<String> response = restTemplate.getForEntity(flaskUrl, String.class);
+        // 응답을 받아서 처리
+        if (response.getStatusCode().is2xxSuccessful()) {
+            String responseBody = response.getBody();
+            return responseBody;
+        } else {
+            return "Failed to get data from Flask";
+        }
+
+    }
+
+    /*
+    * 파이썬하고 통신해서 템플릿 Detail 받아오기.
+    * */
+    public String getFlaskTemplateDetail(List<RecipeTemplateDto> templates){
+
+        // Flask 서버의 URL로 GET 요청
+        String flaskUrl = "http://localhost:5000/template"; // Flask 서버의 주소
+
+        // RestTemplate 생성
+        RestTemplate restTemplate = new RestTemplate();
+
+        // 요청 헤더 설정 (옵션)
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+
+        // 요청 본문에 Templates 리스트를 JSON으로 변환하여 설정
+        HttpEntity<List<RecipeTemplateDto>> requestEntity = new HttpEntity<>(templates, headers);
+
+        // Flask로 POST 요청 보내기
+        ResponseEntity<String> response = restTemplate.exchange(flaskUrl, HttpMethod.POST, requestEntity, String.class);
+
         // 응답을 받아서 처리
         if (response.getStatusCode().is2xxSuccessful()) {
             String responseBody = response.getBody();
