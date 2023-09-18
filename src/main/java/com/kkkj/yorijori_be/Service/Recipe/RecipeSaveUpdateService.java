@@ -149,4 +149,12 @@ public class RecipeSaveUpdateService {
                 .recipe(recipe).build();
         recipeCategoryTagRepository.save(recipeCategoryTag);
     }
+//
+//    public void saveReferenceRecipe(RecipeDto recipeDto,String referenceRecipe){
+//        if(recipeDto.getReferenceRecipe()==null){
+//            recipeDto.setReferenceRecipe(referenceRecipe);
+//        }else{
+//            recipeDto.setReferenceRecipe(recipeDto.getReferenceRecipe()+","+referenceRecipe);
+//        }
+//    }
 }

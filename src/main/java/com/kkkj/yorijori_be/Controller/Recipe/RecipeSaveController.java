@@ -44,6 +44,26 @@ public class RecipeSaveController {
         return recipeId;
     }
 
+//    @PostMapping("/details/{referenceRecipe}")
+//    @ResponseBody
+//    public long saveRecipe(@PathVariable String referenceRecipe,@RequestBody RecipeSaveDto recipeSaveDto){
+//
+//
+//        // 모든 내용이 괜찮은지 검토한다. (Validation) - 현재 미완성
+//        RecipeDto recipeDto = RecipeDto.recipeSaveDtoToDTO(recipeSaveDto);
+//        // 원작자 저장
+//        recipeSaveUpdateService.saveReferenceRecipe(recipeDto,referenceRecipe);
+//        // 레시피 정보를 저장(요청-POST)한다. (한개)
+//        long recipeId = recipeSaveUpdateService.saveRecipe(recipeSaveDto.getUserId(), recipeDto);
+//        // 레시피 디테일 정보 저장
+//        recipeSaveUpdateService.saveRecipeDetails(recipeId, recipeSaveDto);
+//        // 레시피 재료 정보를 저장(요청-POST)한다. (여러개)
+//        recipeSaveUpdateService.saveRecipeIngredient(recipeId, recipeSaveDto);
+//        // 카테고리 저장
+//        recipeSaveUpdateService.saveRecipeCategory(recipeId, recipeSaveDto.getRecipeInfo().getCategory());
+//
+//        return recipeId;
+//    }
 
 
 }
