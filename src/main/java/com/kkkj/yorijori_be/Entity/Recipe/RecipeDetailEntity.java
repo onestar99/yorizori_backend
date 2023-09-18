@@ -2,9 +2,10 @@ package com.kkkj.yorijori_be.Entity.Recipe;
 
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.kkkj.yorijori_be.Entity.User.UserEntity;
 import jakarta.persistence.*;
 import lombok.*;
+
+import java.util.List;
 
 @ToString
 @Getter
@@ -32,20 +33,13 @@ public class RecipeDetailEntity {
     @Column(name = "recipe_image")
     private String recipeImage;
 
-    @Column(name = "ingredient")
-    private String ingredient; // 재료를
-
-    @Column(name = "count")
-    private String count; // 몇개
-
-    @Column(name = "time")
-    private String time; // 몇분
-
-    @Column(name = "object")
-    private String object; // 물체를
-
     @Column(name = "order_index")
     private Integer order; // 순서
+
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "recipeDetail", cascade = CascadeType.ALL)
+    private List<RecipeTemplateEntity> templates;
 
 
     // RecipeId setting

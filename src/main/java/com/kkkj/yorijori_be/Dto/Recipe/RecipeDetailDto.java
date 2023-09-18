@@ -21,19 +21,12 @@ public class RecipeDetailDto {
 
     private String recipeDetail;
     private String recipeImage;
-    private String ingredient; // 재료를
-    private String count; // 몇개
-    private String time; // 몇분
-    private String object; // 물체를
+
 
     public RecipeDetailEntity toEntity(){
         RecipeDetailEntity build = RecipeDetailEntity.builder()
                 .recipeDetail(recipeDetail)
                 .recipeImage(recipeImage)
-                .ingredient(ingredient)
-                .count(count)
-                .time(time)
-                .object(object)
                 .build();
 
         return build;
