@@ -153,7 +153,7 @@ public class RecipeSaveUpdateService {
     public void saveReferenceRecipe(RecipeDto recipeDto,Long referenceRecipe){
         if(referenceRecipe!=null){
             RecipeEntity recipeEntity = recipeRepository.findByRecipeId(referenceRecipe);
-            if(recipeDto.getReferenceRecipe()==null){
+            if(recipeEntity.getReferenceRecipe()==null){
                 String temp = ""+referenceRecipe;
                 recipeDto.setReferenceRecipe(temp);
             }else{

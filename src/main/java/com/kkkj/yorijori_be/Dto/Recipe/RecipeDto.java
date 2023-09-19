@@ -42,7 +42,6 @@ public class RecipeDto {
         recipeDto.setRecipeViewCount(0);
         recipeDto.setAuthorship(null);
         recipeDto.setStarCount("0.0");
-        recipeDto.setReferenceRecipe(""+recipeSaveDto.getReferenceRecipe());
         recipeDto.setRecipeIntro(recipeSaveDto.getRecipeInfo().getExplain());
         String thumbnail = recipeSaveDto.getThumbnail().split("https://yorizori-s3.s3.ap-northeast-2.amazonaws.com")[1];
         recipeDto.setRecipeThumbnail(thumbnail);
