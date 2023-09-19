@@ -70,7 +70,7 @@ public class RecipeSaveUpdateService {
             }
 
             RecipeDetailEntity recipeDetailEntity = RecipeDetailEntity.builder()
-                    .recipeDetail(recipeSaveDto.getRecipeDetail().get(i).getText())
+                    .recipeDetail(recipeSaveDto.getRecipeDetail().get(i).getDetail())
                     .recipeImage(splitImage)
                     .recipe(recipeEntity)
                     .order(i+1).build();
