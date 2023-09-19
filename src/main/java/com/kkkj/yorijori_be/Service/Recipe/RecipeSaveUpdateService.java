@@ -140,14 +140,16 @@ public class RecipeSaveUpdateService {
 
 
     // 레시피 카테고리 저장
-    public void saveRecipeCategory(long recipeId, String category) {
+    public void saveRecipeCategory(long recipeId, List<String> category) {
 
         RecipeEntity recipe = recipeRepository.findByRecipeId(recipeId);
-
-        RecipeCategoryTagEntity recipeCategoryTag = RecipeCategoryTagEntity.builder()
-                .category(category)
-                .recipe(recipe).build();
-        recipeCategoryTagRepository.save(recipeCategoryTag);
+        // 반복문을 통해 카테고리 여러개 저장
+        for(String cate: category){
+            RecipeCategoryTagEntity recipeCategoryTag = RecipeCategoryTagEntity.builder()
+                    .category(cate)
+                    .recipe(recipe).build();
+            recipeCategoryTagRepository.save(recipeCategoryTag);
+        }
     }
 
     public void saveReferenceRecipe(RecipeDto recipeDto,Long referenceRecipe){
