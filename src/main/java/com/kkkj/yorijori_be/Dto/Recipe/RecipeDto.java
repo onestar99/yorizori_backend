@@ -12,6 +12,8 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
+import java.util.List;
+
 @Getter
 @Setter
 @ToString
@@ -19,7 +21,7 @@ import lombok.ToString;
 public class RecipeDto {
 
     private String recipeTitle;
-    private String category;
+    private List<String> category;
     private String dishName;
     private int recipeViewCount = 0;
     private String authorship;
