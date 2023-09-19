@@ -1,7 +1,6 @@
 package com.kkkj.yorijori_be.Controller.Recipe;
 
 import com.kkkj.yorijori_be.Dto.Recipe.RecipeIngredientDto;
-import com.kkkj.yorijori_be.Dto.Recipe.RecipePostDto;
 import com.kkkj.yorijori_be.Dto.Recipe.RecipeDto;
 import com.kkkj.yorijori_be.Dto.Recipe.RecipeSaveDto;
 import com.kkkj.yorijori_be.Service.Recipe.RecipeSaveUpdateService;

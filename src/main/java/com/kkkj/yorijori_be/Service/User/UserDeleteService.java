@@ -49,26 +49,26 @@ public class UserDeleteService {
         }
     }
 
-
-    // 댓글을 남긴 사람과 유저 토큰을 비교하여 일치하면 코맨트 *삭제* 가능하도록 하는 함수
-    public ResponseEntity deleteCommentByCommentId(String userTokenId, long commentId){
-
-        // 들어온 tokenId 값이 commentId의 userTokenId와 동일한지 비교 후 동일하면 삭제, 다르면 실패 보내기
-        UserCommentEntity userComment = userCommentRepository.findById(commentId).get();
-
-        if(Objects.equals(userComment.getUser().getUserTokenId(), userTokenId)){ // 동일하다면
-            try { // 삭제 시도
-                userCommentRepository.deleteById(commentId);
-                return ResponseEntity.ok(commentId);
-            }catch (Exception e){
-                e.getMessage();
-                return null;
-            }
-        } else {
-            return null;
-        }
-
-    }
+//
+//    // 댓글을 남긴 사람과 유저 토큰을 비교하여 일치하면 코맨트 *삭제* 가능하도록 하는 함수
+//    public ResponseEntity deleteCommentByCommentId(String userTokenId, long commentId){
+//
+//        // 들어온 tokenId 값이 commentId의 userTokenId와 동일한지 비교 후 동일하면 삭제, 다르면 실패 보내기
+//        UserCommentEntity userComment = userCommentRepository.findById(commentId).get();
+//
+//        if(Objects.equals(userComment.getUser().getUserTokenId(), userTokenId)){ // 동일하다면
+//            try { // 삭제 시도
+//                userCommentRepository.deleteById(commentId);
+//                return ResponseEntity.ok(commentId);
+//            }catch (Exception e){
+//                e.getMessage();
+//                return null;
+//            }
+//        } else {
+//            return null;
+//        }
+//
+//    }
 
 
     // recipeId를 입력받아 User Comment 전체 삭제.

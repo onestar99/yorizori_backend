@@ -31,9 +31,7 @@ import java.util.stream.Collectors;
 public class RecipeGetService {
 
     private final RecipeRepository recipeRepository;
-    private final RecipeDetailRepository recipeDetailRepository;
     private final RecipeIngredientTagRepository recipeIngredientTagRepository;
-    private final RecipeCategoryTagRepository recipeCategoryTagRepository;
     private final UserCommentRepository userCommentRepository;
 
     // 레시피 정보 페이징해서 보내기.

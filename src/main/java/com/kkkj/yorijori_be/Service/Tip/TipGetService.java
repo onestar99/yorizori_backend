@@ -44,20 +44,6 @@ public class TipGetService {
         return tipListDtoList;
     }
 
-//    public TipDetailsDto getTipDetailByTipId(Long tipId){
-//        TipEntity tipEntity = tipRepository.findByTipId(tipId);
-//
-//        List<TipDetailEntity> tipDetailEntityList = tipEntity.getDetails();
-//        List<TipOrderDto> tipOrderDtoList = new ArrayList<>();
-//        for(TipDetailEntity tipDetailEntity: tipDetailEntityList){
-//            tipOrderDtoList.add(TipOrderDto.toDto(tipDetailEntity));
-//        }
-//
-//        TipDetailsDto tipDetailsDto = TipDetailsDto.toDto(tipEntity,tipOrderDtoList);
-//
-//        return tipDetailsDto;
-//    }
-
     public Page<TipListDto> getTipsPagingByUserId(int pageNo, int pageSize,String userId){
         Pageable pageable = PageRequest.of(pageNo, pageSize, Sort.by("createdTime").descending());
         Page<TipEntity> tipEntityPage = tipRepository.findAllByUser_UserTokenId(userId,pageable);
