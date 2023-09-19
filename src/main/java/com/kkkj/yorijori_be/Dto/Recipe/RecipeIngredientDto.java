@@ -11,14 +11,14 @@ import lombok.*;
 public class RecipeIngredientDto {
 
     private String name;
-    private String detail;
+    private String size;
 
 
 
     public RecipeIngredientTagEntity toEntity(){
         RecipeIngredientTagEntity recipeIngredientTagEntity = RecipeIngredientTagEntity.builder()
                 .ingredientName(name)
-                .ingredientSize(detail).build();
+                .ingredientSize(size).build();
         return recipeIngredientTagEntity;
     }
 
@@ -26,7 +26,7 @@ public class RecipeIngredientDto {
     public static RecipeIngredientDto toDto(RecipeIngredientTagEntity recipeIngredientTagEntity){
         RecipeIngredientDto recipeIngredientDto = RecipeIngredientDto.builder()
                 .name(recipeIngredientTagEntity.getIngredientName())
-                .detail(recipeIngredientTagEntity.getIngredientSize())
+                .size(recipeIngredientTagEntity.getIngredientSize())
                 .build();
 
         return recipeIngredientDto;
