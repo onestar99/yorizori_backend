@@ -152,6 +152,7 @@ public class RecipeSaveUpdateService {
         }
     }
 
+    //레시피 원작자 확인 후 저장
     public void saveReferenceRecipe(RecipeDto recipeDto,Long referenceRecipe){
         if(referenceRecipe!=null){
             RecipeEntity recipeEntity = recipeRepository.findByRecipeId(referenceRecipe);
