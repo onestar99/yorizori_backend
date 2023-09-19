@@ -16,7 +16,7 @@ public class RecipeInfo {
     String title;
     String level;
     String time;
-    String category;
+    List<String> category;
     String explain;
 
 
