@@ -149,12 +149,16 @@ public class RecipeSaveUpdateService {
                 .recipe(recipe).build();
         recipeCategoryTagRepository.save(recipeCategoryTag);
     }
-//
-//    public void saveReferenceRecipe(RecipeDto recipeDto,String referenceRecipe){
-//        if(recipeDto.getReferenceRecipe()==null){
-//            recipeDto.setReferenceRecipe(referenceRecipe);
-//        }else{
-//            recipeDto.setReferenceRecipe(recipeDto.getReferenceRecipe()+","+referenceRecipe);
-//        }
-//    }
+
+    public void saveReferenceRecipe(RecipeDto recipeDto,Long referenceRecipe){
+        if(referenceRecipe!=null){
+            RecipeEntity recipeEntity = recipeRepository.findByRecipeId(referenceRecipe);
+            if(recipeEntity.getReferenceRecipe()==null){
+                String temp = ""+referenceRecipe;
+                recipeDto.setReferenceRecipe(temp);
+            }else{
+                recipeDto.setReferenceRecipe(recipeEntity.getReferenceRecipe()+","+referenceRecipe);
+            }
+        }
+    }
 }

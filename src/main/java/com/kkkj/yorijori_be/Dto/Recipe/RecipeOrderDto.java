@@ -9,7 +9,7 @@ import lombok.*;
 @Builder
 public class RecipeOrderDto {
 
-    private String contents;
+    private String text;
     private String img;
 
 
@@ -18,7 +18,7 @@ public class RecipeOrderDto {
     public static RecipeOrderDto toDto(RecipeDetailEntity recipeDetailEntity){
 
         RecipeOrderDto recipeOrderDto = RecipeOrderDto.builder()
-                .contents(recipeDetailEntity.getRecipeDetail())
+                .text(recipeDetailEntity.getRecipeDetail())
                 .img(recipeDetailEntity.getRecipeImage())
                 .build();
         return recipeOrderDto;

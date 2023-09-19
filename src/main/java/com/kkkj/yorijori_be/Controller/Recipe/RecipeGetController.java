@@ -58,6 +58,18 @@ public class RecipeGetController {
         return recipeDetailsDto;
     }
 
+    // 레시피 공유 등록시 레시피 정보 반환
+    @ResponseBody
+    @GetMapping("/writing/reference")
+    public RecipeDetailsDto getReferenceRecipeDetails(
+            @RequestParam(value = "recipeId", required = false) Long recipeId){
+
+        // DTO 만들기
+        RecipeDetailsDto recipeDetailsDto = recipeGetService.getRecipeDetailsByRecipeId(recipeId);
+        return recipeDetailsDto;
+    }
+
+
     // 메인화면에서 rank1부터 rank9까지 불러오는 api
     @ResponseBody
     @GetMapping("/rank/part")
