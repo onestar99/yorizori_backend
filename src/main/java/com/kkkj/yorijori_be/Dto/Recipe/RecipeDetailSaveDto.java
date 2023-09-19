@@ -9,6 +9,6 @@ import lombok.ToString;
 @ToString
 public class RecipeDetailSaveDto {
 
-    String text;
+    String detail;
     String image;
 }
