@@ -9,8 +9,8 @@ import lombok.*;
 @Builder
 public class RecipeOrderDto {
 
-    private String text;
-    private String img;
+    private String detail;
+    private String image;
 
 
     // RecipeDetailsDto에 포함시키기 위한 Order List이다.
@@ -18,8 +18,8 @@ public class RecipeOrderDto {
     public static RecipeOrderDto toDto(RecipeDetailEntity recipeDetailEntity){
 
         RecipeOrderDto recipeOrderDto = RecipeOrderDto.builder()
-                .text(recipeDetailEntity.getRecipeDetail())
-                .img(recipeDetailEntity.getRecipeImage())
+                .detail(recipeDetailEntity.getRecipeDetail())
+                .image(recipeDetailEntity.getRecipeImage())
                 .build();
         return recipeOrderDto;
     }
