@@ -47,10 +47,10 @@ public class RecipeDetailEntity {
         this.recipe = recipe;
     }
 
-    // 레시피 디테일 저장할 때 순서 설정
-    public void setOrder(int orderIndex) {
-        this.order = orderIndex;
-    }
+//    // 레시피 디테일 저장할 때 순서 설정
+//    public void setOrder(int orderIndex) {
+//        this.order = orderIndex;
+//    }
 
     // 레시피 디테일 이미지 업데이트
     public void updateRecipeImage(String recipeImage){

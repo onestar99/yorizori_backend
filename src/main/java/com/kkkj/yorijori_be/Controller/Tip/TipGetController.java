@@ -39,7 +39,11 @@ public class TipGetController {
 
     @GetMapping("/part") @ResponseBody
     public List<TipListDto> getTipPartall(){
-        return tipGetService.getTipsPart().subList(0,8);
+        List<TipListDto> tipListDtos = tipGetService.getTipsPart();
+        if(tipListDtos.size()>=8){
+            tipListDtos = tipGetService.getTipsPart().subList(0,8);
+        }
+        return tipListDtos;
     }
 
     @GetMapping("/details") @ResponseBody

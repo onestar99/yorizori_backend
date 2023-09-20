@@ -116,27 +116,27 @@ public class RecipeSaveUpdateService {
         recipeRepository.updateView(recipeId);
     }
 
-    // 프로필 이미지주소 업데이트
-    @Transactional
-    public void updateThumbnail(Long recipeId, String thumbnailAddress){
-        RecipeEntity recipeEntity = recipeRepository.findByRecipeId(recipeId);
-        recipeEntity.updateThumbnail(thumbnailAddress);
-    }
-
-
-    /*
-    * 레시피 디테일 이미지주소 업데이트.
-    * */
-    public void updateRecipeDetailImage(Long recipeId, List<FileUploadResponse> fileUploadResponseList) {
-        // 레시피 디테일 튜플 뽑아오기
-        List<RecipeDetailEntity> recipeDetailEntityList = recipeDetailRepository.findAllByRecipe_RecipeId(recipeId);
-        // 업로드된 파일들의 숫자만큼 DB에 업데이트
-        for(int i = 0; i < fileUploadResponseList.size(); i++){
-            String dbUploadStr = "/" + fileUploadResponseList.get(i).getFileName();
-            recipeDetailEntityList.get(i).updateRecipeImage(dbUploadStr);
-        }
-
-    }
+//    // 프로필 이미지주소 업데이트
+//    @Transactional
+//    public void updateThumbnail(Long recipeId, String thumbnailAddress){
+//        RecipeEntity recipeEntity = recipeRepository.findByRecipeId(recipeId);
+//        recipeEntity.updateThumbnail(thumbnailAddress);
+//    }
+//
+//
+//    /*
+//    * 레시피 디테일 이미지주소 업데이트.
+//    * */
+//    public void updateRecipeDetailImage(Long recipeId, List<FileUploadResponse> fileUploadResponseList) {
+//        // 레시피 디테일 튜플 뽑아오기
+//        List<RecipeDetailEntity> recipeDetailEntityList = recipeDetailRepository.findAllByRecipe_RecipeId(recipeId);
+//        // 업로드된 파일들의 숫자만큼 DB에 업데이트
+//        for(int i = 0; i < fileUploadResponseList.size(); i++){
+//            String dbUploadStr = "/" + fileUploadResponseList.get(i).getFileName();
+//            recipeDetailEntityList.get(i).updateRecipeImage(dbUploadStr);
+//        }
+//
+//    }
 
 
     // 레시피 카테고리 저장

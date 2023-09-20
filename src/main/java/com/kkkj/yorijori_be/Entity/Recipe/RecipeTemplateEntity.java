@@ -41,9 +41,9 @@ public class RecipeTemplateEntity {
     private String action; // 행위
 
 
-    // RecipeDetailId setting
-    public void setRecipeDetail(RecipeDetailEntity recipeDetail) {
-        this.recipeDetail = recipeDetail;
-    }
+//    // RecipeDetailId setting
+//    public void setRecipeDetail(RecipeDetailEntity recipeDetail) {
+//        this.recipeDetail = recipeDetail;
+//    }
 
 }

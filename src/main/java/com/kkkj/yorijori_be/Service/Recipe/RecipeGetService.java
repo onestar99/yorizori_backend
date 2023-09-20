@@ -137,14 +137,14 @@ public class RecipeGetService {
         return recipeListDtoList;
     }
 
-    // 조회수순으로 랭크 100위까지 정렬
-    public Page<RecipeListDto> getTopPagingItemsByViews(int pageNo, int pageSize) {
-        Pageable pageable = PageRequest.of(pageNo, pageSize, Sort.by("recipeHits").descending());
-        Page<RecipeEntity> recipeEntityPage = recipeRepository.findAll(pageable);
-        Page<RecipeListDto> recipeListDtoPage = RecipeListDto.toDtoPage(recipeEntityPage);
-
-        return recipeListDtoPage;
-    }
+//    // 조회수순으로 랭크 100위까지 정렬
+//    public Page<RecipeListDto> getTopPagingItemsByViews(int pageNo, int pageSize) {
+//        Pageable pageable = PageRequest.of(pageNo, pageSize, Sort.by("recipeHits").descending());
+//        Page<RecipeEntity> recipeEntityPage = recipeRepository.findAll(pageable);
+//        Page<RecipeListDto> recipeListDtoPage = RecipeListDto.toDtoPage(recipeEntityPage);
+//
+//        return recipeListDtoPage;
+//    }
 
 
 

@@ -15,6 +15,6 @@ public interface UserTipCommentRepository extends JpaRepository<UserTipCommentEn
 
     List<UserTipCommentEntity> findByBoard(TipEntity tipEntity);
 
-    UserTipCommentEntity findByBoardAndUser(TipEntity tipEntity, UserEntity user);
+//    UserTipCommentEntity findByBoardAndUser(TipEntity tipEntity, UserEntity user);
 
 }
