@@ -2,6 +2,7 @@ package com.kkkj.yorijori_be.Service.Tip;
 
 import com.kkkj.yorijori_be.Dto.Tip.TipDto;
 import com.kkkj.yorijori_be.Dto.Tip.TipInfoDto;
+import com.kkkj.yorijori_be.Dto.Tip.TipPostDto;
 import com.kkkj.yorijori_be.Entity.Tip.TipEntity;
 import com.kkkj.yorijori_be.Entity.Tip.TipInfoEntity;
 import com.kkkj.yorijori_be.Entity.User.UserEntity;
@@ -54,6 +55,11 @@ public class TipSaveUpdateService {
         tipRepository.save(tipDto.toEntity());
     }
 
+    //tip의 아이디를 받아서 타이틀,썸네일,디테일을 업데이트
+    @Transactional
+    public void updateAllById(Long tokenId, TipPostDto tipPostDto){
+        tipRepository.updateAll(tokenId, tipPostDto.getTipTitle(), tipPostDto.getTipDetail(), tipPostDto.getTipThumbnail());
+    }
 
     @Transactional
     public void updateViewCount(Long id){tipRepository.updateViewCount(id);}

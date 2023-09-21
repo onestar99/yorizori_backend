@@ -1,12 +1,11 @@
 package com.kkkj.yorijori_be.Controller.Tip;
 
+import com.kkkj.yorijori_be.Dto.Tip.TipDto;
+import com.kkkj.yorijori_be.Dto.Tip.TipPostDto;
 import com.kkkj.yorijori_be.Service.Tip.TipSaveUpdateService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 @Controller
 @RequiredArgsConstructor
@@ -26,4 +25,14 @@ public class TipUpdateController {
         tipSaveUpdateService.updateTitleById(tokenId,Title);
         return Title;
     }
+
+    // 토큰 아이디를 통해 타이틀,썸네일, 디테일 수정
+    @PostMapping("/all") @ResponseBody
+    public String updateTipAll(
+            @RequestParam(value = "tokenId", required = true) Long tokenId, @RequestBody TipPostDto tipPostDto
+    ){
+        tipSaveUpdateService.updateAllById(tokenId,tipPostDto);
+        return "updated!";
+    }
+
 }

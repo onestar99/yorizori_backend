@@ -34,6 +34,7 @@ public class TipDto {
 
     public static TipDto toTipDto(TipEntity tipEntity){
         TipDto tipDto = new TipDto();
+        tipDto.setUserTokenId(tipEntity.getUser().getUserTokenId());
         tipDto.setTipHeartCount(tipEntity.getTipHeartCount());
         tipDto.setTipViewCount(tipEntity.getTipViewCount());
         tipDto.setTipReviewCount(tipEntity.getTipReviewCount());
