@@ -36,7 +36,7 @@ public class TipGetController {
         return tipListDtos;
     }
 
-    @GetMapping("/{tipId}") @ResponseBody
+    @GetMapping("/edit/{tipId}") @ResponseBody
     public TipPostDto getTipPost(@PathVariable Long tipId){
         return tipGetService.getTipPost(tipId);
     }
