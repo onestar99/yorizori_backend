@@ -2,6 +2,7 @@ package com.kkkj.yorijori_be.Service.Tip;
 
 import com.kkkj.yorijori_be.Dto.Tip.TipInfoDto;
 import com.kkkj.yorijori_be.Dto.Tip.TipListDto;
+import com.kkkj.yorijori_be.Dto.Tip.TipPostDto;
 import com.kkkj.yorijori_be.Dto.Tip.TipReviewDto;
 import com.kkkj.yorijori_be.Dto.User.UserCommentDto;
 import com.kkkj.yorijori_be.Dto.User.UserTipCommentDto;
@@ -91,6 +92,16 @@ public class TipGetService {
             tipInfoDto.setTipHeartCount(tipEntity.getTipHeartCount());
         }
         return tipInfoDto;
+    }
+
+    public TipPostDto getTipPost(Long tipId){
+        TipEntity tipEntity = tipRepository.findByTipId(tipId);
+        TipPostDto tipPostDto = new TipPostDto();
+        tipPostDto.setTipDetail(tipEntity.getTipDetail());
+        tipPostDto.setTipTitle(tipEntity.getTipTitle());
+        tipPostDto.setTipThumbnail(tipEntity.getTipThumbnail());
+        tipPostDto.setUserId(tipEntity.getUser().getUserTokenId());
+        return tipPostDto;
     }
 
 }

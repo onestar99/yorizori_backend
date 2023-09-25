@@ -1,6 +1,7 @@
 package com.kkkj.yorijori_be.Controller.Tip;
 
 import com.kkkj.yorijori_be.Dto.Tip.TipListDto;
+import com.kkkj.yorijori_be.Dto.Tip.TipPostDto;
 import com.kkkj.yorijori_be.Dto.Tip.TipReviewDto;
 import com.kkkj.yorijori_be.Service.Tip.TipGetService;
 import com.kkkj.yorijori_be.Service.Tip.TipSaveUpdateService;
@@ -35,7 +36,10 @@ public class TipGetController {
         return tipListDtos;
     }
 
-
+    @GetMapping("/{tipId}") @ResponseBody
+    public TipPostDto getTipPost(@PathVariable Long tipId){
+        return tipGetService.getTipPost(tipId);
+    }
 
     @GetMapping("/part") @ResponseBody
     public List<TipListDto> getTipPartall(){
