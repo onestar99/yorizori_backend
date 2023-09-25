@@ -58,6 +58,12 @@ public class TipSaveUpdateService {
     //tip의 아이디를 받아서 타이틀,썸네일,디테일을 업데이트
     @Transactional
     public void updateAllById(Long tokenId, TipPostDto tipPostDto){
+        //image 주소 제거
+        String image = tipPostDto.getTipThumbnail();
+        if(image != null){
+            String splitImage = image.split("https://yorizori-s3.s3.ap-northeast-2.amazonaws.com")[1];
+            tipPostDto.setTipThumbnail(splitImage);
+        }
         tipRepository.updateAll(tokenId, tipPostDto.getTipTitle(), tipPostDto.getTipDetail(), tipPostDto.getTipThumbnail());
     }
 
