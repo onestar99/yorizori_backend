@@ -27,13 +27,12 @@ public class TipUpdateController {
     }
 
     // 토큰 아이디를 통해 타이틀,썸네일, 디테일 수정
-    @PostMapping("/{tipId}") @ResponseBody
-    public String updateTipAll(
-            @PathVariable Long tipId,
+    @PostMapping("/details") @ResponseBody
+    public void updateTipAll(
+            @RequestParam(value = "tipId", required = true) Long tipId,
             @RequestBody TipPostDto tipPostDto
     ){
         tipSaveUpdateService.updateAllById(tipId,tipPostDto);
-        return "updated!";
     }
 
 }
