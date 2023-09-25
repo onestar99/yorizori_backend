@@ -54,8 +54,14 @@ public class RecipeSaveController {
         recipeSaveUpdateService.saveReferenceRecipe(recipeDto,recipeSaveDto.getReferenceRecipe());
         // 레시피 정보를 저장(요청-POST)한다. (한개)
         long recipeId = recipeSaveUpdateService.saveRecipe(recipeSaveDto.getUserId(), recipeDto);
+
+        // 레시피 템플릿을 저장한다. (여러개)
         // 레시피 디테일 정보 저장
         recipeSaveUpdateService.saveRecipeDetails(recipeId, recipeSaveDto);
+
+
+
+
         // 레시피 재료 정보를 저장(요청-POST)한다. (여러개)
         recipeSaveUpdateService.saveRecipeIngredient(recipeId, recipeSaveDto);
         // 카테고리 저장

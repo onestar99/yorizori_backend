@@ -14,8 +14,9 @@ import lombok.*;
 public class RecipeTemplateEntity {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "recipe_template_id")
-    private String templateId;
+    private long templateId;
 
     @ManyToOne
     @JsonIgnore

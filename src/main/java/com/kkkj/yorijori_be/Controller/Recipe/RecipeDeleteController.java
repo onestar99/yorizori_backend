@@ -30,15 +30,17 @@ public class RecipeDeleteController {
         boolean b = userDeleteService.deleteAllCommentByRecipeId(recipeId);
         // 레시피 재료태그 삭제
         boolean c = recipeDeleteService.deleteIngredientTagsByRecipeId(recipeId);
+        // 레시피 템플릿 삭제
+        boolean d = recipeDeleteService.deleteRecipeTemplateByRecipeId(recipeId);
         // 레시피 디테일 삭제
-        boolean d = recipeDeleteService.deleteRecipeDetailsByRecipeId(recipeId);
+        boolean e = recipeDeleteService.deleteRecipeDetailsByRecipeId(recipeId);
         // 레시피 카테고리 삭제
-        boolean e = recipeDeleteService.deleteRecipeCategoriesByRecipeId(recipeId);
+        boolean f = recipeDeleteService.deleteRecipeCategoriesByRecipeId(recipeId);
         // 레시피 삭제
-        boolean f = recipeDeleteService.deleteRecipeByRecipeId(recipeId);
+        boolean g = recipeDeleteService.deleteRecipeByRecipeId(recipeId);
 
         // 모두가 성공하면
-        if(a && b && c && d && e && f){
+        if(a && b && c && d && e && f && g){
             return "delete success";
         }
         return "delete fail";

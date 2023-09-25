@@ -152,11 +152,11 @@ public class RecipeGetController {
 
     // 레시피 템플릿 내용 전달
     @ResponseBody
-    @PostMapping("/template")
+    @GetMapping("/template")
     public String testTemplate(@RequestBody List<RecipeTemplateDto> Templates){
 
-        String detail = recipeRecommendService.getFlaskTemplateDetail(Templates);
-        return detail;
+
+        return "";
     }
 
 }

@@ -1,14 +1,8 @@
 package com.kkkj.yorijori_be.Service.Recipe;
 
 import com.kkkj.yorijori_be.Cloud.S3Remover;
-import com.kkkj.yorijori_be.Entity.Recipe.RecipeCategoryTagEntity;
-import com.kkkj.yorijori_be.Entity.Recipe.RecipeDetailEntity;
-import com.kkkj.yorijori_be.Entity.Recipe.RecipeEntity;
-import com.kkkj.yorijori_be.Entity.Recipe.RecipeIngredientTagEntity;
-import com.kkkj.yorijori_be.Repository.Recipe.RecipeCategoryTagRepository;
-import com.kkkj.yorijori_be.Repository.Recipe.RecipeDetailRepository;
-import com.kkkj.yorijori_be.Repository.Recipe.RecipeIngredientTagRepository;
-import com.kkkj.yorijori_be.Repository.Recipe.RecipeRepository;
+import com.kkkj.yorijori_be.Entity.Recipe.*;
+import com.kkkj.yorijori_be.Repository.Recipe.*;
 import com.kkkj.yorijori_be.Service.Log.LogDeleteService;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -26,6 +20,7 @@ public class RecipeDeleteService {
     private final RecipeIngredientTagRepository recipeIngredientTagRepository;
     private final RecipeDetailRepository recipeDetailRepository;
     private final RecipeCategoryTagRepository recipeCategoryTagRepository;
+    private final RecipeTemplateRepository recipeTemplateRepository;
     private final S3Remover s3Remover;
 
 
@@ -94,6 +89,33 @@ public class RecipeDeleteService {
 
             recipeCategoryTagRepository.deleteAllInBatch(categories);
             recipeCategoryTagRepository.flush();
+            return true;
+        }
+        return false;
+    }
+
+
+
+    /*
+     * ---레시피 템플릿 튜플 삭제함수---
+     * 레시피 아이디를 받는다.
+     * 레시피 템플릿 테이블에서 레시피 아이디를 조회하고 삭제한다.
+     * 성공하면 True
+     * 실패하면 False
+     * */
+    @Transactional
+    public boolean deleteRecipeTemplateByRecipeId(long recipeId){
+
+        RecipeEntity recipe = recipeRepository.findByRecipeId(recipeId);
+        if(recipe != null){
+            List<RecipeDetailEntity> details = recipe.getDetails();
+
+            for(RecipeDetailEntity recipeDetail: details){
+                List<RecipeTemplateEntity> recipeTemplateEntityList = recipeDetail.getTemplates();
+                recipeTemplateRepository.deleteAllInBatch(recipeTemplateEntityList);
+                recipeTemplateRepository.flush();
+            }
+
             return true;
         }
         return false;
