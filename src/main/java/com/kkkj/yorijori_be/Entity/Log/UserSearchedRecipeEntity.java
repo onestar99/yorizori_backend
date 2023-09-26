@@ -1,8 +1,7 @@
-package com.kkkj.yorijori_be.Entity.User;
+package com.kkkj.yorijori_be.Entity.Log;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.kkkj.yorijori_be.Entity.BaseTimeEntity;
-import com.kkkj.yorijori_be.Entity.Recipe.RecipeEntity;
+import com.kkkj.yorijori_be.Entity.User.UserEntity;
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
@@ -14,14 +13,14 @@ import java.time.LocalDateTime;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "user_view_log")
+@Table(name = "user_searched_recipe_log")
 @Entity
-public class UserViewLogEntity {
+public class UserSearchedRecipeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "view_log_id")
-    private Long userviewlogid;
+    @Column(name = "searched_Recipe_log_id")
+    private Long recipeId;
 
     @JsonIgnore
     @ManyToOne
@@ -33,18 +32,13 @@ public class UserViewLogEntity {
     private LocalDateTime createdTime;
 
 
-    @JsonIgnore
-    @ManyToOne
-    @JoinColumn(name = "view_recipe_id")
-    private RecipeEntity recipe;
+    @Column(name = "searched_log")
+    private String searchedlog;
 
     public void setUser(UserEntity user) {
         this.user = user;
     }
 
-    public void setRecipe(RecipeEntity recipe) {
-        this.recipe = recipe;
-    }
-
+    public void setSearchedlog(String searchedlog){this.searchedlog = searchedlog;}
 
 }

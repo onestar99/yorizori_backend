@@ -1,8 +1,7 @@
-package com.kkkj.yorijori_be.Entity.User;
+package com.kkkj.yorijori_be.Entity.Log;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.kkkj.yorijori_be.Entity.BaseTimeEntity;
-import com.kkkj.yorijori_be.Entity.Recipe.RecipeEntity;
+import com.kkkj.yorijori_be.Entity.User.UserEntity;
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
@@ -14,14 +13,14 @@ import java.time.LocalDateTime;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "user_searched_recipe_log")
+@Table(name = "user_searched_ingredient_log")
 @Entity
-public class UserSearchedRecipeEntity {
+public class UserSearchedIngredientEntity{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "searched_Recipe_log_id")
-    private Long recipeId;
+    @Column(name = "searched_ingredient_log_id")
+    private Long ingredientId;
 
     @JsonIgnore
     @ManyToOne

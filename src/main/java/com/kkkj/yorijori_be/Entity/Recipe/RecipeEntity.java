@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.kkkj.yorijori_be.Entity.BaseTimeEntity;
 import com.kkkj.yorijori_be.Entity.User.UserCommentEntity;
 import com.kkkj.yorijori_be.Entity.User.UserEntity;
-import com.kkkj.yorijori_be.Entity.User.UserViewLogEntity;
+import com.kkkj.yorijori_be.Entity.Log.UserViewLogEntity;
 import jakarta.persistence.*;
 import lombok.*;
 

@@ -3,6 +3,9 @@ package com.kkkj.yorijori_be.Entity.User;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.kkkj.yorijori_be.Entity.BaseTimeEntity;
+import com.kkkj.yorijori_be.Entity.Log.UserSearchedIngredientEntity;
+import com.kkkj.yorijori_be.Entity.Log.UserSearchedRecipeEntity;
+import com.kkkj.yorijori_be.Entity.Log.UserViewLogEntity;
 import com.kkkj.yorijori_be.Entity.Recipe.RecipeEntity;
 import com.kkkj.yorijori_be.Entity.Tip.TipEntity;
 import com.kkkj.yorijori_be.Entity.Tip.TipInfoEntity;
