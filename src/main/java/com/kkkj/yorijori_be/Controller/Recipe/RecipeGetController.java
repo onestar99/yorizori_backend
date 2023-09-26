@@ -4,6 +4,8 @@ import com.kkkj.yorijori_be.Dto.Recipe.RecipeDetailReviewDto;
 import com.kkkj.yorijori_be.Dto.Recipe.RecipeDetailsDto;
 import com.kkkj.yorijori_be.Dto.Recipe.RecipeListDto;
 import com.kkkj.yorijori_be.Dto.Recipe.RecipeTemplateDto;
+import com.kkkj.yorijori_be.Entity.Recipe.RecipeEntity;
+import com.kkkj.yorijori_be.Repository.Recipe.RecipeRepository;
 import com.kkkj.yorijori_be.Service.Recipe.RecipeGetService;
 import com.kkkj.yorijori_be.Service.Recipe.RecipeRecommendService;
 import com.kkkj.yorijori_be.Service.Recipe.RecipeSaveUpdateService;
@@ -27,6 +29,7 @@ public class RecipeGetController {
     private final RecipeSaveUpdateService recipeSaveUpdateService;
     private final UserSaveUpdateService userSaveUpdateService;
     private final RecipeRecommendService recipeRecommendService;
+    private final RecipeRepository recipeRepository;
 
 
     // 모든 레시피 정보 페이징 처리
@@ -47,6 +50,12 @@ public class RecipeGetController {
             @RequestParam(value = "recipeId", required = false) Long recipeId,
             @RequestParam(value = "userId", required = false) String userId){
 
+
+        RecipeEntity recipe = recipeRepository.findById(recipeId).orElse(null);
+        // 레시피가 존재하지 않으면 null 반환
+        if (recipe == null) {
+            return null;
+        }
         // 레시피 조회이므로 조회수 1 올리기.
         recipeSaveUpdateService.updateRecipeHits(recipeId);
         // DTO 만들기
