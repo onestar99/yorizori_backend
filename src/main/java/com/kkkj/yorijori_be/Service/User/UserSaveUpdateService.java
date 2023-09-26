@@ -9,6 +9,8 @@ import com.kkkj.yorijori_be.Entity.Log.UserViewLogEntity;
 import com.kkkj.yorijori_be.Entity.Recipe.RecipeEntity;
 import com.kkkj.yorijori_be.Entity.Tip.TipEntity;
 import com.kkkj.yorijori_be.Entity.User.*;
+import com.kkkj.yorijori_be.Repository.Log.UserSearchedIngredientRepository;
+import com.kkkj.yorijori_be.Repository.Log.UserSearchedRecipeRepository;
 import com.kkkj.yorijori_be.Repository.Log.UserViewLogRepository;
 import com.kkkj.yorijori_be.Repository.Recipe.RecipeRepository;
 import com.kkkj.yorijori_be.Repository.Tip.TipRepository;
