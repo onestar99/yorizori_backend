@@ -50,7 +50,7 @@ public class RecipeSaveUpdateService {
 
 
     // 레시피 디테일 정보들 저장, 템플릿 저장
-    public void saveRecipeDetails(Long recipeId, RecipeSaveDto recipeSaveDto){
+    public void saveRecipeDetailsAndTemplates(Long recipeId, RecipeSaveDto recipeSaveDto){
 
         // TokenId를 통해 유저 정보 찾기
         RecipeEntity recipeEntity = recipeRepository.findByRecipeId(recipeId);
