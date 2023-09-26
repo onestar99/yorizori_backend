@@ -169,13 +169,17 @@ public class RecipeGetService {
         return columnName;
     }
 
-    public List<RecipeListDto> recipeSearchList(String searchKeyword){
-        List<RecipeEntity> recipeEntityList = recipeRepository.findByRecipeTitleContaining(searchKeyword);
-        List<RecipeListDto> recipeListDtoList = new ArrayList<>();
-        for(RecipeEntity recipeEntity : recipeEntityList){
-            recipeListDtoList.add(RecipeListDto.toDto(recipeEntity));
-        }
-        return recipeListDtoList;
+    public Page<RecipeListDto> recipeSearchList(String searchKeyword,int pageNo){
+        Pageable pageable = PageRequest.of(pageNo, 12, Sort.by("createdTime").descending());
+        Page<RecipeEntity> recipeEntityList = recipeRepository.findByRecipeTitleContaining(searchKeyword,pageable);
+//        List<RecipeListDto> recipeListDtoList = new ArrayList<>();
+//        for(RecipeEntity recipeEntity : recipeEntityList){
+//            recipeListDtoList.add(RecipeListDto.toDto(recipeEntity));
+//        }
+        Page<RecipeListDto> recipeListDtoPage = RecipeListDto.toDtoPage(recipeEntityList);
+
+
+        return recipeListDtoPage;
     }
 
 

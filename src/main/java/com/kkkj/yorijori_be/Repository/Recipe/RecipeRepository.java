@@ -23,7 +23,7 @@ public interface RecipeRepository extends JpaRepository<RecipeEntity, Long> {
     List<RecipeEntity> findTop9ByOrderByRecipeViewCountDesc();
     List<RecipeEntity> findTop100ByOrderByRecipeViewCountDesc();
 
-    List<RecipeEntity> findByRecipeTitleContaining(String searchKeyword);
+    Page<RecipeEntity> findByRecipeTitleContaining(String searchKeywod,Pageable pageable);
 
     // 레시피 아이디를 이용하여 카테고리 조회
     @Query("SELECT r.recipeId FROM RecipeEntity r " +
