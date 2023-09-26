@@ -24,6 +24,8 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 @Slf4j
@@ -42,6 +44,7 @@ public class TipGetService {
         for(TipEntity tipEntity : tipEntityList){
             tipListDtoList.add(TipListDto.toDto(tipEntity));
         }
+        Collections.reverse(tipListDtoList);
         return tipListDtoList;
     }
 
