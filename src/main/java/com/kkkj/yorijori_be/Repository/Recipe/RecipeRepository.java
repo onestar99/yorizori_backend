@@ -9,6 +9,7 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 public interface RecipeRepository extends JpaRepository<RecipeEntity, Long> {
@@ -57,5 +58,21 @@ public interface RecipeRepository extends JpaRepository<RecipeEntity, Long> {
     void deleteByRecipeId(@Param("recipeId") Long recipeId);
 
 //    List<RecipeEntity> findByRecipeIdIn(List<Long> ids);
+
+
+    // 생성 날짜별로 잘라서 레시피 불러오기
+    @Query(value = "SELECT * FROM recipe r WHERE r.created_time BETWEEN :startDate AND :endDate", nativeQuery = true)
+    List<RecipeEntity> findRecipesBetweenDates(@Param("startDate") String startDate,
+                                               @Param("endDate") String endDate);
+
+
+    // 추천 Weight 적용한 레시피 불러오기
+    @Query(value = "SELECT *, " +
+            "(0.5 * star_count + " +
+            "0.2 * (recipe_view_count / (SELECT MAX(recipe_view_count) FROM recipe)) + " +
+            "0.3 * (review_count / (SELECT MAX(review_count) FROM recipe))) AS score " +
+            "FROM recipe ORDER BY score DESC LIMIT :limit",
+            nativeQuery = true)
+    List<RecipeEntity> findTopRecipes(@Param("limit") int limit);
 
 }

@@ -162,11 +162,9 @@ public class RecipeGetController {
 
     // 레시피 템플릿 내용 전달
     @ResponseBody
-    @GetMapping("/template")
-    public String testTemplate(@RequestBody List<RecipeTemplateDto> Templates){
-
-
-        return "";
+    @GetMapping("/testrecipe")
+    public List<RecipeEntity> testTemplate(){
+        return recipeGetService.getRecipesDateRecommend();
     }
 
 }

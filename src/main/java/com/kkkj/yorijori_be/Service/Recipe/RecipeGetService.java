@@ -13,12 +13,14 @@ import com.kkkj.yorijori_be.Repository.Recipe.RecipeRepository;
 import com.kkkj.yorijori_be.Repository.User.UserCommentRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.cglib.core.Local;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -243,5 +245,22 @@ public class RecipeGetService {
                 .reviews(reviewDtoList)
                 .build();
 
+    }
+
+
+    public List<RecipeEntity> getRecipesDateRecommend() {
+//        LocalDate now = LocalDate.now();
+        LocalDate now = LocalDate.of(2023, 1, 1);
+        LocalDate fiveDaysAgoThisYear = now.minusDays(5);
+        LocalDate fiveDaysAfterLastYearSameDate = now.minusYears(1).plusDays(5);
+
+        // 1월 1일 기준 12월 27일 데이터부터 1월 1일까지
+        List<RecipeEntity> recipesThisYear = recipeRepository.findRecipesBetweenDates(fiveDaysAgoThisYear.toString(), now.plusDays(1).toString());
+        // 1월 1일 기준 1월 1일 데이터부터 1월 6일까지
+        List<RecipeEntity> recipesLastYear = recipeRepository.findRecipesBetweenDates(now.minusYears(1).toString(), fiveDaysAfterLastYearSameDate.toString());
+
+        recipesThisYear.addAll(recipesLastYear);
+
+        return recipesThisYear;
     }
 }
