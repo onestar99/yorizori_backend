@@ -1,5 +1,6 @@
 package com.kkkj.yorijori_be.Controller.Tip;
 
+import com.kkkj.yorijori_be.Dto.Recipe.RecipeListDto;
 import com.kkkj.yorijori_be.Dto.Tip.TipListDto;
 import com.kkkj.yorijori_be.Dto.Tip.TipPostDto;
 import com.kkkj.yorijori_be.Dto.Tip.TipReviewDto;
@@ -13,6 +14,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Objects;
 
 @Controller
 @RequiredArgsConstructor
@@ -79,6 +81,14 @@ public class TipGetController {
 //
 //    }
 
+    // 검색
+    @ResponseBody
+    @GetMapping("/search")
+    public Page<TipListDto> getTipTitleSearchedPaging(
+            @RequestParam(value = "search") String search,
+            @RequestParam(value = "pageNo", defaultValue = "0", required = false) int pageNo){
+        return tipGetService.tipSearchList(search,pageNo);
+    }
 
 
 }

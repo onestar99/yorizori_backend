@@ -1,11 +1,13 @@
 package com.kkkj.yorijori_be.Service.Tip;
 
+import com.kkkj.yorijori_be.Dto.Recipe.RecipeListDto;
 import com.kkkj.yorijori_be.Dto.Tip.TipInfoDto;
 import com.kkkj.yorijori_be.Dto.Tip.TipListDto;
 import com.kkkj.yorijori_be.Dto.Tip.TipPostDto;
 import com.kkkj.yorijori_be.Dto.Tip.TipReviewDto;
 import com.kkkj.yorijori_be.Dto.User.UserCommentDto;
 import com.kkkj.yorijori_be.Dto.User.UserTipCommentDto;
+import com.kkkj.yorijori_be.Entity.Recipe.RecipeEntity;
 import com.kkkj.yorijori_be.Entity.Tip.TipEntity;
 import com.kkkj.yorijori_be.Entity.Tip.TipInfoEntity;
 import com.kkkj.yorijori_be.Entity.User.UserEntity;
@@ -105,6 +107,20 @@ public class TipGetService {
         tipPostDto.setTipThumbnail(tipEntity.getTipThumbnail());
         tipPostDto.setUserId(tipEntity.getUser().getUserTokenId());
         return tipPostDto;
+    }
+
+
+//검색
+    public Page<TipListDto> tipSearchList(String searchKeyword, int pageNo){
+        Pageable pageable = PageRequest.of(pageNo, 12, Sort.by("createdTime").descending());
+        Page<TipEntity> tipEntities = tipRepository.findByTipTitleContaining(searchKeyword,pageable);
+//        List<RecipeListDto> recipeListDtoList = new ArrayList<>();
+//        for(RecipeEntity recipeEntity : recipeEntityList){
+//            recipeListDtoList.add(RecipeListDto.toDto(recipeEntity));
+//        }
+        Page<TipListDto> tipListDtoPage = TipListDto.toDtoPage(tipEntities);
+
+        return tipListDtoPage;
     }
 
 }

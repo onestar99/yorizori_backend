@@ -1,5 +1,6 @@
 package com.kkkj.yorijori_be.Repository.Tip;
 
+import com.kkkj.yorijori_be.Entity.Recipe.RecipeEntity;
 import com.kkkj.yorijori_be.Entity.Tip.TipEntity;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -14,6 +15,9 @@ public interface TipRepository extends JpaRepository<TipEntity, String> {
     TipEntity findByTipId(Long tipId);
 
     Page<TipEntity> findAllByUser_UserTokenId(String user_userTokenId, Pageable pageable);
+
+    //검색
+    Page<TipEntity> findByTipTitleContaining(String searchKeywod, Pageable pageable);
 
     //tip의 타이틀, 디테일, 썸네일을 query문으로 업데이트
     @Modifying
