@@ -111,8 +111,8 @@ public class TipGetService {
 
 
 //검색
-    public Page<TipListDto> tipSearchList(String searchKeyword, int pageNo){
-        Pageable pageable = PageRequest.of(pageNo, 12, Sort.by("createdTime").descending());
+    public Page<TipListDto> tipSearchList(String searchKeyword, int pageNo, String orderBy){
+        Pageable pageable = PageRequest.of(pageNo, 12, Sort.by(orderBy).descending());
         Page<TipEntity> tipEntities = tipRepository.findByTipTitleContaining(searchKeyword,pageable);
 //        List<RecipeListDto> recipeListDtoList = new ArrayList<>();
 //        for(RecipeEntity recipeEntity : recipeEntityList){

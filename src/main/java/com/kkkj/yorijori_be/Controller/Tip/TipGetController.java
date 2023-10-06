@@ -86,8 +86,9 @@ public class TipGetController {
     @GetMapping("/search")
     public Page<TipListDto> getTipTitleSearchedPaging(
             @RequestParam(value = "search") String search,
-            @RequestParam(value = "pageNo", defaultValue = "0", required = false) int pageNo){
-        return tipGetService.tipSearchList(search,pageNo);
+            @RequestParam(value = "pageNo", defaultValue = "0", required = false) int pageNo,
+            @RequestParam(value = "orderBy") String orderBy){
+        return tipGetService.tipSearchList(search,pageNo,orderBy);
     }
 
 
