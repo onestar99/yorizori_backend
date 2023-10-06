@@ -171,8 +171,8 @@ public class RecipeGetService {
         return columnName;
     }
 
-    public Page<RecipeListDto> recipeSearchList(String searchKeyword,int pageNo){
-        Pageable pageable = PageRequest.of(pageNo, 12, Sort.by("createdTime").descending());
+    public Page<RecipeListDto> recipeSearchList(String searchKeyword,int pageNo,String orderBy){
+        Pageable pageable = PageRequest.of(pageNo, 12, Sort.by(orderBy).descending());
         Page<RecipeEntity> recipeEntityList = recipeRepository.findByRecipeTitleContaining(searchKeyword,pageable);
 //        List<RecipeListDto> recipeListDtoList = new ArrayList<>();
 //        for(RecipeEntity recipeEntity : recipeEntityList){

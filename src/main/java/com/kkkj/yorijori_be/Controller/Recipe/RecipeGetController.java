@@ -124,11 +124,13 @@ public class RecipeGetController {
     public Page<RecipeListDto> getTitleSearchedPaging(
             @RequestParam(value = "userId", required = false) String userId,
             @RequestParam(value = "search") String search,
-            @RequestParam(value = "pageNo", defaultValue = "0", required = false) int pageNo){
+            @RequestParam(value = "pageNo", defaultValue = "0", required = false) int pageNo,
+            @RequestParam(value = "orderBy") String orderBy
+            ){
         if(userId != null & !Objects.equals(userId, "null")){
             userSaveUpdateService.saveSearchedRecipeLog(userId,search);
         }
-        return recipeGetService.recipeSearchList(search,pageNo);
+        return recipeGetService.recipeSearchList(search,pageNo,orderBy);
 
     }
 
