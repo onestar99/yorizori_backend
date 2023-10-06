@@ -24,19 +24,19 @@ public class TipGetController {
     private final TipGetService tipGetService;
     private final TipSaveUpdateService tipSaveUpdateService;
 
-//    @GetMapping("/all") @ResponseBody
-//    public Page<TipListDto> getTipAll(
-//            @RequestParam(value = "pageNo", defaultValue = "0", required = false) int pageNo
-//            ){
-//        // 페이지 사이즈 고정
-//        int pageSize = 12;
-//        List<TipListDto> tipListDtoList= tipGetService.getTipsPart();
-//        PageRequest pageRequest = PageRequest.of(pageNo,pageSize);
-//        int start = (int) pageRequest.getOffset();
-//        int end = Math.min((start + pageRequest.getPageSize()),tipListDtoList.size());
-//        Page<TipListDto> tipListDtos = new PageImpl<>(tipListDtoList.subList(start,end),pageRequest,tipListDtoList.size());
-//        return tipListDtos;
-//    }
+    @GetMapping("/all") @ResponseBody
+    public Page<TipListDto> getTipAll(
+            @RequestParam(value = "pageNo", defaultValue = "0", required = false) int pageNo
+            ){
+        // 페이지 사이즈 고정
+        int pageSize = 12;
+        List<TipListDto> tipListDtoList= tipGetService.getTipsPart();
+        PageRequest pageRequest = PageRequest.of(pageNo,pageSize);
+        int start = (int) pageRequest.getOffset();
+        int end = Math.min((start + pageRequest.getPageSize()),tipListDtoList.size());
+        Page<TipListDto> tipListDtos = new PageImpl<>(tipListDtoList.subList(start,end),pageRequest,tipListDtoList.size());
+        return tipListDtos;
+    }
 
     @GetMapping("/edit/{tipId}") @ResponseBody
     public TipPostDto getTipPost(@PathVariable Long tipId){
