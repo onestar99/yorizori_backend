@@ -83,7 +83,7 @@ public class TipGetController {
 
     // 검색
     @ResponseBody
-    @GetMapping("/search")
+    @GetMapping("/all")
     public Page<TipListDto> getTipTitleSearchedPaging(
             @RequestParam(value = "search") String search,
             @RequestParam(value = "pageNo", defaultValue = "0", required = false) int pageNo,
