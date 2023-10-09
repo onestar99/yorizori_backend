@@ -162,11 +162,18 @@ public class RecipeGetController {
     }
 
 
-    // 레시피 템플릿 내용 전달
+    // 레시피 날짜별 추천(오늘의 추천)
     @ResponseBody
     @GetMapping("/testrecipe")
     public List<RecipeEntity> testTemplate(){
         return recipeGetService.getRecipesDateRecommend();
+    }
+
+    // 추천 시스템 적용한 레시피
+    @ResponseBody
+    @GetMapping("/testrecipe2")
+    public List<RecipeEntity> testTemplate2(){
+        return recipeGetService.getRecipesByRecommendSystem();
     }
 
 }

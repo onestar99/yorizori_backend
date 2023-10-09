@@ -14,6 +14,7 @@ import java.util.List;
 public class RecipeInfo {
 
     String title;
+    String dishName;
     String level;
     String time;
     List<String> category;

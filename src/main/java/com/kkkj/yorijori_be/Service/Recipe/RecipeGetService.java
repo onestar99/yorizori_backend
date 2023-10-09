@@ -263,4 +263,10 @@ public class RecipeGetService {
 
         return recipesThisYear;
     }
+
+
+    public List<RecipeEntity> getRecipesByRecommendSystem() {
+        List<RecipeEntity> recipesRecommends = recipeRepository.findTopRecipes(5);
+        return recipesRecommends;
+    }
 }

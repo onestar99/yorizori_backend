@@ -18,6 +18,7 @@ public class RecipeDetailsDto {
     private long id;
     private String thumbnail;
     private String title;
+    private String dishName;
     private String level;
     private String time;
     private String recipeUserTokenId;
@@ -51,6 +52,7 @@ public class RecipeDetailsDto {
                 .id(recipeEntity.getRecipeId())
                 .thumbnail(recipeEntity.getRecipeThumbnail())
                 .title(recipeEntity.getRecipeTitle())
+                .dishName(recipeEntity.getDishName())
                 .level(recipeEntity.getLevel())
                 .time(recipeEntity.getTime())
                 .recipeUserTokenId(recipeEntity.getUser().getUserTokenId())

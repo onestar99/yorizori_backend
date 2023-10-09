@@ -75,4 +75,14 @@ public interface RecipeRepository extends JpaRepository<RecipeEntity, Long> {
             nativeQuery = true)
     List<RecipeEntity> findTopRecipes(@Param("limit") int limit);
 
+
+    // 추천 Weight 적용한 레시피 불러오기
+    @Query(value = "SELECT *, " +
+            "(0.5 * star_count + " +
+            "0.2 * (recipe_view_count / (SELECT MAX(recipe_view_count) FROM recipe)) + " +
+            "0.3 * (review_count / (SELECT MAX(review_count) FROM recipe))) AS score " +
+            "FROM recipe ORDER BY score DESC LIMIT :limit",
+            nativeQuery = true)
+    List<RecipeEntity> findTopRecipes2(@Param("limit") int limit);
+
 }

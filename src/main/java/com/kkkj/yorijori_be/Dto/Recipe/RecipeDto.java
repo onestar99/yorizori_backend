@@ -40,7 +40,7 @@ public class RecipeDto {
         RecipeDto recipeDto = new RecipeDto();
         recipeDto.setRecipeTitle(recipeSaveDto.getRecipeInfo().getTitle());
         recipeDto.setCategory(recipeSaveDto.getRecipeInfo().getCategory());
-        recipeDto.setDishName(null);
+        recipeDto.setDishName(recipeSaveDto.getRecipeInfo().getDishName());
         recipeDto.setRecipeViewCount(0);
         recipeDto.setAuthorship(null);
         recipeDto.setStarCount("0.0");
