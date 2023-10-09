@@ -50,6 +50,20 @@ public class RecipeGetService {
         return recipeListDtoPage;
     }
 
+    // 레시피 카테고리 전체 정보 페이징해서 보내기.
+    public Page<RecipeListDto> getRecipeCategoryAllPaging(int pageNo, int pageSize, String orderBy){
+
+        // json 형식을 Entity에 맞춰서 칼럼 명칭 변환
+//        String columnName = sortToColumnName(sortBy);
+
+        // 페이지 인스턴스 생성
+//        Pageable pageable = PageRequest.of(pageNo, pageSize, Sort.by(sortBy).descending());
+        Pageable pageable = PageRequest.of(pageNo, pageSize, Sort.by(orderBy).descending());
+        Page<RecipeEntity> recipeEntityPage = recipeRepository.findAll(pageable);
+        Page<RecipeListDto> recipeListDtoPage = RecipeListDto.toDtoPage(recipeEntityPage);
+        return recipeListDtoPage;
+    }
+
     public Page<RecipeListDto> getRecipeCategoryPaging(int pageNo, int pageSize, String categoryName, String orderBy){
 
         Pageable pageable = PageRequest.of(pageNo, pageSize, Sort.by(orderBy).descending());

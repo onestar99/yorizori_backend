@@ -110,8 +110,7 @@ public class RecipeGetController {
         int pageSize = 12;
         if(categoryName.equals("전체")){ // 카테고리 이름이 all 이면 모든 레시피 조회
             // 레시피 아이디를 뒤집어서 최근 순서대로.
-            String sortBy = "id";
-            return recipeGetService.getRecipePaging(pageNo, pageSize, sortBy);
+            return recipeGetService.getRecipeCategoryAllPaging(pageNo, pageSize,orderBy);
         }else{ // 카테고리 이름이 all 이 아니라면 카테고리에 맞춰서 조회
             Page<RecipeListDto> recipeListDtoPage = recipeGetService.getRecipeCategoryPaging(pageNo, pageSize, categoryName,orderBy);
             return recipeListDtoPage;
