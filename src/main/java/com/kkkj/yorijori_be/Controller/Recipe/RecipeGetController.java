@@ -104,7 +104,8 @@ public class RecipeGetController {
     @ResponseBody
     @GetMapping("/category/{categoryName}")
     public Page<RecipeListDto> getRecipeCategoryPaging(@PathVariable String categoryName,
-               @RequestParam(value = "pageNo", defaultValue = "0", required = false) int pageNo){
+               @RequestParam(value = "pageNo", defaultValue = "0", required = false) int pageNo,
+               @RequestParam(value = "orderBy") String orderBy){
         // 페이지 사이즈 고정
         int pageSize = 12;
         if(categoryName.equals("전체")){ // 카테고리 이름이 all 이면 모든 레시피 조회
@@ -112,7 +113,7 @@ public class RecipeGetController {
             String sortBy = "id";
             return recipeGetService.getRecipePaging(pageNo, pageSize, sortBy);
         }else{ // 카테고리 이름이 all 이 아니라면 카테고리에 맞춰서 조회
-            Page<RecipeListDto> recipeListDtoPage = recipeGetService.getRecipeCategoryPaging(pageNo, pageSize, categoryName);
+            Page<RecipeListDto> recipeListDtoPage = recipeGetService.getRecipeCategoryPaging(pageNo, pageSize, categoryName,orderBy);
             return recipeListDtoPage;
         }
     }
