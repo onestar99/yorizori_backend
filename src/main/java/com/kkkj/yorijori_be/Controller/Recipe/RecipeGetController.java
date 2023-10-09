@@ -105,7 +105,7 @@ public class RecipeGetController {
     @GetMapping("/category/{categoryName}")
     public Page<RecipeListDto> getRecipeCategoryPaging(@PathVariable String categoryName,
                @RequestParam(value = "pageNo", defaultValue = "0", required = false) int pageNo,
-               @RequestParam(value = "orderBy") String orderBy){
+               @RequestParam(value = "orderBy",defaultValue = "createdTime")String orderBy){
         // 페이지 사이즈 고정
         int pageSize = 12;
         if(categoryName.equals("전체")){ // 카테고리 이름이 all 이면 모든 레시피 조회
