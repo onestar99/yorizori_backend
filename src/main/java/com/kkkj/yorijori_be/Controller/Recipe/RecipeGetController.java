@@ -4,6 +4,7 @@ import com.kkkj.yorijori_be.Dto.Recipe.RecipeDetailReviewDto;
 import com.kkkj.yorijori_be.Dto.Recipe.RecipeDetailsDto;
 import com.kkkj.yorijori_be.Dto.Recipe.RecipeListDto;
 import com.kkkj.yorijori_be.Entity.Recipe.RecipeEntity;
+import com.kkkj.yorijori_be.Entity.SpecialDayFoodEntity;
 import com.kkkj.yorijori_be.Repository.Recipe.RecipeRepository;
 import com.kkkj.yorijori_be.Service.Recipe.RecipeGetService;
 import com.kkkj.yorijori_be.Service.Recipe.RecipeRecommendService;
@@ -14,6 +15,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
@@ -163,14 +165,14 @@ public class RecipeGetController {
     // 레시피 날짜별 추천(오늘의 추천)
     @ResponseBody
     @GetMapping("/testrecipe")
-    public List<RecipeListDto> testTemplate(){
-        return recipeGetService.getRecipesDateRecommend();
+    public List<RecipeListDto> testTodayRecommend() throws IOException {
+        return recipeGetService.todayRecommend(12);
     }
 
     // 요리조리 추천 시스템 적용한 레시피
     @ResponseBody
-    @GetMapping("/testrecipe2")
-    public List<RecipeListDto> testRecommend(){
+    @GetMapping("/testrecipe5")
+    public List<RecipeListDto> testYorizoriRecommend(){
         return recipeGetService.getRecipesByRecommendSystem();
     }
 

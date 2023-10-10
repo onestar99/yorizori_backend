@@ -1,15 +1,19 @@
 package com.kkkj.yorijori_be.Service.Recipe;
 
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.kkkj.yorijori_be.Dto.Recipe.*;
 import com.kkkj.yorijori_be.Dto.User.UserCommentDto;
 import com.kkkj.yorijori_be.Entity.Recipe.RecipeDetailEntity;
 import com.kkkj.yorijori_be.Entity.Recipe.RecipeEntity;
 import com.kkkj.yorijori_be.Entity.Recipe.RecipeIngredientTagEntity;
+import com.kkkj.yorijori_be.Entity.SpecialDayFoodEntity;
 import com.kkkj.yorijori_be.Entity.User.UserCommentEntity;
 import com.kkkj.yorijori_be.Repository.Recipe.RecipeCategoryTagRepository;
 import com.kkkj.yorijori_be.Repository.Recipe.RecipeDetailRepository;
 import com.kkkj.yorijori_be.Repository.Recipe.RecipeIngredientTagRepository;
 import com.kkkj.yorijori_be.Repository.Recipe.RecipeRepository;
+import com.kkkj.yorijori_be.Repository.SpecialDayFoodRepository;
 import com.kkkj.yorijori_be.Repository.User.UserCommentRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -20,10 +24,18 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.UnsupportedEncodingException;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.net.URLEncoder;
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -34,6 +46,7 @@ public class RecipeGetService {
     private final RecipeRepository recipeRepository;
     private final RecipeIngredientTagRepository recipeIngredientTagRepository;
     private final UserCommentRepository userCommentRepository;
+    private final SpecialDayFoodRepository specialDayFoodRepository;
 
     // 레시피 정보 페이징해서 보내기.
     public Page<RecipeListDto> getRecipePaging(int pageNo, int pageSize, String sortBy){
@@ -261,8 +274,40 @@ public class RecipeGetService {
     }
 
 
+    public List<RecipeListDto> todayRecommend(int getSize) throws IOException {
+
+//        LocalDate now = LocalDate.of(2023, 5, 5);
+        LocalDate now = LocalDate.now();
+        List<SpecialDayFoodEntity> specialDayFoodEntityList = specialDayFoodRepository.findBySpecialDay(now);
+
+        // 특별한 날이 맞다면
+        if(!specialDayFoodEntityList.isEmpty()) {
+            return getRecipesBySpecialDay(specialDayFoodEntityList, getSize);
+        }
+
+        /*
+        * ① 0 : 없음
+        ② 1 : 비
+        ③ 2 : 비/눈
+        ④ 3 : 눈/비
+        ⑤ 4 : 눈
+        * */
+        int weatherNum = getWeatherApi();
+        if(weatherNum == 1){
+            // 비 오면 부침개 보여주기
+        }
+
+
+        // 나머지 상황은 작년,올해 5일씩 계산
+        return getRecipesDateRecommend(getSize);
+
+
+    }
+
+
+
     // 오늘의 추천 (오늘 날짜 월,일 기준 작년의 5일 후 데이터와 올해 5일 전까지의 데이터 추합)
-    public List<RecipeListDto> getRecipesDateRecommend() {
+    public List<RecipeListDto> getRecipesDateRecommend(int getSize) {
         LocalDate now = LocalDate.now();
 //        LocalDate now = LocalDate.of(2023, 1, 1);
         LocalDate fiveDaysAgoThisYear = now.minusDays(5);
@@ -275,14 +320,50 @@ public class RecipeGetService {
 
         // 두 날짜의 레시피 데이터 합치고 섞기
         recipesThisYear.addAll(recipesLastYear);
-        Collections.shuffle(recipesThisYear);
+        List<RecipeEntity> getRecipes = getRandomRecipes(recipesThisYear, getSize);
 
         // toDto 작업
         List<RecipeListDto> recipeListDtoList = new ArrayList<>();
-        for(RecipeEntity recipeEntity: recipesThisYear){
+        for(RecipeEntity recipeEntity: getRecipes){
             recipeListDtoList.add(RecipeListDto.toDto(recipeEntity));
         }
         return recipeListDtoList;
+    }
+
+
+    // 특별한 날 레시피 얻기
+    public List<RecipeListDto> getRecipesBySpecialDay(List<SpecialDayFoodEntity> specialDayFoodEntityList, int getSize){
+
+        List<String> foodList = new ArrayList<>();
+        // 해당날짜 특별한날이 있다면 List<String> 으로 food 모두 모으기
+        if(!specialDayFoodEntityList.isEmpty()){
+            for(SpecialDayFoodEntity specialDayFood: specialDayFoodEntityList){
+                String str = specialDayFood.getDayFood();
+                // 쉼표(,)를 기준으로 문자열을 자르고 배열에 저장
+                String[] items = str.split(", ");
+                // 배열의 내용을 리스트에 추가
+                foodList.addAll(Arrays.asList(items));
+            }
+        } else{
+            return null;
+        }
+        List<RecipeEntity> matchingRecipes = new ArrayList<>();
+        // 음식들 조회
+        for (String ingredient : foodList) {
+            List<RecipeEntity> recipesWithIngredient = recipeRepository.findByRecipeTitleContaining(ingredient);
+            matchingRecipes.addAll(recipesWithIngredient);
+        }
+        // 12개만큼 얻어내기
+        List<RecipeEntity> randomRecipes = getRandomRecipes(matchingRecipes, getSize);
+
+        // toDto 작업
+        List<RecipeListDto> recipeListDtoList = new ArrayList<>();
+        for(RecipeEntity recipeEntity: randomRecipes){
+            recipeListDtoList.add(RecipeListDto.toDto(recipeEntity));
+        }
+
+        return recipeListDtoList;
+
     }
 
 
@@ -294,5 +375,84 @@ public class RecipeGetService {
             recipeListDtoList.add(RecipeListDto.toDto(recipeEntity));
         }
         return recipeListDtoList;
+    }
+
+
+
+
+    // 레시피 desiredSize 만큼 랜덤하게 줄이기
+    private List<RecipeEntity> getRandomRecipes(List<RecipeEntity> matchingRecipes, int desiredSize) {
+        // 원하는 크기보다 작거나 같으면 그대로 반환
+        if (matchingRecipes.size() <= desiredSize) {
+            return matchingRecipes;
+        }
+
+        List<RecipeEntity> randomRecipes = new ArrayList<>(matchingRecipes);
+
+        // 랜덤으로 원소 제거
+        Random random = new Random();
+        while (randomRecipes.size() > desiredSize) {
+            int indexToRemove = random.nextInt(randomRecipes.size());
+            randomRecipes.remove(indexToRemove);
+        }
+        Collections.shuffle(randomRecipes);
+
+        return randomRecipes;
+    }
+
+    private int getWeatherApi() throws IOException {
+        // 비가 온다면?
+        StringBuilder urlBuilder = new StringBuilder("http://apis.data.go.kr/1360000/VilageFcstInfoService_2.0/getUltraSrtNcst"); /*URL*/
+        urlBuilder.append("?" + URLEncoder.encode("serviceKey","UTF-8") + "=hN94ej1IHGPuB86nRzChmRRNN%2BKonkmQf19bt2lsqG%2FD0BAPDyAV2kvdmtKNfAjaIwYgV%2Bfxudisa0N75YjCOQ%3D%3D"); /*Service Key*/
+        urlBuilder.append("&" + URLEncoder.encode("pageNo","UTF-8") + "=" + URLEncoder.encode("1", "UTF-8")); /*페이지번호*/
+        urlBuilder.append("&" + URLEncoder.encode("numOfRows","UTF-8") + "=" + URLEncoder.encode("1000", "UTF-8")); /*한 페이지 결과 수*/
+        urlBuilder.append("&" + URLEncoder.encode("dataType","UTF-8") + "=" + URLEncoder.encode("JSON", "UTF-8")); /*요청자료형식(XML/JSON) Default: XML*/
+
+        // 현재 날짜 가져오기
+        LocalDate nowDay = LocalDate.now();
+        // 날짜를 "yyyyMMdd" 형식의 문자열로 변환
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMdd");
+        String formattedDate = nowDay.format(formatter);
+
+        urlBuilder.append("&" + URLEncoder.encode("base_date","UTF-8") + "=" + URLEncoder.encode(formattedDate, "UTF-8")); /*‘21년 6월 28일 발표*/
+
+        // 현재 날짜와 시각을 가져오기
+        LocalDateTime nowHour = LocalDateTime.now();
+        // 1시간 전 구하기
+        LocalDateTime oneHourAgo = nowHour.minus(1, ChronoUnit.HOURS);
+        // "hhmm" 형식으로 포맷팅하기
+        DateTimeFormatter formatter2 = DateTimeFormatter.ofPattern("HHmm");
+        String formattedTime = oneHourAgo.format(formatter2);
+        urlBuilder.append("&" + URLEncoder.encode("base_time","UTF-8") + "=" + URLEncoder.encode(formattedTime, "UTF-8")); /*06시 발표(정시단위) */
+        urlBuilder.append("&" + URLEncoder.encode("nx","UTF-8") + "=" + URLEncoder.encode("58", "UTF-8")); /*예보지점의 X 좌표값*/
+        urlBuilder.append("&" + URLEncoder.encode("ny","UTF-8") + "=" + URLEncoder.encode("125", "UTF-8")); /*예보지점의 Y 좌표값*/
+        URL url = new URL(urlBuilder.toString());
+        HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+        conn.setRequestMethod("GET");
+        conn.setRequestProperty("Content-type", "application/json");
+        System.out.println("Response code: " + conn.getResponseCode());
+        BufferedReader rd;
+        if(conn.getResponseCode() >= 200 && conn.getResponseCode() <= 300) {
+            rd = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+        } else {
+            rd = new BufferedReader(new InputStreamReader(conn.getErrorStream()));
+        }
+        StringBuilder sb = new StringBuilder();
+        String line;
+        while ((line = rd.readLine()) != null) {
+            sb.append(line);
+        }
+        rd.close();
+        conn.disconnect();
+        // JSON 문자열을 파싱할 ObjectMapper 생성
+        ObjectMapper objectMapper = new ObjectMapper();
+        // JSON 문자열 파싱
+        JsonNode jsonNode = objectMapper.readTree(sb.toString());
+        // items에 접근
+        JsonNode itemsNode = jsonNode.at("/response/body/items/item");
+        // 첫 번째 item에서 obsrValue 얻기
+        String obsrValue = itemsNode.get(0).get("obsrValue").asText();
+
+        return Integer.parseInt(obsrValue);
     }
 }

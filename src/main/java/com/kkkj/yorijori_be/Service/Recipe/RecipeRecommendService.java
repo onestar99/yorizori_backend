@@ -31,11 +31,11 @@ public class RecipeRecommendService {
     public List<RecipeListDto> recipeRecommendByRecipeId(String userId){
 
         // 플라스크에서 레시피 추천 아이디 받기
-        String userIds = getFlaskRecommendRecipeIds(userId);
+        String recipes = getFlaskRecommendRecipeIds(userId);
         // Str To List
-        List<Long> userIdList = convertStringToList(userIds);
+        List<Long> recipesList = convertStringToList(recipes);
         // 레시피 정보 조회
-        List<RecipeEntity> recipeEntityList = findRecipeEntitiesByRecipeIdInOrderByRecipeId(userIds, userIdList);
+        List<RecipeEntity> recipeEntityList = findRecipeEntitiesByRecipeIdInOrderByRecipeId(recipes, recipesList);
         // 레시피 정보 변환
         List<RecipeListDto> recipeListDtoList = new ArrayList<>();
         for(RecipeEntity recipeEntity: recipeEntityList){
