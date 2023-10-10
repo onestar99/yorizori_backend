@@ -162,7 +162,7 @@ public class RecipeGetController {
         return recipeRecommendService.recipeRecommendByRecipeId(userId);
     }
 
-    // 레시피 날짜별 추천(오늘의 추천)
+    // 레시피 날짜별 추천(오늘의 추천), 특별한 날이면 특별한 레시피, 비오는 날이면 비올 때 음식 등
     @ResponseBody
     @GetMapping("/testrecipe")
     public List<RecipeListDto> testTodayRecommend() throws IOException {

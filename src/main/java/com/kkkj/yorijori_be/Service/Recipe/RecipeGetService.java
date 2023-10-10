@@ -292,9 +292,11 @@ public class RecipeGetService {
         ④ 3 : 눈/비
         ⑤ 4 : 눈
         * */
+//        int weatherNum = 1;
         int weatherNum = getWeatherApi();
         if(weatherNum == 1){
             // 비 오면 부침개 보여주기
+            return getRecipesForRain(getSize);
         }
 
 
@@ -328,6 +330,34 @@ public class RecipeGetService {
             recipeListDtoList.add(RecipeListDto.toDto(recipeEntity));
         }
         return recipeListDtoList;
+    }
+
+    // 비오는 날 음식 불러오기
+    public List<RecipeListDto> getRecipesForRain(int getSize) {
+        List<String> foodList = new ArrayList<>();
+        String str = "파전, 막걸리, 두부김치, 부침개, 국밥";
+        // 쉼표(,)를 기준으로 문자열을 자르고 배열에 저장
+        String[] items = str.split(", ");
+        // 배열의 내용을 리스트에 추가
+        foodList.addAll(Arrays.asList(items));
+
+        List<RecipeEntity> matchingRecipes = new ArrayList<>();
+        // 음식들 조회
+        for (String ingredient : foodList) {
+            List<RecipeEntity> recipesWithIngredient = recipeRepository.findByRecipeTitleContaining(ingredient);
+            matchingRecipes.addAll(recipesWithIngredient);
+        }
+        // 12개만큼 얻어내기
+        List<RecipeEntity> randomRecipes = getRandomRecipes(matchingRecipes, getSize);
+
+        // toDto 작업
+        List<RecipeListDto> recipeListDtoList = new ArrayList<>();
+        for(RecipeEntity recipeEntity: randomRecipes){
+            recipeListDtoList.add(RecipeListDto.toDto(recipeEntity));
+        }
+
+        return recipeListDtoList;
+
     }
 
 
