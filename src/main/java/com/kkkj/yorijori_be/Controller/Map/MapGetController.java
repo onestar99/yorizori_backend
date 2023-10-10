@@ -11,26 +11,23 @@ import java.util.List;
 
 @Controller
 @RequiredArgsConstructor
+@RequestMapping("/recipe/map")
 public class MapGetController {
 
     private final MapGetService mapGetService;
 
-    @ResponseBody
-    @GetMapping(value = "/map/{query}")
-    public List<MapSearchDto> getStoreBySearchQuery(@PathVariable String query){
-        return mapGetService.getSearchResult(query);
-    }
+//    @ResponseBody
+//    @GetMapping(value = "/{query}")
+//    public List<MapSearchDto> getStoreBySearchQuery(@PathVariable String query){
+//        return mapGetService.getSearchResult(query);
+//    }
 
 
     @ResponseBody
     @PostMapping("/get/api")
     public List<MapSearchDto> getLocation(@RequestBody MapLocationDto mapLocationDto){
-
-        System.out.println(mapLocationDto.getLatitude());
-        System.out.println(mapLocationDto.getLongitude());
         String location = mapGetService.getLocation(mapLocationDto);
         return mapGetService.getSearchResult(location + " " + mapLocationDto.getFoodName());
-
     }
 
 }

@@ -147,7 +147,6 @@ public class MapGetService {
         String clientId = "r2gbdh2tvp"; //애플리케이션 클라이언트 아이디
         String clientSecret = "Q1ap2hWKonfzE89hqlfaeVxE3m5gkgbU9fjfoYOB"; //애플리케이션 클라이언트 시크릿
 
-
         String apiURL = "https://naveropenapi.apigw.ntruss.com/map-reversegeocode/v2/gc?request=coordsToaddr&coords="
                 + mapLocationDto.getLongitude() + "," + mapLocationDto.getLatitude() + "&sourcecrs=epsg:4326&output=json&orders=legalcode";    // JSON 결과
 
