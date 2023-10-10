@@ -35,7 +35,7 @@ dependencies {
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     implementation 'org.springframework.cloud:spring-cloud-starter-aws:2.2.6.RELEASE'
     implementation 'org.springframework.boot:spring-boot-starter-oauth2-client'
-
+    implementation group: 'org.json', name: 'json', version: '20210307'
 }
 
 tasks.named('test') {
