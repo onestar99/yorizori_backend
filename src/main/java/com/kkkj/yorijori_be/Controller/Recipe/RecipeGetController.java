@@ -3,7 +3,6 @@ package com.kkkj.yorijori_be.Controller.Recipe;
 import com.kkkj.yorijori_be.Dto.Recipe.RecipeDetailReviewDto;
 import com.kkkj.yorijori_be.Dto.Recipe.RecipeDetailsDto;
 import com.kkkj.yorijori_be.Dto.Recipe.RecipeListDto;
-import com.kkkj.yorijori_be.Dto.Recipe.RecipeTemplateDto;
 import com.kkkj.yorijori_be.Entity.Recipe.RecipeEntity;
 import com.kkkj.yorijori_be.Repository.Recipe.RecipeRepository;
 import com.kkkj.yorijori_be.Service.Recipe.RecipeGetService;
@@ -154,25 +153,24 @@ public class RecipeGetController {
         return recipeGetService.getRecipeDetailReview(boardId);
     }
 
-    // 추천 레시피 정보 넘기기
+    // AI 추천 레시피(비슷한 사용자가 봤던 정보 넘기기)
     @ResponseBody
     @GetMapping("/recommend/{userId}")
     public List<RecipeListDto> sendRequestToFlask(@PathVariable String userId) {
         return recipeRecommendService.recipeRecommendByRecipeId(userId);
     }
 
-
     // 레시피 날짜별 추천(오늘의 추천)
     @ResponseBody
     @GetMapping("/testrecipe")
-    public List<RecipeEntity> testTemplate(){
+    public List<RecipeListDto> testTemplate(){
         return recipeGetService.getRecipesDateRecommend();
     }
 
-    // 추천 시스템 적용한 레시피
+    // 요리조리 추천 시스템 적용한 레시피
     @ResponseBody
     @GetMapping("/testrecipe2")
-    public List<RecipeEntity> testTemplate2(){
+    public List<RecipeListDto> testRecommend(){
         return recipeGetService.getRecipesByRecommendSystem();
     }
 

@@ -22,9 +22,8 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
-import java.util.Optional;
-import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -262,9 +261,10 @@ public class RecipeGetService {
     }
 
 
-    public List<RecipeEntity> getRecipesDateRecommend() {
-//        LocalDate now = LocalDate.now();
-        LocalDate now = LocalDate.of(2023, 1, 1);
+    // 오늘의 추천 (오늘 날짜 월,일 기준 작년의 5일 후 데이터와 올해 5일 전까지의 데이터 추합)
+    public List<RecipeListDto> getRecipesDateRecommend() {
+        LocalDate now = LocalDate.now();
+//        LocalDate now = LocalDate.of(2023, 1, 1);
         LocalDate fiveDaysAgoThisYear = now.minusDays(5);
         LocalDate fiveDaysAfterLastYearSameDate = now.minusYears(1).plusDays(5);
 
@@ -273,14 +273,26 @@ public class RecipeGetService {
         // 1월 1일 기준 1월 1일 데이터부터 1월 6일까지
         List<RecipeEntity> recipesLastYear = recipeRepository.findRecipesBetweenDates(now.minusYears(1).toString(), fiveDaysAfterLastYearSameDate.toString());
 
+        // 두 날짜의 레시피 데이터 합치고 섞기
         recipesThisYear.addAll(recipesLastYear);
+        Collections.shuffle(recipesThisYear);
 
-        return recipesThisYear;
+        // toDto 작업
+        List<RecipeListDto> recipeListDtoList = new ArrayList<>();
+        for(RecipeEntity recipeEntity: recipesThisYear){
+            recipeListDtoList.add(RecipeListDto.toDto(recipeEntity));
+        }
+        return recipeListDtoList;
     }
 
 
-    public List<RecipeEntity> getRecipesByRecommendSystem() {
-        List<RecipeEntity> recipesRecommends = recipeRepository.findTopRecipes(5);
-        return recipesRecommends;
+    // 요리조리 정렬 추천 시스템 (생성날짜, 별점, 리뷰수, 조회수 고려)
+    public List<RecipeListDto> getRecipesByRecommendSystem() {
+        List<RecipeEntity> recipesRecommends = recipeRepository.findTopRecipes(10);
+        List<RecipeListDto> recipeListDtoList = new ArrayList<>();
+        for(RecipeEntity recipeEntity: recipesRecommends){
+            recipeListDtoList.add(RecipeListDto.toDto(recipeEntity));
+        }
+        return recipeListDtoList;
     }
 }
