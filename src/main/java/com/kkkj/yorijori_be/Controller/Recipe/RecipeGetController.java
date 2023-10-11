@@ -92,14 +92,13 @@ public class RecipeGetController {
     @ResponseBody
     @GetMapping("/rank/total")
     public List<RecipeListDto> getRecipeTotal100(){
-//        return recipeGetService.getTop100ItemsByViews();
         return recipeGetService.getRecipesByRecommendSystem(100);
     }
 
     @ResponseBody
     @GetMapping("/rank")
     public Page<RecipeListDto> getRecipePagingByHits(@RequestParam(value = "page", defaultValue = "0", required = false) int pageNo) {
-        return recipeGetService.getRecipePaging(pageNo, 20, "viewCount");
+        return recipeGetService.getRecipeYorizoriRankPaging(pageNo, 20);
     }
 
 
@@ -112,6 +111,11 @@ public class RecipeGetController {
         // 페이지 사이즈 고정
         int pageSize = 12;
         if(categoryName.equals("전체")){ // 카테고리 이름이 all 이면 모든 레시피 조회
+
+            // 요리조리 정렬로 들어오면 요리조리 정렬로 보여주기
+            if(orderBy.equals("yorizori")){
+                return recipeGetService.getRecipeYorizoriRankPaging(pageNo, pageSize);
+            }
             // 레시피 아이디를 뒤집어서 최근 순서대로.
             return recipeGetService.getRecipeCategoryAllPaging(pageNo, pageSize,orderBy);
         }else{ // 카테고리 이름이 all 이 아니라면 카테고리에 맞춰서 조회

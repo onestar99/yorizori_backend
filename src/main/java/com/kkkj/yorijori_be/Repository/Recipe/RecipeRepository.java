@@ -68,7 +68,7 @@ public interface RecipeRepository extends JpaRepository<RecipeEntity, Long> {
                                                @Param("endDate") String endDate);
 
 
-    // 추천 Weight 적용한 레시피 불러오기
+    // 추천 Weight 적용한 레시피 불러오기 (List 버전)
     @Query(value = "SELECT *, " +
             "(" +
             // star_count가 0일때는 3.0으로 판단
@@ -81,5 +81,19 @@ public interface RecipeRepository extends JpaRepository<RecipeEntity, Long> {
             "FROM recipe ORDER BY score DESC LIMIT :limit",
             nativeQuery = true)
     List<RecipeEntity> findTopRecipes(@Param("limit") int limit);
+
+    // 추천 Weight 적용한 레시피 불러오기 (Page 버전)
+    @Query(value = "SELECT *, " +
+            "(" +
+            // star_count가 0일때는 3.0으로 판단
+            "0.13 * IF(CAST(star_count AS DECIMAL) = 0, 3.0, CAST(star_count AS DECIMAL)) + " +
+            "0.2 * (recipe_view_count / (SELECT MAX(recipe_view_count) FROM recipe)) + " +
+            // review_count가 2개 이상일 때 리뷰 점수 적용
+            "IF(review_count > 2, 0.5 * (review_count / (SELECT MAX(review_count) FROM recipe)), 0) + " +
+            "0.5 * exp(((1 - ((TIMESTAMPDIFF(DAY,created_time, NOW()) / 30) / (SELECT MAX(TIMESTAMPDIFF(DAY, created_time, NOW()) / 30) FROM recipe))) * 20 - 10) / 20)" +
+            ") AS score " +
+            "FROM recipe ORDER BY score DESC",
+            nativeQuery = true)
+    Page<RecipeEntity> findTopRecipesPage(Pageable pageable);
 
 }

@@ -61,6 +61,17 @@ public class RecipeGetService {
         Page<RecipeListDto> recipeListDtoPage = RecipeListDto.toDtoPage(recipeEntityPage);
         return recipeListDtoPage;
     }
+    // 레시피 정보 페이징해서 보내기.
+    public Page<RecipeListDto> getRecipeYorizoriRankPaging(int pageNo, int pageSize){
+        // 페이지 인스턴스 생성
+        Pageable pageable = PageRequest.of(pageNo, pageSize);
+        Page<RecipeEntity> recipeEntityPage = recipeRepository.findTopRecipesPage(pageable);
+        Page<RecipeListDto> recipeListDtoPage = RecipeListDto.toDtoPage(recipeEntityPage);
+        return recipeListDtoPage;
+    }
+
+
+
 
     // 레시피 카테고리 전체 정보 페이징해서 보내기.
     public Page<RecipeListDto> getRecipeCategoryAllPaging(int pageNo, int pageSize, String orderBy){
