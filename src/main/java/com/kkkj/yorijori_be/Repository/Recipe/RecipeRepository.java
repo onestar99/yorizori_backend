@@ -112,7 +112,7 @@ public interface RecipeRepository extends JpaRepository<RecipeEntity, Long> {
 
 
 
-    // 'recipe_title' 칼럼에서 '양파'를 포함하는 레시피를 추천 Weight를 적용하여 가져오는 메서드
+    // 키워드를 이용한 요리조리 랭킹 시스템
     @Query(value = "SELECT r.*, (" +
             "0.13 * IF(CAST(r.star_count AS DECIMAL) = 0, 3.0, CAST(r.star_count AS DECIMAL)) + " +
             "0.2 * (r.recipe_view_count / (SELECT MAX(recipe_view_count) FROM recipe)) + " +
@@ -124,7 +124,7 @@ public interface RecipeRepository extends JpaRepository<RecipeEntity, Long> {
             "WHERE r.recipe_title LIKE %:searchKeyWord% " +
             "ORDER BY score DESC",
             nativeQuery = true)
-    Page<RecipeEntity> findRecipesWithWeightAndKeyword(Pageable pageable, @Param("keyword") String searchKeyWord);
+    Page<RecipeEntity> findRecipesWithWeightAndKeyword(Pageable pageable, @Param("searchKeyWord") String searchKeyWord);
 
 
 }
