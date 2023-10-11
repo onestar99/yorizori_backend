@@ -89,6 +89,14 @@ public class RecipeGetService {
 
     public Page<RecipeListDto> getRecipeCategoryPaging(int pageNo, int pageSize, String categoryName, String orderBy){
 
+        // 요리조리 정렬
+        if(orderBy.equals("yorizori")){
+            Pageable pageable = PageRequest.of(pageNo, pageSize);
+            Page<RecipeEntity> recipeEntityPage = recipeRepository.findKoreanRecipesWithWeight(pageable, categoryName);
+            Page<RecipeListDto> recipeListDtoPage = RecipeListDto.toDtoPage(recipeEntityPage);
+            return recipeListDtoPage;
+        }
+
         Pageable pageable = PageRequest.of(pageNo, pageSize, Sort.by(orderBy).descending());
         // 카테고리 이름 이용해서 레시피 아이디들을 받기
         List<Long> recipeIdList = getRecipeIdsByCategory(categoryName);
@@ -209,12 +217,20 @@ public class RecipeGetService {
     }
 
     public Page<RecipeListDto> recipeSearchList(String searchKeyword,int pageNo,String orderBy){
-        Pageable pageable = PageRequest.of(pageNo, 12, Sort.by(orderBy).descending());
+
+        int pageSize = 12;
+
+        // 요리조리 정렬로 요청이 오면 요리조리 정렬로 보내줌
+        if(orderBy.equals("yorizori")){
+            Pageable pageable = PageRequest.of(pageNo, pageSize);
+            Page<RecipeEntity> recipeEntityList = recipeRepository.findRecipesWithWeightAndKeyword(pageable, searchKeyword);
+            Page<RecipeListDto> recipeListDtoPage = RecipeListDto.toDtoPage(recipeEntityList);
+            return recipeListDtoPage;
+        }
+
+        // 일반적인 정렬의 경우 orderBy에 따라서 정렬로 보내줌
+        Pageable pageable = PageRequest.of(pageNo, pageSize, Sort.by(orderBy).descending());
         Page<RecipeEntity> recipeEntityList = recipeRepository.findByRecipeTitleContaining(searchKeyword,pageable);
-//        List<RecipeListDto> recipeListDtoList = new ArrayList<>();
-//        for(RecipeEntity recipeEntity : recipeEntityList){
-//            recipeListDtoList.add(RecipeListDto.toDto(recipeEntity));
-//        }
         Page<RecipeListDto> recipeListDtoPage = RecipeListDto.toDtoPage(recipeEntityList);
 
 

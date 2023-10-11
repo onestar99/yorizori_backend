@@ -24,7 +24,7 @@ public interface RecipeRepository extends JpaRepository<RecipeEntity, Long> {
     List<RecipeEntity> findTop9ByOrderByRecipeViewCountDesc();
     List<RecipeEntity> findTop100ByOrderByRecipeViewCountDesc();
 
-    Page<RecipeEntity> findByRecipeTitleContaining(String searchKeywod,Pageable pageable);
+    Page<RecipeEntity> findByRecipeTitleContaining(String searchKeyword,Pageable pageable);
     List<RecipeEntity> findByRecipeTitleContaining(String ingredient);
 
 
@@ -95,5 +95,36 @@ public interface RecipeRepository extends JpaRepository<RecipeEntity, Long> {
             "FROM recipe ORDER BY score DESC",
             nativeQuery = true)
     Page<RecipeEntity> findTopRecipesPage(Pageable pageable);
+
+
+    @Query(value = "SELECT r.*, " +
+            "0.13 * IF(CAST(r.star_count AS DECIMAL) = 0, 3.0, CAST(r.star_count AS DECIMAL)) + " +
+            "0.2 * (r.recipe_view_count / (SELECT MAX(recipe_view_count) FROM recipe)) + " +
+            "IF(r.review_count > 2, 0.5 * (r.review_count / (SELECT MAX(review_count) FROM recipe)), 0) + " +
+            "0.5 * exp(((1 - ((TIMESTAMPDIFF(DAY, r.created_time, NOW()) / 30) / " +
+            "(SELECT MAX(TIMESTAMPDIFF(DAY, created_time, NOW()) / 30) FROM recipe))) * 20 - 10) / 20) AS score " +
+            "FROM recipe r " +
+            "INNER JOIN recipe_category_tag t ON r.recipe_id = t.recipe_id " +
+            "WHERE t.category = :category " +
+            "ORDER BY score DESC",
+            nativeQuery = true)
+    Page<RecipeEntity> findKoreanRecipesWithWeight(Pageable pageable, @Param("category") String category);
+
+
+
+    // 'recipe_title' 칼럼에서 '양파'를 포함하는 레시피를 추천 Weight를 적용하여 가져오는 메서드
+    @Query(value = "SELECT r.*, (" +
+            "0.13 * IF(CAST(r.star_count AS DECIMAL) = 0, 3.0, CAST(r.star_count AS DECIMAL)) + " +
+            "0.2 * (r.recipe_view_count / (SELECT MAX(recipe_view_count) FROM recipe)) + " +
+            "IF(r.review_count > 2, 0.5 * (r.review_count / (SELECT MAX(review_count) FROM recipe)), 0) + " +
+            "0.5 * exp(((1 - ((TIMESTAMPDIFF(DAY, r.created_time, NOW()) / 30) / " +
+            "(SELECT MAX(TIMESTAMPDIFF(DAY, created_time, NOW()) / 30) FROM recipe))) * 20 - 10) / 20)" +
+            ") AS score " +
+            "FROM recipe r " +
+            "WHERE r.recipe_title LIKE %:searchKeyWord% " +
+            "ORDER BY score DESC",
+            nativeQuery = true)
+    Page<RecipeEntity> findRecipesWithWeightAndKeyword(Pageable pageable, @Param("keyword") String searchKeyWord);
+
 
 }
