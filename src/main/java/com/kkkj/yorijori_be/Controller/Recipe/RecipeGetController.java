@@ -84,14 +84,16 @@ public class RecipeGetController {
     @ResponseBody
     @GetMapping("/rank/part")
     public List<RecipeListDto> getRecipeRank9(){
-        return recipeGetService.getTop9ItemsByViews();
+//        return recipeGetService.getTop9ItemsByViews();
+        return recipeGetService.getRecipesByRecommendSystem(9);
     }
 
     // 랭킹화면에서 rank1부터 rank100까지 불러오는 api
     @ResponseBody
     @GetMapping("/rank/total")
     public List<RecipeListDto> getRecipeTotal100(){
-        return recipeGetService.getTop100ItemsByViews();
+//        return recipeGetService.getTop100ItemsByViews();
+        return recipeGetService.getRecipesByRecommendSystem(100);
     }
 
     @ResponseBody
@@ -173,7 +175,7 @@ public class RecipeGetController {
     @ResponseBody
     @GetMapping("/testrecipe5")
     public List<RecipeListDto> testYorizoriRecommend(){
-        return recipeGetService.getRecipesByRecommendSystem();
+        return recipeGetService.getRecipesByRecommendSystem(9);
     }
 
 }

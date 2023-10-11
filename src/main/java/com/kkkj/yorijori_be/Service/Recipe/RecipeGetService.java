@@ -293,11 +293,11 @@ public class RecipeGetService {
         ⑤ 4 : 눈
         * */
 //        int weatherNum = 1;
-        int weatherNum = getWeatherApi();
-        if(weatherNum == 1){
-            // 비 오면 부침개 보여주기
-            return getRecipesForRain(getSize);
-        }
+//        int weatherNum = getWeatherApi();
+//        if(weatherNum == 1){
+//            // 비 오면 부침개 보여주기
+//            return getRecipesForRain(getSize);
+//        }
 
 
         // 나머지 상황은 작년,올해 5일씩 계산
@@ -398,8 +398,8 @@ public class RecipeGetService {
 
 
     // 요리조리 정렬 추천 시스템 (생성날짜, 별점, 리뷰수, 조회수 고려)
-    public List<RecipeListDto> getRecipesByRecommendSystem() {
-        List<RecipeEntity> recipesRecommends = recipeRepository.findTopRecipes(10);
+    public List<RecipeListDto> getRecipesByRecommendSystem(int getSize) {
+        List<RecipeEntity> recipesRecommends = recipeRepository.findTopRecipes(getSize);
         List<RecipeListDto> recipeListDtoList = new ArrayList<>();
         for(RecipeEntity recipeEntity: recipesRecommends){
             recipeListDtoList.add(RecipeListDto.toDto(recipeEntity));
