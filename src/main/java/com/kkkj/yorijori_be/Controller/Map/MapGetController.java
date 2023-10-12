@@ -27,7 +27,7 @@ public class MapGetController {
     @PostMapping("/get/api")
     public List<MapSearchDto> getLocation(@RequestBody MapLocationDto mapLocationDto){
         String location = mapGetService.getLocation(mapLocationDto);
-        return mapGetService.getSearchResult(location + " " + mapLocationDto.getFoodName());
+        return mapGetService.getSearchResult(location, mapLocationDto.getFoodName());
     }
 
 }

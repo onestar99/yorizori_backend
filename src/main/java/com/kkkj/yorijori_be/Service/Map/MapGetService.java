@@ -11,10 +11,7 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLEncoder;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 
 @Service
@@ -25,10 +22,11 @@ public class MapGetService {
      * 검색 Query를 넘겨주면 Map 검색에서 정보를 가져옴.
      *
      * */
-    public List<MapSearchDto> getSearchResult(String searchQuery){
+    public List<MapSearchDto> getSearchResult(String location, String foodName){
         String clientId = "v8qkCPFTa9NgzFpMFY_u"; //애플리케이션 클라이언트 아이디
         String clientSecret = "rQlNSJSVSo"; //애플리케이션 클라이언트 시크릿
 
+        String searchQuery = location + " " + foodName;
 
         String text = null;
         try {
@@ -48,7 +46,7 @@ public class MapGetService {
         String responseBody = get(apiURL,requestHeaders);
 
 
-        List<MapSearchDto> mapSearchDtoList = parsingJsonBySearch(responseBody);
+        List<MapSearchDto> mapSearchDtoList = parsingJsonBySearch(location, responseBody);
 
         return mapSearchDtoList;
 
@@ -109,7 +107,7 @@ public class MapGetService {
         }
     }
 
-    private List<MapSearchDto> parsingJsonBySearch(String responseBody){
+    private List<MapSearchDto> parsingJsonBySearch(String location, String responseBody){
 
         // JSON 파싱
         JSONObject jsonObject = new JSONObject(responseBody);
@@ -121,6 +119,14 @@ public class MapGetService {
         for (int i = 0; i < items.length(); i++) {
             JSONObject item = items.getJSONObject(i);
             String title = item.getString("title");
+
+            // HTML 태그를 제거하고 문자만 남기는 문자열
+            String stripTitle = title.replaceAll("<[^>]*>", " ");
+            stripTitle = stripTitle.trim();
+            // "amp;"을 제거한 문자열
+            stripTitle = stripTitle.replace("amp;", "");
+            stripTitle = stripTitle.replace("  ", " ");
+
             String address = item.getString("address");
             String category = item.getString("category");
             String roadAddress = item.getString("roadAddress");
@@ -131,7 +137,34 @@ public class MapGetService {
             String mapyStr = mapy.substring(0, 2) + "." + mapy.substring(2); // 37.~
 
 
-            MapSearchDto mapSearchDto = new MapSearchDto(title, address, category, roadAddress, mapxStr, mapyStr);
+            // 카테고리 split 작업 ex) '한식>베이커리' => '베이커리'
+            String[] parts = category.split(">");
+            String splitCategory = category;
+            if (parts.length > 1) {
+                splitCategory = parts[parts.length - 1]; // 마지막 ">" 이후의 부분을 선택
+            }
+
+            // 문자열을 공백으로 분할
+            String[] parts2 = location.split(" ");
+            // 마지막 공백 뒤에 나오는 글자 추출
+            String locationLastWord = parts2[parts2.length - 1];
+
+
+            // 맵 링크 검색 쿼리
+            String mapQuery = locationLastWord + " " + stripTitle;
+
+            String encodedString = "";
+            try {
+                // 문자열을 URL 인코딩
+                encodedString = URLEncoder.encode(mapQuery, "UTF-8");
+            } catch (UnsupportedEncodingException e) {
+                e.printStackTrace();
+            }
+
+            String link = "https://map.naver.com/p/search/" + encodedString +"?c=15.00,0,0,0,dh";
+
+
+            MapSearchDto mapSearchDto = new MapSearchDto(stripTitle, address, splitCategory, roadAddress, mapxStr, mapyStr, link);
             mapSearchDtoList.add(mapSearchDto);
         }
 
@@ -181,9 +214,16 @@ public class MapGetService {
             String area3 = region.getJSONObject("area3").getString("name");
             String area4 = region.getJSONObject("area4").getString("name");
 
+
             // 이름들을 합친 문자열을 만듭니다.
 //            String combinedName = area1 + " " + area2 + " " + area3 + " " + area4;
-            String combinedName = area1 + " " + area2;
+            String combinedName;
+            boolean area1IsSpecialCity = area1.contains("특별시");
+            if (area1IsSpecialCity){ // 첫번째로 오는것이 특별시라면?
+                combinedName = area1 + " " + area2;
+            }else{ // 첫번째로 오는것이 도
+                combinedName = area1 + " " + area2 + " " + area3;
+            }
 
             // 공백으로 구분하여 합친 이름들을 StringBuilder에 추가합니다.
             combinedNames.append(combinedName).append(" ");

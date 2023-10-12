@@ -15,9 +15,10 @@ public class MapSearchDto {
     private String roadAddress;
     private String mapx;
     private String mapy;
+    private String link;
 
 
-    public MapSearchDto toDto(String title, String address, String loadAddress, String mapx, String mapy){
+    public MapSearchDto toDto(String title, String address, String loadAddress, String mapx, String mapy, String link){
 
         MapSearchDto mapSearchDto = new MapSearchDto();
 
@@ -26,6 +27,7 @@ public class MapSearchDto {
         mapSearchDto.setRoadAddress(loadAddress);
         mapSearchDto.setMapx(mapx);
         mapSearchDto.setMapy(mapy);
+        mapSearchDto.setLink(link);
 
         return mapSearchDto;
     }
