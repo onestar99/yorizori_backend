@@ -108,7 +108,7 @@ public interface RecipeRepository extends JpaRepository<RecipeEntity, Long> {
             "WHERE t.category = :category " +
             "ORDER BY score DESC",
             nativeQuery = true)
-    Page<RecipeEntity> findKoreanRecipesWithWeight(Pageable pageable, @Param("category") String category);
+    Page<RecipeEntity> findRecipesWithCategoryAndWeight(Pageable pageable, @Param("category") String category);
 
 
 

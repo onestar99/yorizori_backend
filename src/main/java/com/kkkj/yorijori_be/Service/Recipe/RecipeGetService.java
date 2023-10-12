@@ -92,7 +92,7 @@ public class RecipeGetService {
         // 요리조리 정렬
         if(orderBy.equals("yorizori")){
             Pageable pageable = PageRequest.of(pageNo, pageSize);
-            Page<RecipeEntity> recipeEntityPage = recipeRepository.findKoreanRecipesWithWeight(pageable, categoryName);
+            Page<RecipeEntity> recipeEntityPage = recipeRepository.findRecipesWithCategoryAndWeight(pageable, categoryName);
             Page<RecipeListDto> recipeListDtoPage = RecipeListDto.toDtoPage(recipeEntityPage);
             return recipeListDtoPage;
         }
