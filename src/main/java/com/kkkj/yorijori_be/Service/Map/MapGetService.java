@@ -26,7 +26,7 @@ public class MapGetService {
         String clientId = "v8qkCPFTa9NgzFpMFY_u"; //애플리케이션 클라이언트 아이디
         String clientSecret = "rQlNSJSVSo"; //애플리케이션 클라이언트 시크릿
 
-        String searchQuery = location + " " + foodName;
+        String searchQuery = location + " " + foodName + " 맛집";
 
         String text = null;
         try {
