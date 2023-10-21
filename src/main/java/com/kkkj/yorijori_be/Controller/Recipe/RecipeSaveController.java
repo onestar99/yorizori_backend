@@ -43,7 +43,7 @@ public class RecipeSaveController {
 //        return recipeId;
 //    }
 
-    @PostMapping("/details")
+    @PostMapping("/details/{isEdit}")
     @ResponseBody
     public long saveRecipe(@RequestBody RecipeSaveDto recipeSaveDto,
                            @RequestParam(value = "isEdit", required = false) Boolean isEdit
