@@ -43,15 +43,18 @@ public class RecipeSaveController {
 //        return recipeId;
 //    }
 
-    @PostMapping("/details")
+    @PostMapping("/details/{isEdit}")
     @ResponseBody
-    public long saveRecipe(@RequestBody RecipeSaveDto recipeSaveDto){
-
+    public long saveRecipe(@RequestBody RecipeSaveDto recipeSaveDto,
+                           @RequestParam(value = "isEdit", required = false) Boolean isEdit
+    ){
 
         // 모든 내용이 괜찮은지 검토한다. (Validation) - 현재 미완성
         RecipeDto recipeDto = RecipeDto.recipeSaveDtoToDTO(recipeSaveDto);
-        // 원작자 저장
-        recipeSaveUpdateService.saveReferenceRecipe(recipeDto,recipeSaveDto.getReferenceRecipe());
+        if(isEdit){
+            // 원작자 저장
+            recipeSaveUpdateService.saveReferenceRecipe(recipeDto,recipeSaveDto.getOriginRecipe());
+        }
         // 레시피 정보를 저장(요청-POST)한다. (한개)
         long recipeId = recipeSaveUpdateService.saveRecipe(recipeSaveDto.getUserId(), recipeDto);
         // 레시피 디테일 정보와 템플릿을 저장
@@ -62,6 +65,7 @@ public class RecipeSaveController {
         recipeSaveUpdateService.saveRecipeCategory(recipeId, recipeSaveDto.getRecipeInfo().getCategory());
 
         return recipeId;
+
     }
 
 
