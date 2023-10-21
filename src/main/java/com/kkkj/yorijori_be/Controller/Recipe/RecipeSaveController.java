@@ -45,13 +45,12 @@ public class RecipeSaveController {
 
     @PostMapping("/details")
     @ResponseBody
-    public long saveRecipe(@RequestBody RecipeSaveDto recipeSaveDto,
-                           @RequestParam(value = "isEdit", required = false) Boolean isEdit
+    public long saveRecipe(@RequestBody RecipeSaveDto recipeSaveDto
     ){
 
         // 모든 내용이 괜찮은지 검토한다. (Validation) - 현재 미완성
         RecipeDto recipeDto = RecipeDto.recipeSaveDtoToDTO(recipeSaveDto);
-        if(isEdit){
+        if(recipeSaveDto.getIsEdit()){
             // 원작자 저장
             recipeSaveUpdateService.saveReferenceRecipe(recipeDto,recipeSaveDto.getOriginRecipe());
         }
