@@ -13,7 +13,7 @@ import java.util.List;
 @ToString
 @NoArgsConstructor
 public class RecipeSaveDto {
-    private Boolean isEdit;
+
     private String userId;
     private RecipeInfo recipeInfo;
     private String thumbnail;
