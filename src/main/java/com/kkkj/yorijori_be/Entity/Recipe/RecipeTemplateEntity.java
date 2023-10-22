@@ -23,6 +23,8 @@ public class RecipeTemplateEntity {
     @JoinColumn(name = "recipe_detail_id")
     private RecipeDetailEntity recipeDetail;
 
+
+
     @Column(name = "condition_pre")
     private String condition; // 조건
 
@@ -46,5 +48,29 @@ public class RecipeTemplateEntity {
 //    public void setRecipeDetail(RecipeDetailEntity recipeDetail) {
 //        this.recipeDetail = recipeDetail;
 //    }
+    public void setCondition(String condition) {
+        this.condition = condition;
+    }
+
+    public void setIngredient(String ingredient) {
+        this.ingredient = ingredient;
+    }
+
+    public void setSize(String size) {
+        this.size = size;
+    }
+
+    public void setTime(String time) {
+        this.time = time;
+    }
+
+    public void setTool(String tool) {
+        this.tool = tool;
+    }
+
+    public void setAction(String action) {
+        this.action = action;
+    }
+
 
 }

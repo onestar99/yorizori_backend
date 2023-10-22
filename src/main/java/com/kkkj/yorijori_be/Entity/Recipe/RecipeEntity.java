@@ -91,4 +91,28 @@ public class RecipeEntity extends BaseTimeEntity {
     public void updateThumbnail(String thumbnailAddress) {
         this.recipeThumbnail = thumbnailAddress;
     }
+    // 레시피 제목 업데이트
+    public void updateRecipeTitle(String recipeTitle) {
+        this.recipeTitle = recipeTitle;
+    }
+    // 레시피 음식 이름 업데이트
+    public void updateDishName(String dishName) {
+        this.dishName = dishName;
+    }
+    // 레시피 인트로 업데이트
+    public void updateRecipeIntro(String recipeIntro) {
+        this.recipeIntro = recipeIntro;
+    }
+    // 레시피 원작자 업데이트
+    public void updateReferenceRecipe(String referenceRecipe) {
+        this.referenceRecipe = referenceRecipe;
+    }
+    // 레시피 레벨 업데이트
+    public void updateLevel(String level) {
+        this.level = level;
+    }
+    // 레시피 시간 업데이트
+    public void updateTime(String time) {
+        this.time = time;
+    }
 }
