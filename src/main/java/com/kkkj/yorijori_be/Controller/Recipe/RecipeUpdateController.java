@@ -15,8 +15,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @RequestMapping("/recipe/update")
 public class RecipeUpdateController {
     private final RecipeSaveUpdateService recipeSaveUpdateService;
+    private final RecipeSaveController recipeSaveController;
+    private final RecipeDeleteController recipeDeleteController;
 
-    @PostMapping("/details")
+    @PostMapping("/details2")
     @ResponseBody
     public long updateRecipe(@RequestBody RecipeSaveDto recipeSaveDto){
 
@@ -34,4 +36,16 @@ public class RecipeUpdateController {
 
         return recipeSaveDto.getOriginRecipe();
     }
+
+    @PostMapping("/details")
+    @ResponseBody
+    public long updateRecipeDetail(@RequestBody RecipeSaveDto recipeSaveDto){
+        Long recipeId = recipeSaveDto.getOriginRecipe();
+        recipeDeleteController.DeleteRecipe(recipeSaveDto.getOriginRecipe());
+        recipeSaveDto.setOriginRecipe(null);
+        recipeSaveController.saveRecipe(recipeSaveDto);
+        return recipeId;
+    }
+
+
 }
