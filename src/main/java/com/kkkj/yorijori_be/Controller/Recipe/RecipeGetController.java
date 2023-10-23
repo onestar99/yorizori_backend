@@ -158,7 +158,6 @@ public class RecipeGetController {
     @ResponseBody
     @GetMapping("/reviews/{boardId}")
     public RecipeDetailReviewDto getDetailReview(@PathVariable Long boardId){
-
         return recipeGetService.getRecipeDetailReview(boardId);
     }
 
@@ -171,16 +170,16 @@ public class RecipeGetController {
 
     // 레시피 날짜별 추천(오늘의 추천), 특별한 날이면 특별한 레시피, 비오는 날이면 비올 때 음식 등
     @ResponseBody
-    @GetMapping("/testrecipe")
+    @GetMapping("/recommendToday")
     public List<RecipeListDto> testTodayRecommend() throws IOException {
-        return recipeGetService.todayRecommend(12);
+        return recipeRecommendService.todayRecommendByRecipeId();
     }
 
-    // 요리조리 추천 시스템 적용한 레시피
-    @ResponseBody
-    @GetMapping("/testrecipe5")
-    public List<RecipeListDto> testYorizoriRecommend(){
-        return recipeGetService.getRecipesByRecommendSystem(9);
-    }
+//    // 요리조리 추천 시스템 적용한 레시피
+//    @ResponseBody
+//    @GetMapping("/testrecipe5")
+//    public List<RecipeListDto> testYorizoriRecommend(){
+//        return recipeGetService.getRecipesByRecommendSystem(9);
+//    }
 
 }

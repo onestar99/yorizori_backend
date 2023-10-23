@@ -46,6 +46,24 @@ public class RecipeRecommendService {
     }
 
 
+    public List<RecipeListDto> todayRecommendByRecipeId(){
+
+        // 플라스크에서 레시피 추천 아이디 받기
+        String recipes = getFlaskTodayRecommendRecipeIds();
+        // Str To List
+        List<Long> recipesList = convertStringToList(recipes);
+        // 레시피 정보 조회
+        List<RecipeEntity> recipeEntityList = findRecipeEntitiesByRecipeIdInOrderByRecipeId(recipes, recipesList);
+        // 레시피 정보 변환
+        List<RecipeListDto> recipeListDtoList = new ArrayList<>();
+        for(RecipeEntity recipeEntity: recipeEntityList){
+            recipeListDtoList.add(RecipeListDto.toDto(recipeEntity));
+        }
+        return recipeListDtoList;
+
+    }
+
+
     /*
     * 파이썬하고 통신해서 추천 레시피 받아오기.
     * */
@@ -53,6 +71,27 @@ public class RecipeRecommendService {
 
         // Flask 서버의 URL로 GET 요청
         String flaskUrl = "http://localhost:5000/recommend/" + userId; // Flask 서버의 주소
+        // RestTemplate 생성
+        RestTemplate restTemplate = new RestTemplate();
+        // Flask로 GET 요청 보내기
+        ResponseEntity<String> response = restTemplate.getForEntity(flaskUrl, String.class);
+        // 응답을 받아서 처리
+        if (response.getStatusCode().is2xxSuccessful()) {
+            String responseBody = response.getBody();
+            return responseBody;
+        } else {
+            return "Failed to get data from Flask";
+        }
+
+    }
+
+    /*
+    * 파이썬하고 통신해서 추천 레시피 받아오기.
+    * */
+    private String getFlaskTodayRecommendRecipeIds(){
+
+        // Flask 서버의 URL로 GET 요청
+        String flaskUrl = "http://localhost:5000/recommendtoday"; // Flask 서버의 주소
         // RestTemplate 생성
         RestTemplate restTemplate = new RestTemplate();
         // Flask로 GET 요청 보내기
