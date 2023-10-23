@@ -51,7 +51,7 @@ public class RecipeSaveController {
         // 모든 내용이 괜찮은지 검토한다. (Validation) - 현재 미완성
         RecipeDto recipeDto = RecipeDto.recipeSaveDtoToDTO(recipeSaveDto);
         // 원작자 저장
-        recipeSaveUpdateService.saveReferenceRecipe(recipeDto,recipeSaveDto.getReferenceRecipe());
+        recipeSaveUpdateService.saveReferenceRecipe(recipeDto,recipeSaveDto.getOriginRecipe());
         // 레시피 정보를 저장(요청-POST)한다. (한개)
         long recipeId = recipeSaveUpdateService.saveRecipe(recipeSaveDto.getUserId(), recipeDto);
         // 레시피 디테일 정보와 템플릿을 저장

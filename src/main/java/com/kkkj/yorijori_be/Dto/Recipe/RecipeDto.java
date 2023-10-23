@@ -36,7 +36,7 @@ public class RecipeDto {
 
 
     static public RecipeDto recipeSaveDtoToDTO(RecipeSaveDto recipeSaveDto){
-
+        String thumbnail;
         RecipeDto recipeDto = new RecipeDto();
         recipeDto.setRecipeTitle(recipeSaveDto.getRecipeInfo().getTitle());
         recipeDto.setCategory(recipeSaveDto.getRecipeInfo().getCategory());
@@ -45,7 +45,11 @@ public class RecipeDto {
         recipeDto.setAuthorship(null);
         recipeDto.setStarCount("0.0");
         recipeDto.setRecipeIntro(recipeSaveDto.getRecipeInfo().getExplain());
-        String thumbnail = recipeSaveDto.getThumbnail().split("https://yorizori-s3.s3.ap-northeast-2.amazonaws.com")[1];
+        if(recipeSaveDto.getThumbnail().startsWith("h")){
+            thumbnail = recipeSaveDto.getThumbnail().split("https://yorizori-s3.s3.ap-northeast-2.amazonaws.com")[1];
+        }else{
+            thumbnail = recipeSaveDto.getThumbnail();
+        }
         recipeDto.setRecipeThumbnail(thumbnail);
         recipeDto.setReviewCount(0);
         recipeDto.setUserTokenId(recipeSaveDto.getUserId());

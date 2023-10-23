@@ -21,6 +21,8 @@ public class RecipeIngredientTagEntity {
     @Column(name = "ingredient_name")
     private String ingredientName;
 
+
+
     @Column(name = "ingredient_size")
     private String ingredientSize;
 
@@ -37,5 +39,15 @@ public class RecipeIngredientTagEntity {
         this.recipe = recipe;
     }
 
+    public void setIngredientName(String ingredientName) {
+        this.ingredientName = ingredientName;
+    }
 
+    public void setIngredientSize(String ingredientSize) {
+        this.ingredientSize = ingredientSize;
+    }
+
+    public void setIsMain(String isMain) {
+        this.isMain = isMain;
+    }
 }

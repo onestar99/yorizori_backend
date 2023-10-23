@@ -24,8 +24,12 @@ public class RecipeCategoryTagEntity {
     @JoinColumn(name = "recipe_id")
     private RecipeEntity recipe;
 
+
+
     @Column(name = "category")
     private String category;
 
-
+    public void setCategory(String category) {
+        this.category = category;
+    }
 }

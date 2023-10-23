@@ -17,7 +17,7 @@ public class RecipeSaveDto {
     private String userId;
     private RecipeInfo recipeInfo;
     private String thumbnail;
-    private Long referenceRecipe;
+    private Long originRecipe;
     private List<RecipeIngredientSaveDto> mainIngredient;
     private List<RecipeIngredientSaveDto> semiIngredient;
     private List<RecipeDetailSaveDto> recipeDetail;
