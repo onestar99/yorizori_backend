@@ -16,7 +16,6 @@ public class S3Remover {
 
 
     private final AmazonS3Client amazonS3Client;
-    private final UserRepository userRepository;
 
     @Value("${cloud.aws.s3.bucket}")
     private String bucket;
