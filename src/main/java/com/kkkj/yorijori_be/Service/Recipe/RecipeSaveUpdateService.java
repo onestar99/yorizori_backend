@@ -61,18 +61,18 @@ public class RecipeSaveUpdateService {
         // 레시피 디테일 정보들 저장
         for(int i = 0; i < recipeSaveDto.getRecipeDetail().size(); i++){
 
-            String image = recipeSaveDto.getRecipeDetail().get(i).getImage();
-            String splitImage = "";
-            if(image != null){
-                splitImage = image.split("https://yorizori-s3.s3.ap-northeast-2.amazonaws.com")[1];
-            }
+//            String image = recipeSaveDto.getRecipeDetail().get(i).getImage();
+//            String splitImage = "";
+//            if(image != null){
+//                splitImage = image.split("https://yorizori-s3.s3.ap-northeast-2.amazonaws.com")[1];
+//            }
             System.out.println(recipeSaveDto.getRecipeDetail().toString());
 
             System.out.println(recipeSaveDto.getRecipeDetail().get(i).getDetail());
 
             RecipeDetailEntity recipeDetailEntity = RecipeDetailEntity.builder()
                     .recipeDetail(recipeSaveDto.getRecipeDetail().get(i).getDetail())
-                    .recipeImage(splitImage)
+                    .recipeImage(recipeSaveDto.getRecipeDetail().get(i).getImage())
                     .recipe(recipeEntity)
                     .order(i+1).build();
 
