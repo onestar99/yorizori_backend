@@ -36,6 +36,7 @@ public class OAuthService {
     private final String NAVER_TOKEN_URL = "https://nid.naver.com/oauth2.0/token";
 
     private final String KAKAO_LOGOUT_URL = "https://kapi.kakao.com/v1/user/logout";
+    private final String KAKAO_UNLINK_URL = "https://kapi.kakao.com/v1/user/unlink";
     private String kakaoApiUrl = "https://kapi.kakao.com";
 
     @Value("${oauth2.google.client-id}")
@@ -117,7 +118,7 @@ public class OAuthService {
         String idToken = jsonParsing(response, "id_token"); // id 토큰 파싱
         // TODO 엑세스 토큰을 이용하여 DB에서 기존 유저인지 찾아보고 (없으면 -> 회원가입 : 있으면 -> 로그인)
         JsonNode jsonNode = getGoogleUserInfo(accessToken); // 액세스 토큰으로 api 요청해서 유저정보 불러오기
-
+        System.out.println("구글 액세스코드: " + accessToken);
         String id = jsonNode.get("id").asText();
         String nickName = jsonNode.get("name").asText();
         String image = jsonNode.get("picture").asText();
@@ -211,6 +212,7 @@ public class OAuthService {
         String nickName = jsonNode.path("kakao_account").path("profile").path("nickname").asText();
         String image = jsonNode.path("kakao_account").path("profile").path("profile_image_url").asText();
 
+        System.out.println("카카오 액세스코드: " + accessToken);
         UserEntity user = userRepository.findByUserTokenId(id);
         if(user == null){ // 정보가 없어서 회원가입
             System.out.println("회원가입을 시도합니다.");
@@ -297,7 +299,7 @@ public class OAuthService {
         String accessToken = jsonParsing(response, "access_token"); // access 토큰 파싱
 //        String idToken = jsonParsing(response, "id_token"); // id 토큰 파싱
         JsonNode jsonNode = getNaverUserInfo(accessToken); // 액세스 토큰으로 api 요청해서 유저정보 불러오기
-
+        System.out.println("네이버 액세스코드: " + accessToken);
         String id = jsonNode.path("response").path("id").asText();
         String nickName = jsonNode.path("response").path("nickname").asText();
         String image = jsonNode.path("response").path("profile_image").asText();
@@ -345,6 +347,7 @@ public class OAuthService {
     }
 
 
+    // kakao 로그아웃 기능
     public ResponseEntity<String> kakaoLogout(String accessCode, long userTokenId) {
 
         HttpHeaders headers = new HttpHeaders();
@@ -359,6 +362,29 @@ public class OAuthService {
         RestTemplate restTemplate = new RestTemplate();
 
         ResponseEntity<String> response = restTemplate.postForEntity(KAKAO_LOGOUT_URL, requestEntity, String.class);
+        if(response.getStatusCode() == HttpStatus.OK){
+            return response;
+        } else {
+            return null;
+        }
+
+    }
+
+    // kakao 탈퇴 기능
+    public ResponseEntity<String> kakaoUnlink(String accessCode, long userTokenId) {
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
+        headers.set("Authorization", "Bearer " + accessCode);
+
+        // 요청 본문 데이터 설정
+        String requestBody = "target_id_type=user_id&target_id=" + Long.toString(userTokenId);// 대상 회원번호를 입력하세요
+
+        HttpEntity<String> requestEntity = new HttpEntity<>(requestBody, headers);
+
+        RestTemplate restTemplate = new RestTemplate();
+
+        ResponseEntity<String> response = restTemplate.postForEntity(KAKAO_UNLINK_URL, requestEntity, String.class);
         if(response.getStatusCode() == HttpStatus.OK){
             return response;
         } else {

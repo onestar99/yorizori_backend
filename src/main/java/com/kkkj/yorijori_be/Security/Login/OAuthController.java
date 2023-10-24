@@ -40,6 +40,12 @@ public class OAuthController {
         return oAuthService.naverLogin(accessCode);
     }
 
+    @GetMapping("/unlink/kakao")
+    @ResponseBody
+    public ResponseEntity<String> kakaoUnlink(@RequestParam("code") String accessCode, @RequestParam("id") long userTokenId) throws IOException {
+        return oAuthService.kakaoUnlink(accessCode, userTokenId);
+    }
+
 
 
 }
