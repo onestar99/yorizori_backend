@@ -27,8 +27,8 @@ public class UserDeleteService {
     // 개인 유저 삭제
     @Transactional
     public void deleteUserById(String tokenId){
-        UserDto userDto = UserDto.toUserDto(userRepository.findById(tokenId).get());
-        userRepository.delete(userDto.toEntity());
+        UserEntity user = userRepository.findById(tokenId).get();
+        userRepository.delete(user);
     }
 
 
