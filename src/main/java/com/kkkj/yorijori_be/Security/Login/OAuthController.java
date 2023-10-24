@@ -1,5 +1,7 @@
 package com.kkkj.yorijori_be.Security.Login;
 
+import com.kkkj.yorijori_be.Entity.User.UserEntity;
+import com.kkkj.yorijori_be.Repository.User.UserRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -15,6 +17,7 @@ import java.io.IOException;
 public class OAuthController {
 
     private final OAuthService oAuthService;
+    private final UserRepository userRepository;
 
     @GetMapping("/login/google")
     @ResponseBody
@@ -40,10 +43,20 @@ public class OAuthController {
         return oAuthService.naverLogin(accessCode);
     }
 
-    @GetMapping("/unlink/kakao")
+    @GetMapping("/unlink")
     @ResponseBody
-    public ResponseEntity<String> kakaoUnlink(@RequestParam("code") String accessCode, @RequestParam("id") long userTokenId) throws IOException {
-        return oAuthService.kakaoUnlink(accessCode, userTokenId);
+    public ResponseEntity<String> Unlink(@RequestParam("code") String accessCode, @RequestParam("id") String userTokenId) throws IOException {
+
+        UserEntity user = userRepository.findByUserTokenId(userTokenId);
+        String site = user.getOauthDivision();
+        if(site.equals("kakao"))
+            return oAuthService.kakaoUnlink(user, accessCode, userTokenId);
+        else if(site.equals("naver")){
+            return null;
+        }
+        else{ // 구글
+            return null;
+        }
     }
 
 

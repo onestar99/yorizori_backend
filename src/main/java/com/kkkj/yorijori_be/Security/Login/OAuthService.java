@@ -3,9 +3,12 @@ package com.kkkj.yorijori_be.Security.Login;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.kkkj.yorijori_be.Cloud.S3Remover;
 import com.kkkj.yorijori_be.Dto.User.UserDto;
+import com.kkkj.yorijori_be.Entity.Recipe.RecipeEntity;
 import com.kkkj.yorijori_be.Entity.User.UserEntity;
 import com.kkkj.yorijori_be.Repository.User.UserRepository;
+import com.kkkj.yorijori_be.Service.User.UserDeleteService;
 import com.kkkj.yorijori_be.Service.User.UserSaveUpdateService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -23,7 +26,9 @@ import org.springframework.web.client.RestTemplate;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Slf4j
@@ -60,6 +65,8 @@ public class OAuthService {
 
     private final UserRepository userRepository;
     private final UserSaveUpdateService userSaveUpdateService;
+    private final UserDeleteService userDeleteService;
+    private final S3Remover s3Remover;
 
 
 
@@ -371,14 +378,34 @@ public class OAuthService {
     }
 
     // kakao 탈퇴 기능
-    public ResponseEntity<String> kakaoUnlink(String accessCode, long userTokenId) {
+    public ResponseEntity<String> kakaoUnlink(UserEntity user, String accessCode, String userTokenId) {
 
+        // 유저 이미지 삭제
+        try {
+            s3Remover.deleteAbsoluteImage(user.getImageAddress());
+        } catch (Exception e){
+            System.out.println(e.getMessage());
+        }
+
+        // 원작자 내용 찾아서 삭제
+//        List<RecipeEntity> recipeEntityList = user.getRecipes();
+//        List<Long> recipeIds = new ArrayList<>();
+//        for(RecipeEntity recipe: recipeEntityList){
+//            recipeIds.add(recipe.getRecipeId());
+//        }
+
+        // 유저 삭제하기
+        userDeleteService.deleteUserById(userTokenId);
+        System.out.println("유저삭제완료");
+
+
+        // 유저 연결 끊기
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
         headers.set("Authorization", "Bearer " + accessCode);
 
         // 요청 본문 데이터 설정
-        String requestBody = "target_id_type=user_id&target_id=" + Long.toString(userTokenId);// 대상 회원번호를 입력하세요
+        String requestBody = "target_id_type=user_id&target_id=" + userTokenId;// 대상 회원번호를 입력하세요
 
         HttpEntity<String> requestEntity = new HttpEntity<>(requestBody, headers);
 
