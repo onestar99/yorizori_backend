@@ -39,7 +39,6 @@ public class RecipeSaveUpdateService {
         // User에 recipe Entity 추가
         userEntity.getRecipes().add(recipeEntity);
 
-
         // 저장
         UserEntity user = userRepository.save(userEntity);
         int recipeSize = user.getRecipes().size();
@@ -233,22 +232,19 @@ public class RecipeSaveUpdateService {
         }
     }
 
-    public void updateRecipe(String userTokenId,Long recipeId, RecipeDto recipeDto){
-
+    @Transactional
+    public void updateRecipe(String userTokenId, Long recipeId, RecipeDto recipeDto){
         // TokenId를 통해 레시피 정보 찾기
         RecipeEntity recipeEntity = recipeRepository.findByRecipeId(recipeId);
         //recipeEntity를 통해 업데이트
         recipeEntity.updateRecipeIntro(recipeDto.getRecipeIntro());
         recipeEntity.updateRecipeTitle(recipeDto.getRecipeTitle());
-        recipeEntity.updateReferenceRecipe(recipeDto.getReferenceRecipe());
         recipeEntity.updateThumbnail(recipeDto.getRecipeThumbnail());
-        recipeEntity.updateDishName(recipeDto.getDishName());
         recipeEntity.updateLevel(recipeDto.getLevel());
         recipeEntity.updateTime(recipeDto.getTime());
         //recipeRepository를 통해 저장
         recipeRepository.save(recipeEntity);
         //recipeDetail 저장
-
     }
 
 

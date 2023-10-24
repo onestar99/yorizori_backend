@@ -19,6 +19,8 @@ import java.util.List;
 @Table(name = "recipe")
 public class RecipeEntity extends BaseTimeEntity {
 
+
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "recipe_id")
@@ -86,7 +88,9 @@ public class RecipeEntity extends BaseTimeEntity {
     @JsonIgnore
     @OneToMany(mappedBy = "recipe", cascade = CascadeType.ALL)
     private List<UserViewLogEntity> viewlog;
-
+    public void setRecipeId(Long recipeId) {
+        this.recipeId = recipeId;
+    }
     // 레시피 썸네일 주소 업데이트
     public void updateThumbnail(String thumbnailAddress) {
         this.recipeThumbnail = thumbnailAddress;
