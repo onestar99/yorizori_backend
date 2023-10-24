@@ -40,10 +40,9 @@ public class RecipeUpdateController {
     @PostMapping("/details")
     @ResponseBody
     public long updateRecipeDetail(@RequestBody RecipeSaveDto recipeSaveDto){
-        Long recipeId = recipeSaveDto.getOriginRecipe();
         recipeDeleteController.DeleteRecipe(recipeSaveDto.getOriginRecipe());
         recipeSaveDto.setOriginRecipe(null);
-        recipeSaveController.saveRecipe(recipeSaveDto);
+        long recipeId = recipeSaveController.saveRecipe(recipeSaveDto);
         return recipeId;
     }
 
