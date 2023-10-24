@@ -233,7 +233,7 @@ public class RecipeSaveUpdateService {
     }
 
     @Transactional
-    public void updateRecipe(String userTokenId, Long recipeId, RecipeDto recipeDto){
+    public void updateRecipe(Long recipeId, RecipeDto recipeDto){
         // TokenId를 통해 레시피 정보 찾기
         RecipeEntity recipeEntity = recipeRepository.findByRecipeId(recipeId);
         //recipeEntity를 통해 업데이트
@@ -244,7 +244,6 @@ public class RecipeSaveUpdateService {
         recipeEntity.updateTime(recipeDto.getTime());
         //recipeRepository를 통해 저장
         recipeRepository.save(recipeEntity);
-        //recipeDetail 저장
     }
 
 

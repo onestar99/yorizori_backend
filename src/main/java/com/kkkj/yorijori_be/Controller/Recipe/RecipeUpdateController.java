@@ -26,8 +26,8 @@ public class RecipeUpdateController {
     @PostMapping("/details")
     @ResponseBody
     public long updateRecipeDetail(@RequestBody RecipeSaveDto recipeSaveDto){
+        //레시피아이디 저장
         long recipeId = recipeSaveDto.getOriginRecipe();
-
         // 레시피 view 로그 삭제
         boolean a = logDeleteService.deleteUserViewLogsByRecipeId(recipeId);
         // 레시피 코맨트 삭제
@@ -40,20 +40,10 @@ public class RecipeUpdateController {
         boolean e = recipeDeleteService.deleteRecipeDetailsByRecipeId(recipeId);
         // 레시피 카테고리 삭제
         boolean f = recipeDeleteService.deleteRecipeCategoriesByRecipeId(recipeId);
-        // 레시피 삭제
-//        boolean g = recipeDeleteService.deleteRecipeByRecipeId(recipeId);
-
-//        // 모두가 성공하면
-//        if(a && b && c && d && e && f && g){
-//            return "delete success";
-//        }
-//        return "delete fail";
-//
-//    }
-        // 모든 내용이 괜찮은지 검토한다. (Validation) - 현재 미완성
+        // 모든 내용이 괜찮은지 검토한다. (Validation)
         RecipeDto recipeDto = RecipeDto.recipeSaveDtoToDTO(recipeSaveDto);
-        // 레시피 정보를 저장(요청-POST)한다.(한개)
-        recipeSaveUpdateService.updateRecipe(recipeSaveDto.getUserId(), recipeId, recipeDto);
+        // 레시피 정보를 업데이트한다.(한개)
+        recipeSaveUpdateService.updateRecipe(recipeId, recipeDto);
         // 레시피 디테일 정보와 템플릿을 저장
         recipeSaveUpdateService.saveRecipeDetailsAndTemplates(recipeId, recipeSaveDto);
         // 레시피 재료 정보를 저장(요청-POST)한다. (여러개)
