@@ -45,6 +45,7 @@ public class RecipeGetService {
 
     private final RecipeRepository recipeRepository;
     private final RecipeIngredientTagRepository recipeIngredientTagRepository;
+    private final RecipeRecommendService recipeRecommendService;
     private final UserCommentRepository userCommentRepository;
     private final SpecialDayFoodRepository specialDayFoodRepository;
 
@@ -320,15 +321,15 @@ public class RecipeGetService {
         ⑤ 4 : 눈
         * */
 //        int weatherNum = 1;
-//        int weatherNum = getWeatherApi();
-//        if(weatherNum == 1){
-//            // 비 오면 부침개 보여주기
-//            return getRecipesForRain(getSize);
-//        }
+        int weatherNum = getWeatherApi();
+        if(weatherNum == 1){
+            // 비 오면 부침개 보여주기
+            return getRecipesForRain(getSize);
+        }
 
+        // 나머지 상황은 플라스크에서 날짜를 고려한 추천
+        return recipeRecommendService.todayRecommendByRecipeId();
 
-        // 나머지 상황은 작년,올해 5일씩 계산
-        return getRecipesDateRecommend(getSize);
 
 
     }

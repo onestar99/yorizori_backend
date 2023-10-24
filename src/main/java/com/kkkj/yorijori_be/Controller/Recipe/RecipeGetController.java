@@ -172,7 +172,8 @@ public class RecipeGetController {
     @ResponseBody
     @GetMapping("/recommendToday")
     public List<RecipeListDto> testTodayRecommend() throws IOException {
-        return recipeRecommendService.todayRecommendByRecipeId();
+        return recipeGetService.todayRecommend(12); // 특별한 날을 같이 고려한 추천
+//        return recipeRecommendService.todayRecommendByRecipeId(); // 파이썬을 통한 추천만 있음
     }
 
 //    // 요리조리 추천 시스템 적용한 레시피
