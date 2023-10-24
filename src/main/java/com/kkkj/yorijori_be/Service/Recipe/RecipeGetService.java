@@ -175,7 +175,8 @@ public class RecipeGetService {
                 RecipeEntity recipe = recipeRepository.findByRecipeId(longRecipeId);
                 RecipeReferenceRecipeDto referenceRecipeDto = RecipeReferenceRecipeDto.builder()
                         .recipeId(longRecipeId)
-                        .nickName(recipe.getUser().getNickname())
+                        .recipeTitle(recipe.getRecipeTitle())
+                        .nickname(recipe.getUser().getNickname())
                         .profileImage(recipe.getUser().getImageAddress())
                         .build();
                 referenceRecipeDtoList.add(referenceRecipeDto);

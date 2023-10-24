@@ -12,7 +12,8 @@ import lombok.ToString;
 public class RecipeReferenceRecipeDto {
 
     private long recipeId;
-    private String nickName;
+    private String recipeTitle;
+    private String nickname;
     private String profileImage;
 
 }
