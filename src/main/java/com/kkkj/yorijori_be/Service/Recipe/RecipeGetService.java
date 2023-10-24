@@ -154,9 +154,39 @@ public class RecipeGetService {
             recipeOrderDtoList.add(RecipeOrderDto.toDto(recipeDetailEntity));
         }
 
+
+        // 레시피 원작자 리스트 만들기
+        List<RecipeReferenceRecipeDto> referenceRecipeDtoList = new ArrayList<>();
+        String referenceStr = recipeEntity.getReferenceRecipe();
+        System.out.println(referenceStr);
+        // 원작자 값이 null 아닌 경우
+        if (referenceStr != null){
+            // ','을 기준으로 tokenizing 해서 recipeIds 만들기
+            String[] parts = referenceStr.split(",");
+            List<Long> recipeIds = new ArrayList<>();
+            for (String part : parts) {
+                recipeIds.add(Long.parseLong(part));
+            }
+
+            // 역순으로 sorting
+            Collections.reverse(recipeIds);
+
+            for(long longRecipeId: recipeIds){
+                RecipeEntity recipe = recipeRepository.findByRecipeId(longRecipeId);
+                RecipeReferenceRecipeDto referenceRecipeDto = RecipeReferenceRecipeDto.builder()
+                        .recipeId(longRecipeId)
+                        .nickName(recipe.getUser().getNickname())
+                        .profileImage(recipe.getUser().getImageAddress())
+                        .build();
+                referenceRecipeDtoList.add(referenceRecipeDto);
+            }
+        }
+
+
+
         // 4개 합쳐서 DTO 완성 후 return
         RecipeDetailsDto recipeDetailsDto = RecipeDetailsDto.toDto(recipeEntity, recipeIngredientMainDtoList,
-                recipeIngredientSemiDtoList, recipeOrderDtoList);
+                recipeIngredientSemiDtoList, recipeOrderDtoList, referenceRecipeDtoList);
 
         return recipeDetailsDto;
 
@@ -336,29 +366,29 @@ public class RecipeGetService {
 
 
 
-    // 오늘의 추천 (오늘 날짜 월,일 기준 작년의 5일 후 데이터와 올해 5일 전까지의 데이터 추합)
-    public List<RecipeListDto> getRecipesDateRecommend(int getSize) {
-        LocalDate now = LocalDate.now();
-//        LocalDate now = LocalDate.of(2023, 1, 1);
-        LocalDate fiveDaysAgoThisYear = now.minusDays(5);
-        LocalDate fiveDaysAfterLastYearSameDate = now.minusYears(1).plusDays(5);
-
-        // 1월 1일 기준 12월 27일 데이터부터 1월 1일까지
-        List<RecipeEntity> recipesThisYear = recipeRepository.findRecipesBetweenDates(fiveDaysAgoThisYear.toString(), now.plusDays(1).toString());
-        // 1월 1일 기준 1월 1일 데이터부터 1월 6일까지
-        List<RecipeEntity> recipesLastYear = recipeRepository.findRecipesBetweenDates(now.minusYears(1).toString(), fiveDaysAfterLastYearSameDate.toString());
-
-        // 두 날짜의 레시피 데이터 합치고 섞기
-        recipesThisYear.addAll(recipesLastYear);
-        List<RecipeEntity> getRecipes = getRandomRecipes(recipesThisYear, getSize);
-
-        // toDto 작업
-        List<RecipeListDto> recipeListDtoList = new ArrayList<>();
-        for(RecipeEntity recipeEntity: getRecipes){
-            recipeListDtoList.add(RecipeListDto.toDto(recipeEntity));
-        }
-        return recipeListDtoList;
-    }
+//    // 오늘의 추천 (오늘 날짜 월,일 기준 작년의 5일 후 데이터와 올해 5일 전까지의 데이터 추합)
+//    public List<RecipeListDto> getRecipesDateRecommend(int getSize) {
+//        LocalDate now = LocalDate.now();
+////        LocalDate now = LocalDate.of(2023, 1, 1);
+//        LocalDate fiveDaysAgoThisYear = now.minusDays(5);
+//        LocalDate fiveDaysAfterLastYearSameDate = now.minusYears(1).plusDays(5);
+//
+//        // 1월 1일 기준 12월 27일 데이터부터 1월 1일까지
+//        List<RecipeEntity> recipesThisYear = recipeRepository.findRecipesBetweenDates(fiveDaysAgoThisYear.toString(), now.plusDays(1).toString());
+//        // 1월 1일 기준 1월 1일 데이터부터 1월 6일까지
+//        List<RecipeEntity> recipesLastYear = recipeRepository.findRecipesBetweenDates(now.minusYears(1).toString(), fiveDaysAfterLastYearSameDate.toString());
+//
+//        // 두 날짜의 레시피 데이터 합치고 섞기
+//        recipesThisYear.addAll(recipesLastYear);
+//        List<RecipeEntity> getRecipes = getRandomRecipes(recipesThisYear, getSize);
+//
+//        // toDto 작업
+//        List<RecipeListDto> recipeListDtoList = new ArrayList<>();
+//        for(RecipeEntity recipeEntity: getRecipes){
+//            recipeListDtoList.add(RecipeListDto.toDto(recipeEntity));
+//        }
+//        return recipeListDtoList;
+//    }
 
     // 비오는 날 음식 불러오기
     public List<RecipeListDto> getRecipesForRain(int getSize) {

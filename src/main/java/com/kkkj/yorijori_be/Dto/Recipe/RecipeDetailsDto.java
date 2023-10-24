@@ -31,10 +31,11 @@ public class RecipeDetailsDto {
     private List<RecipeOrderDto> order;
     private List<String> category;
     private int viewCount; // 레시피 조회수
-    private String referenceRecipe;
+    private List<RecipeReferenceRecipeDto> referenceRecipe;
 
     public static RecipeDetailsDto toDto(RecipeEntity recipeEntity, List<RecipeIngredientDto> mainIngredient,
-                                         List<RecipeIngredientDto> semiIngredient, List<RecipeOrderDto> order){
+                                         List<RecipeIngredientDto> semiIngredient, List<RecipeOrderDto> order,
+                                         List<RecipeReferenceRecipeDto> referenceRecipeDtoList){
 
         // 레시피 카테고리를 리스트로 만들기.
         List<String> category = new ArrayList<>();
@@ -58,7 +59,7 @@ public class RecipeDetailsDto {
                 .recipeUserTokenId(recipeEntity.getUser().getUserTokenId())
                 .profileImg(recipeEntity.getUser().getImageAddress())
                 .nickname(recipeEntity.getUser().getNickname())
-                .referenceRecipe(recipeEntity.getReferenceRecipe())
+                .referenceRecipe(referenceRecipeDtoList)
                 .date(recipeEntity.getCreatedTime().format(DateTimeFormatter.ISO_DATE))
                 .explain(recipeEntity.getRecipeIntro())
                 .mainIngredient(mainIngredient)
