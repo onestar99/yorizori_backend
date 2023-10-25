@@ -355,14 +355,14 @@ public class OAuthService {
 
 
     // kakao 로그아웃 기능
-    public ResponseEntity<String> kakaoLogout(String accessCode, long userTokenId) {
+    public ResponseEntity<String> kakaoLogout(String accessCode, String userTokenId) {
 
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
         headers.set("Authorization", "Bearer " + accessCode);
 
         // 요청 본문 데이터 설정
-        String requestBody = "target_id_type=user_id&target_id=" + Long.toString(userTokenId);// 대상 회원번호를 입력하세요
+        String requestBody = "target_id_type=user_id&target_id=" + userTokenId;// 대상 회원번호를 입력하세요
 
         HttpEntity<String> requestEntity = new HttpEntity<>(requestBody, headers);
 

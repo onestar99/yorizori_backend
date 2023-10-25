@@ -31,10 +31,26 @@ public class OAuthController {
         return oAuthService.kakaoLogin(accessCode);
     }
 
-    @GetMapping("/logout/kakao")
+    @GetMapping("/logout")
     @ResponseBody
-    public ResponseEntity<String> kakaoLogout(@RequestParam("code") String accessCode, @RequestParam("id") long userTokenId) throws IOException {
-        return oAuthService.kakaoLogout(accessCode, userTokenId);
+    public ResponseEntity<String> kakaoLogout(@RequestParam("code") String accessCode, @RequestParam("id") String userTokenId) throws IOException {
+
+        UserEntity user = userRepository.findByUserTokenId(userTokenId);
+        if(user == null){
+            return null;
+        }
+
+        String site = user.getOauthDivision();
+        if(site.equals("kakao"))
+            return oAuthService.kakaoLogout(accessCode, userTokenId);
+        else if(site.equals("naver")){
+            return null;
+        }
+        else{ // 구글
+            return null;
+        }
+
+
     }
 
     @GetMapping("/login/naver")
