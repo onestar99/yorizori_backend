@@ -56,17 +56,23 @@ public class UserSaveUpdateService {
     public UserDto updateProfileById(String tokenId, String nickName, String image, String gender, String age){
 
         UserEntity user = userRepository.findByUserTokenId(tokenId);
-        if(!Objects.equals(nickName, "null")){
-            user.updateNickName(nickName);
-        }
-        if(!Objects.equals(image, "null")) {
-            user.updateProfile(image);
-        }
+        user.updateNickName(nickName);
+        user.updateProfile(image);
+//        if(!Objects.equals(nickName, "null")){
+//            user.updateNickName(nickName);
+//        }
+//        if(!Objects.equals(image, "null")) {
+//            user.updateProfile(image);
+//        }
         if(!Objects.equals(gender, "null")) {
             user.updateGender(gender);
+        }else{
+            user.updateGender(null);
         }
         if(!Objects.equals(age, "null")) {
             user.updateAge(age);
+        }else{
+            user.updateAge(null);
         }
         userRepository.save(user);
 
