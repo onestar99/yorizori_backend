@@ -173,7 +173,17 @@ public class RecipeGetService {
 
             for(long longRecipeId: recipeIds){
                 RecipeEntity recipe = recipeRepository.findByRecipeId(longRecipeId);
-                if(recipe != null){
+
+                if (recipe == null){
+                    RecipeReferenceRecipeDto referenceRecipeDto = RecipeReferenceRecipeDto.builder()
+                            .recipeId(longRecipeId)
+                            .recipeTitle(null)
+                            .nickname(null)
+                            .profileImage(null)
+                            .build();
+                    referenceRecipeDtoList.add(referenceRecipeDto);
+                }
+                else{
                     RecipeReferenceRecipeDto referenceRecipeDto = RecipeReferenceRecipeDto.builder()
                             .recipeId(longRecipeId)
                             .recipeTitle(recipe.getRecipeTitle())
@@ -182,6 +192,7 @@ public class RecipeGetService {
                             .build();
                     referenceRecipeDtoList.add(referenceRecipeDto);
                 }
+
             }
         }
 
