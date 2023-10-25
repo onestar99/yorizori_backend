@@ -177,7 +177,7 @@ public class RecipeGetService {
                 if (recipe == null){
 //                    referenceRecipeDtoList.add(null);
                     RecipeReferenceRecipeDto referenceRecipeDto = RecipeReferenceRecipeDto.builder()
-                            .recipeId(0)
+                            .recipeId(-1)
                             .recipeTitle(null)
                             .nickname(null)
                             .profileImage(null)
