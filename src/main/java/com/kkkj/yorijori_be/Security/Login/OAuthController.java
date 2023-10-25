@@ -33,7 +33,7 @@ public class OAuthController {
 
     @GetMapping("/logout")
     @ResponseBody
-    public ResponseEntity<String> kakaoLogout(@RequestParam("code") String accessCode, @RequestParam("id") String userTokenId) throws IOException {
+    public ResponseEntity<String> kakaoLogout(@RequestParam("code") String accessToken, @RequestParam("id") String userTokenId) throws IOException {
 
         UserEntity user = userRepository.findByUserTokenId(userTokenId);
         if(user == null){
@@ -42,7 +42,7 @@ public class OAuthController {
 
         String site = user.getOauthDivision();
         if(site.equals("kakao"))
-            return oAuthService.kakaoLogout(accessCode, userTokenId);
+            return oAuthService.kakaoLogout(accessToken, userTokenId);
         else if(site.equals("naver")){
             return null;
         }
@@ -61,7 +61,7 @@ public class OAuthController {
 
     @GetMapping("/unlink")
     @ResponseBody
-    public ResponseEntity<String> Unlink(@RequestParam("code") String accessCode, @RequestParam("id") String userTokenId) throws IOException {
+    public ResponseEntity<String> Unlink(@RequestParam("code") String accessToken, @RequestParam("id") String userTokenId) throws IOException {
 
         UserEntity user = userRepository.findByUserTokenId(userTokenId);
         if(user == null){
@@ -70,7 +70,7 @@ public class OAuthController {
 
         String site = user.getOauthDivision();
         if(site.equals("kakao"))
-            return oAuthService.kakaoUnlink(user, accessCode, userTokenId);
+            return oAuthService.kakaoUnlink(user, accessToken, userTokenId);
         else if(site.equals("naver")){
             return null;
         }
