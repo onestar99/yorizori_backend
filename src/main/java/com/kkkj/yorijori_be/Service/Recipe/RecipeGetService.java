@@ -175,8 +175,9 @@ public class RecipeGetService {
                 RecipeEntity recipe = recipeRepository.findByRecipeId(longRecipeId);
 
                 if (recipe == null){
+//                    referenceRecipeDtoList.add(null);
                     RecipeReferenceRecipeDto referenceRecipeDto = RecipeReferenceRecipeDto.builder()
-                            .recipeId(longRecipeId)
+                            .recipeId(0)
                             .recipeTitle(null)
                             .nickname(null)
                             .profileImage(null)
@@ -194,6 +195,7 @@ public class RecipeGetService {
                 }
 
             }
+            System.out.println(referenceRecipeDtoList);
         }
 
 
