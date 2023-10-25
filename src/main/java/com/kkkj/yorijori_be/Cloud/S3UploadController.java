@@ -11,6 +11,7 @@ import com.kkkj.yorijori_be.Service.User.UserSaveUpdateService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.lang.Nullable;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -55,12 +56,13 @@ public class S3UploadController {
     }
 
     // Get 이미지 주소,  유저 토큰아이디를 받아서 MyPage 양식 반환.
-    @GetMapping("/image/apply")
-    public UserDto applyImage(@RequestParam(value = "userId", required = false, defaultValue = "null")String userId, @RequestParam("postNickname")String nickName,
-                              @RequestParam(value = "postImage", required = false, defaultValue = "null")String postImage,
-                              @RequestParam(value = "gender", required = false, defaultValue = "null")String gender,
-                              @RequestParam(value = "age", required = false, defaultValue = "null")String age) throws IOException {
-        return userSaveUpdateService.updateProfileById(userId, nickName, postImage, gender, age);
+    @GetMapping("/profile/apply")
+    public UserDto applyImage(@RequestParam(value = "userId", required = false)String userId,
+                              @Nullable@RequestParam("postNickname")String postNickName,
+                              @Nullable@RequestParam(value = "postImage", required = false)String postImage,
+                              @Nullable@RequestParam(value = "gender", required = false)String gender,
+                              @Nullable@RequestParam(value = "age", required = false)String age) throws IOException {
+        return userSaveUpdateService.updateProfileById(userId, postNickName, postImage, gender, age);
     }
 
 
