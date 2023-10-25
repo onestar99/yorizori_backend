@@ -48,6 +48,10 @@ public class OAuthController {
     public ResponseEntity<String> Unlink(@RequestParam("code") String accessCode, @RequestParam("id") String userTokenId) throws IOException {
 
         UserEntity user = userRepository.findByUserTokenId(userTokenId);
+        if(user == null){
+            return null;
+        }
+
         String site = user.getOauthDivision();
         if(site.equals("kakao"))
             return oAuthService.kakaoUnlink(user, accessCode, userTokenId);

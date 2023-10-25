@@ -173,13 +173,15 @@ public class RecipeGetService {
 
             for(long longRecipeId: recipeIds){
                 RecipeEntity recipe = recipeRepository.findByRecipeId(longRecipeId);
-                RecipeReferenceRecipeDto referenceRecipeDto = RecipeReferenceRecipeDto.builder()
-                        .recipeId(longRecipeId)
-                        .recipeTitle(recipe.getRecipeTitle())
-                        .nickname(recipe.getUser().getNickname())
-                        .profileImage(recipe.getUser().getImageAddress())
-                        .build();
-                referenceRecipeDtoList.add(referenceRecipeDto);
+                if(recipe != null){
+                    RecipeReferenceRecipeDto referenceRecipeDto = RecipeReferenceRecipeDto.builder()
+                            .recipeId(longRecipeId)
+                            .recipeTitle(recipe.getRecipeTitle())
+                            .nickname(recipe.getUser().getNickname())
+                            .profileImage(recipe.getUser().getImageAddress())
+                            .build();
+                    referenceRecipeDtoList.add(referenceRecipeDto);
+                }
             }
         }
 
