@@ -37,7 +37,7 @@ public class RecipeUpdateController {
         // 레시피 템플릿 삭제
         boolean d = recipeDeleteService.deleteRecipeTemplateByRecipeId(recipeId);
         // 레시피 디테일 삭제
-        boolean e = recipeDeleteService.deleteRecipeDetailsByRecipeId(recipeId);
+        boolean e = recipeDeleteService.deleteRecipeDetailsExceptsImageByRecipeId(recipeId);
         // 레시피 카테고리 삭제
         boolean f = recipeDeleteService.deleteRecipeCategoriesByRecipeId(recipeId);
         // 모든 내용이 괜찮은지 검토한다. (Validation)

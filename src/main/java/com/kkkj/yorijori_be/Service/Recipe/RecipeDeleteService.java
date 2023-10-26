@@ -73,6 +73,28 @@ public class RecipeDeleteService {
         return false;
     }
 
+    @Transactional
+    public boolean deleteRecipeDetailsExceptsImageByRecipeId(long recipeId){
+
+        RecipeEntity recipe = recipeRepository.findByRecipeId(recipeId);
+        if(recipe != null){
+            List<RecipeDetailEntity> details = recipe.getDetails();
+            // S3 삭제
+//            for(RecipeDetailEntity recipeDetail : details) {
+//                String image = recipeDetail.getRecipeImage();
+//                if(image != null){
+//                    String result = s3Remover.deleteFile(image);
+//                    System.out.println(result);
+//                }
+//            }
+            // DB 삭제
+            recipeDetailRepository.deleteAllInBatch(details);
+            recipeDetailRepository.flush();
+            return true;
+        }
+        return false;
+    }
+
     /*
     * ---레시피 카테고리 튜플 삭제함수---
     * 레시피 아이디를 받는다.
