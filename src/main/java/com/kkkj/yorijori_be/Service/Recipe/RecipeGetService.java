@@ -290,7 +290,7 @@ public class RecipeGetService {
     public List<RecipeListDto> recipeIngredientAllSearchList(List<String> ingredients){
         List<RecipeListDto> recipeListDtoList = new ArrayList<>();//레시피를 받는 리스트
         for(int i=0;i<ingredients.size();i++) {
-            List<RecipeEntity> recipeEntityList = recipeRepository.searchingredient(ingredients.get(i));//재료를 가지고 있는 레시피 리스트
+            List<RecipeEntity> recipeEntityList = recipeRepository.searchingredient(ingredients.get(i).strip());//재료를 가지고 있는 레시피 리스트
             if(i==0){
                 for (RecipeEntity recipeEntity: recipeEntityList) {
                     recipeListDtoList.add(RecipeListDto.toDto(recipeEntity));
