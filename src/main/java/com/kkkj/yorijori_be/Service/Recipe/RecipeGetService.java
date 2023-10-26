@@ -381,6 +381,42 @@ public class RecipeGetService {
     }
 
 
+    public List<RecipeListDto> testTodayRecommend(int getSize, String month, String day, String rain) throws IOException {
+
+
+        /*
+        * ① 0 : 없음
+        ② 1 : 비
+        ③ 2 : 비/눈
+        ④ 3 : 눈/비
+        ⑤ 4 : 눈
+        * */
+        if(Objects.equals(rain, "on")){
+            int weatherNum = 1;
+    //        int weatherNum = getWeatherApi();
+            if(weatherNum == 1){
+                // 비 오면 부침개 보여주기
+                return getRecipesForRain(getSize);
+            }
+        }
+
+        LocalDate now = LocalDate.of(2023, Integer.parseInt(month), Integer.parseInt(day));
+//        LocalDate now = LocalDate.now();
+        List<SpecialDayFoodEntity> specialDayFoodEntityList = specialDayFoodRepository.findBySpecialDay(now);
+
+        // 특별한 날이 맞다면
+        if(!specialDayFoodEntityList.isEmpty()) {
+            return getRecipesBySpecialDay(specialDayFoodEntityList, getSize);
+        }
+
+        // 나머지 상황은 플라스크에서 날짜를 고려한 추천
+        return recipeRecommendService.todayRecommendByRecipeId();
+
+
+
+    }
+
+
 
 //    // 오늘의 추천 (오늘 날짜 월,일 기준 작년의 5일 후 데이터와 올해 5일 전까지의 데이터 추합)
 //    public List<RecipeListDto> getRecipesDateRecommend(int getSize) {

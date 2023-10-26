@@ -4,7 +4,6 @@ import com.kkkj.yorijori_be.Dto.Recipe.RecipeDetailReviewDto;
 import com.kkkj.yorijori_be.Dto.Recipe.RecipeDetailsDto;
 import com.kkkj.yorijori_be.Dto.Recipe.RecipeListDto;
 import com.kkkj.yorijori_be.Entity.Recipe.RecipeEntity;
-import com.kkkj.yorijori_be.Entity.SpecialDayFoodEntity;
 import com.kkkj.yorijori_be.Repository.Recipe.RecipeRepository;
 import com.kkkj.yorijori_be.Service.Recipe.RecipeGetService;
 import com.kkkj.yorijori_be.Service.Recipe.RecipeRecommendService;
@@ -171,10 +170,21 @@ public class RecipeGetController {
     // 레시피 날짜별 추천(오늘의 추천), 특별한 날이면 특별한 레시피, 비오는 날이면 비올 때 음식 등
     @ResponseBody
     @GetMapping("/recommendToday")
-    public List<RecipeListDto> testTodayRecommend() throws IOException {
+    public List<RecipeListDto> TodayRecommend() throws IOException {
         return recipeGetService.todayRecommend(12); // 특별한 날을 같이 고려한 추천
 //        return recipeRecommendService.todayRecommendByRecipeId(); // 파이썬을 통한 추천만 있음
     }
+
+
+    // 레시피 날짜별 추천(오늘의 추천), 특별한 날이면 특별한 레시피, 비오는 날이면 비올 때 음식 등
+    @ResponseBody
+    @GetMapping("/recommendToday/test")
+    public List<RecipeListDto> testTodayRecommend(@RequestParam(value = "month") String month,
+                                                  @RequestParam(value = "day") String day,
+                                                  @RequestParam(value = "rain", defaultValue = "no") String rain) throws IOException {
+        return recipeGetService.testTodayRecommend(12, month, day, rain); // 특별한 날을 같이 고려한 추천
+    }
+
 
 //    // 요리조리 추천 시스템 적용한 레시피
 //    @ResponseBody
