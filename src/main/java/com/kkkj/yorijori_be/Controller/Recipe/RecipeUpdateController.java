@@ -29,9 +29,9 @@ public class RecipeUpdateController {
         //레시피아이디 저장
         long recipeId = recipeSaveDto.getOriginRecipe();
         // 레시피 view 로그 삭제
-        boolean a = logDeleteService.deleteUserViewLogsByRecipeId(recipeId);
+//        boolean a = logDeleteService.deleteUserViewLogsByRecipeId(recipeId);
         // 레시피 코맨트 삭제
-        boolean b = userDeleteService.deleteAllCommentByRecipeId(recipeId);
+//        boolean b = userDeleteService.deleteAllCommentByRecipeId(recipeId);
         // 레시피 재료태그 삭제
         boolean c = recipeDeleteService.deleteIngredientTagsByRecipeId(recipeId);
         // 레시피 템플릿 삭제
