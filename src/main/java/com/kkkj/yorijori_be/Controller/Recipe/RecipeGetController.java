@@ -47,22 +47,29 @@ public class RecipeGetController {
     @ResponseBody
     @GetMapping("/details")
     public RecipeDetailsDto getRecipeDetails(
-            @RequestParam(value = "recipeId", required = false) Long recipeId,
+            @RequestParam(value = "recipeId", required = false) String recipeId,
             @RequestParam(value = "userId", required = false) String userId){
 
 
-        RecipeEntity recipe = recipeRepository.findById(recipeId).orElse(null);
+        long longRecipeId;
+        try {
+            longRecipeId = Long.parseLong(recipeId);
+        } catch (Exception e){
+            return null;
+        }
+
+        RecipeEntity recipe = recipeRepository.findById(longRecipeId).orElse(null);
         // 레시피가 존재하지 않으면 null 반환
         if (recipe == null) {
             return null;
         }
         // 레시피 조회이므로 조회수 1 올리기.
-        recipeSaveUpdateService.updateRecipeHits(recipeId);
+        recipeSaveUpdateService.updateRecipeHits(longRecipeId);
         // DTO 만들기
-        RecipeDetailsDto recipeDetailsDto = recipeGetService.getRecipeDetailsByRecipeId(recipeId);
+        RecipeDetailsDto recipeDetailsDto = recipeGetService.getRecipeDetailsByRecipeId(longRecipeId);
         // 유저 로그
         if(userId != null & !Objects.equals(userId, "null")){
-            userSaveUpdateService.saveUserLog(userId,recipeId);
+            userSaveUpdateService.saveUserLog(userId, longRecipeId);
         }
         return recipeDetailsDto;
     }

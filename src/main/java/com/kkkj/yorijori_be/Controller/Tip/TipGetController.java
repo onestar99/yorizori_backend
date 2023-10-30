@@ -4,6 +4,9 @@ import com.kkkj.yorijori_be.Dto.Recipe.RecipeListDto;
 import com.kkkj.yorijori_be.Dto.Tip.TipListDto;
 import com.kkkj.yorijori_be.Dto.Tip.TipPostDto;
 import com.kkkj.yorijori_be.Dto.Tip.TipReviewDto;
+import com.kkkj.yorijori_be.Entity.Recipe.RecipeEntity;
+import com.kkkj.yorijori_be.Entity.Tip.TipEntity;
+import com.kkkj.yorijori_be.Repository.Tip.TipRepository;
 import com.kkkj.yorijori_be.Service.Tip.TipGetService;
 import com.kkkj.yorijori_be.Service.Tip.TipSaveUpdateService;
 import lombok.RequiredArgsConstructor;
@@ -23,6 +26,7 @@ public class TipGetController {
 
     private final TipGetService tipGetService;
     private final TipSaveUpdateService tipSaveUpdateService;
+    private final TipRepository tipRepository;
 
     //검색과 나열 동시 진행
     @GetMapping("/all") @ResponseBody
@@ -61,13 +65,29 @@ public class TipGetController {
 
     @GetMapping("/details") @ResponseBody
     public TipListDto getTipDetails(
-            @RequestParam(value = "tipId",required = false) Long tipId,
-            @RequestParam(value = "userId",required = false) String userId
-    ){
+            @RequestParam(value = "tipId",required = false) String tipId,
+            @RequestParam(value = "userId",required = false) String userId){
+
+        // 팁이 숫자가 아니면 null 반환
+        long longTipId;
+        try {
+            longTipId = Long.parseLong(tipId);
+        } catch (Exception e){
+            return null;
+        }
+
+        TipEntity tip = tipRepository.findByTipId(longTipId);
+        // 팁이 존재하지 않으면 null 반환
+        if (tip == null) {
+            return null;
+        }
+
         //조회수 1 올리기
-        tipSaveUpdateService.updateViewCount(tipId);
-        return tipGetService.getTipDetail(tipId,userId);
+        tipSaveUpdateService.updateViewCount(longTipId);
+        return tipGetService.getTipDetail(longTipId, userId);
     }
+
+
 
     @GetMapping("/reviews/{tipId}") @ResponseBody
     public TipReviewDto getTipReviews(
