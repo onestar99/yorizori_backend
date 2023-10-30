@@ -7,7 +7,9 @@ import com.kkkj.yorijori_be.Dto.User.UserDto;
 import com.kkkj.yorijori_be.Entity.Log.UserSearchedIngredientEntity;
 import com.kkkj.yorijori_be.Entity.Log.UserSearchedRecipeEntity;
 import com.kkkj.yorijori_be.Entity.Log.UserViewLogEntity;
+import com.kkkj.yorijori_be.Entity.Tip.TipEntity;
 import com.kkkj.yorijori_be.Entity.User.*;
+import com.kkkj.yorijori_be.Repository.Tip.TipRepository;
 import com.kkkj.yorijori_be.Repository.User.UserRepository;
 import com.kkkj.yorijori_be.Service.Recipe.RecipeGetService;
 import com.kkkj.yorijori_be.Service.Tip.TipGetService;
@@ -30,6 +32,7 @@ public class UserGetController {
     private final UserRepository userRepository;
     private final RecipeGetService recipeGetService;
     private final TipGetService tipGetService;
+    private final TipRepository tipRepository;
 
     // 모든 유저 정보 조회
     // return -> json
@@ -117,13 +120,29 @@ public class UserGetController {
         return recipeListDtoPage;
     }
 
+
+    // 팁 하트 존재 유무 체크
     @ResponseBody
     @GetMapping("/tip/isHeart/{tipId}")
     public TipInfoDto getTipInfoByUserIdAndTipId(
-            @PathVariable Long tipId,
+            @PathVariable String tipId,
             @RequestParam(value = "userId",required = false) String userId
     ){
-        return tipGetService.getTipIsHeart(tipId,userId);
+        // 팁이 숫자가 아니면 null 반환
+        long longTipId;
+        try {
+            longTipId = Long.parseLong(tipId);
+        } catch (Exception e){
+            return null;
+        }
+
+        TipEntity tip = tipRepository.findByTipId(longTipId);
+        // 팁이 존재하지 않으면 null 반환
+        if (tip == null) {
+            return null;
+        }
+
+        return tipGetService.getTipIsHeart(longTipId, userId);
     }
 
 }
