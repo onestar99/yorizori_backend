@@ -162,9 +162,23 @@ public class RecipeGetController {
     }
 
     @ResponseBody
-    @GetMapping("/reviews/{boardId}")
-    public RecipeDetailReviewDto getDetailReview(@PathVariable Long boardId){
-        return recipeGetService.getRecipeDetailReview(boardId);
+    @GetMapping("/reviews/{recipeId}")
+    public RecipeDetailReviewDto getDetailReview(@PathVariable String recipeId){
+
+        long longRecipeId;
+        try {
+            longRecipeId = Long.parseLong(recipeId);
+        } catch (Exception e){
+            return null;
+        }
+
+        RecipeEntity recipe = recipeRepository.findById(longRecipeId).orElse(null);
+        // 레시피가 존재하지 않으면 null 반환
+        if (recipe == null) {
+            return null;
+        }
+
+        return recipeGetService.getRecipeDetailReview(longRecipeId);
     }
 
     // AI 추천 레시피(비슷한 사용자가 봤던 정보 넘기기)

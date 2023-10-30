@@ -63,6 +63,7 @@ public class TipGetController {
         return tipListDtos;
     }
 
+    // 팁 디테일 GET
     @GetMapping("/details") @ResponseBody
     public TipListDto getTipDetails(
             @RequestParam(value = "tipId",required = false) String tipId,
@@ -89,11 +90,27 @@ public class TipGetController {
 
 
 
+    // 팁 리뷰 GET
     @GetMapping("/reviews/{tipId}") @ResponseBody
     public TipReviewDto getTipReviews(
-            @PathVariable Long tipId
+            @PathVariable String tipId
     ){
-        return tipGetService.getTipReviews(tipId);
+
+        // 팁이 숫자가 아니면 null 반환
+        long longTipId;
+        try {
+            longTipId = Long.parseLong(tipId);
+        } catch (Exception e){
+            return null;
+        }
+
+        TipEntity tip = tipRepository.findByTipId(longTipId);
+        // 팁이 존재하지 않으면 null 반환
+        if (tip == null) {
+            return null;
+        }
+
+        return tipGetService.getTipReviews(longTipId);
     }
 
 
