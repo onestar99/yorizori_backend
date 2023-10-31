@@ -151,14 +151,17 @@ public class RecipeGetController {
 
     @ResponseBody
     @GetMapping("/search/ingredient")
-    public List<RecipeListDto> getIngredientAllSearchedPaging(
+    public Page<RecipeListDto> getIngredientAllSearchedPaging(
             @RequestParam(value = "userId", required = false) String userId,
-            @RequestParam(value="search") String search){
+            @RequestParam(value="search") String search,
+            @RequestParam(value = "pageNo", defaultValue = "0", required = false) int pageNo,
+            @RequestParam(value = "orderBy") String orderBy
+    ){
         if (userId!=null & !Objects.equals(userId, "null")){
             userSaveUpdateService.saveSearchedIngredientLog(userId,search);
         }
         List<String> ingredients = Arrays.asList(search.split(","));
-        return recipeGetService.recipeIngredientAllSearchList(ingredients);
+        return recipeGetService.recipeIngredientAllSearchList(ingredients,pageNo,orderBy);
     }
 
     @ResponseBody

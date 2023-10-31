@@ -18,10 +18,7 @@ import com.kkkj.yorijori_be.Repository.User.UserCommentRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.cglib.core.Local;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
 
 import java.io.BufferedReader;
@@ -287,7 +284,7 @@ public class RecipeGetService {
 
 
     // 동적으로 재료 포함한 레시피 검색
-    public List<RecipeListDto> recipeIngredientAllSearchList(List<String> ingredients){
+    public Page<RecipeListDto> recipeIngredientAllSearchList(List<String> ingredients,int pageNo,String orderBy){
         List<RecipeListDto> recipeListDtoList = new ArrayList<>();//레시피를 받는 리스트
         for(int i=0;i<ingredients.size();i++) {
             List<RecipeEntity> recipeEntityList = recipeRepository.searchingredient(ingredients.get(i).strip());//재료를 가지고 있는 레시피 리스트
@@ -306,7 +303,13 @@ public class RecipeGetService {
                 recipeListDtoList=matchList;
             }
         }
-        return recipeListDtoList;
+        int pageSize=12;
+        PageRequest pageRequest = PageRequest.of(pageNo,pageSize,Sort.by(orderBy).descending());
+        int start = (int) pageRequest.getOffset();
+        int end = Math.min((start+pageRequest.getPageSize()),recipeListDtoList.size());
+        Page<RecipeListDto> recipeListDtoPage = new PageImpl<>(recipeListDtoList.subList(start,end),pageRequest,recipeListDtoList.size());
+
+        return recipeListDtoPage;
     }
 
 
