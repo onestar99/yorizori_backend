@@ -353,15 +353,19 @@ public class RecipeGetService {
 
     public List<RecipeListDto> todayRecommend(int getSize) throws IOException {
 
-//        LocalDate now = LocalDate.of(2023, 5, 5);
+//        LocalDate now = LocalDate.of(2022, 12, 31);
         LocalDate now = LocalDate.now();
-        List<SpecialDayFoodEntity> specialDayFoodEntityList = specialDayFoodRepository.findBySpecialDay(now);
 
-        // 특별한 날이 맞다면
+        // 다음 날이 특별한 날
+        List<SpecialDayFoodEntity> specialDayFoodEntityListNextDay = specialDayFoodRepository.findBySpecialDay(now.plusDays(1));
+        if(!specialDayFoodEntityListNextDay.isEmpty()){
+            return getRecipesBySpecialDay(specialDayFoodEntityListNextDay, getSize);
+        }
+        // 당일이 특별한 날
+        List<SpecialDayFoodEntity> specialDayFoodEntityList = specialDayFoodRepository.findBySpecialDay(now);
         if(!specialDayFoodEntityList.isEmpty()) {
             return getRecipesBySpecialDay(specialDayFoodEntityList, getSize);
         }
-
         /*
         * ① 0 : 없음
         ② 1 : 비
