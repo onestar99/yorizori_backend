@@ -548,58 +548,62 @@ public class RecipeGetService {
     }
 
     private int getWeatherApi() throws IOException {
-        // 비가 온다면?
-        StringBuilder urlBuilder = new StringBuilder("http://apis.data.go.kr/1360000/VilageFcstInfoService_2.0/getUltraSrtNcst"); /*URL*/
-        urlBuilder.append("?" + URLEncoder.encode("serviceKey","UTF-8") + "=hN94ej1IHGPuB86nRzChmRRNN%2BKonkmQf19bt2lsqG%2FD0BAPDyAV2kvdmtKNfAjaIwYgV%2Bfxudisa0N75YjCOQ%3D%3D"); /*Service Key*/
-        urlBuilder.append("&" + URLEncoder.encode("pageNo","UTF-8") + "=" + URLEncoder.encode("1", "UTF-8")); /*페이지번호*/
-        urlBuilder.append("&" + URLEncoder.encode("numOfRows","UTF-8") + "=" + URLEncoder.encode("1000", "UTF-8")); /*한 페이지 결과 수*/
-        urlBuilder.append("&" + URLEncoder.encode("dataType","UTF-8") + "=" + URLEncoder.encode("JSON", "UTF-8")); /*요청자료형식(XML/JSON) Default: XML*/
+        try {
+            // 비가 온다면?
+            StringBuilder urlBuilder = new StringBuilder("http://apis.data.go.kr/1360000/VilageFcstInfoService_2.0/getUltraSrtNcst"); /*URL*/
+            urlBuilder.append("?" + URLEncoder.encode("serviceKey","UTF-8") + "=hN94ej1IHGPuB86nRzChmRRNN%2BKonkmQf19bt2lsqG%2FD0BAPDyAV2kvdmtKNfAjaIwYgV%2Bfxudisa0N75YjCOQ%3D%3D"); /*Service Key*/
+            urlBuilder.append("&" + URLEncoder.encode("pageNo","UTF-8") + "=" + URLEncoder.encode("1", "UTF-8")); /*페이지번호*/
+            urlBuilder.append("&" + URLEncoder.encode("numOfRows","UTF-8") + "=" + URLEncoder.encode("1000", "UTF-8")); /*한 페이지 결과 수*/
+            urlBuilder.append("&" + URLEncoder.encode("dataType","UTF-8") + "=" + URLEncoder.encode("JSON", "UTF-8")); /*요청자료형식(XML/JSON) Default: XML*/
 
-        // 현재 날짜 가져오기
-        LocalDate nowDay = LocalDate.now();
-        // 날짜를 "yyyyMMdd" 형식의 문자열로 변환
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMdd");
-        String formattedDate = nowDay.format(formatter);
+            // 현재 날짜 가져오기
+            LocalDate nowDay = LocalDate.now();
+            // 날짜를 "yyyyMMdd" 형식의 문자열로 변환
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMdd");
+            String formattedDate = nowDay.format(formatter);
 
-        urlBuilder.append("&" + URLEncoder.encode("base_date","UTF-8") + "=" + URLEncoder.encode(formattedDate, "UTF-8")); /*‘21년 6월 28일 발표*/
+            urlBuilder.append("&" + URLEncoder.encode("base_date","UTF-8") + "=" + URLEncoder.encode(formattedDate, "UTF-8")); /*‘21년 6월 28일 발표*/
 
-        // 현재 날짜와 시각을 가져오기
-        LocalDateTime nowHour = LocalDateTime.now();
-        // 1시간 전 구하기
-        LocalDateTime oneHourAgo = nowHour.minus(1, ChronoUnit.HOURS);
-        // "hhmm" 형식으로 포맷팅하기
-        DateTimeFormatter formatter2 = DateTimeFormatter.ofPattern("HHmm");
-        String formattedTime = oneHourAgo.format(formatter2);
-        urlBuilder.append("&" + URLEncoder.encode("base_time","UTF-8") + "=" + URLEncoder.encode(formattedTime, "UTF-8")); /*06시 발표(정시단위) */
-        urlBuilder.append("&" + URLEncoder.encode("nx","UTF-8") + "=" + URLEncoder.encode("58", "UTF-8")); /*예보지점의 X 좌표값*/
-        urlBuilder.append("&" + URLEncoder.encode("ny","UTF-8") + "=" + URLEncoder.encode("125", "UTF-8")); /*예보지점의 Y 좌표값*/
-        URL url = new URL(urlBuilder.toString());
-        HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-        conn.setRequestMethod("GET");
-        conn.setRequestProperty("Content-type", "application/json");
-        System.out.println("Response code: " + conn.getResponseCode());
-        BufferedReader rd;
-        if(conn.getResponseCode() >= 200 && conn.getResponseCode() <= 300) {
-            rd = new BufferedReader(new InputStreamReader(conn.getInputStream()));
-        } else {
-            rd = new BufferedReader(new InputStreamReader(conn.getErrorStream()));
+            // 현재 날짜와 시각을 가져오기
+            LocalDateTime nowHour = LocalDateTime.now();
+            // 1시간 전 구하기
+            LocalDateTime oneHourAgo = nowHour.minus(1, ChronoUnit.HOURS);
+            // "hhmm" 형식으로 포맷팅하기
+            DateTimeFormatter formatter2 = DateTimeFormatter.ofPattern("HHmm");
+            String formattedTime = oneHourAgo.format(formatter2);
+            urlBuilder.append("&" + URLEncoder.encode("base_time","UTF-8") + "=" + URLEncoder.encode(formattedTime, "UTF-8")); /*06시 발표(정시단위) */
+            urlBuilder.append("&" + URLEncoder.encode("nx","UTF-8") + "=" + URLEncoder.encode("58", "UTF-8")); /*예보지점의 X 좌표값*/
+            urlBuilder.append("&" + URLEncoder.encode("ny","UTF-8") + "=" + URLEncoder.encode("125", "UTF-8")); /*예보지점의 Y 좌표값*/
+            URL url = new URL(urlBuilder.toString());
+            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+            conn.setRequestMethod("GET");
+            conn.setRequestProperty("Content-type", "application/json");
+            System.out.println("Response code: " + conn.getResponseCode());
+            BufferedReader rd;
+            if(conn.getResponseCode() >= 200 && conn.getResponseCode() <= 300) {
+                rd = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+            } else {
+                rd = new BufferedReader(new InputStreamReader(conn.getErrorStream()));
+            }
+            StringBuilder sb = new StringBuilder();
+            String line;
+            while ((line = rd.readLine()) != null) {
+                sb.append(line);
+            }
+            rd.close();
+            conn.disconnect();
+            // JSON 문자열을 파싱할 ObjectMapper 생성
+            ObjectMapper objectMapper = new ObjectMapper();
+            // JSON 문자열 파싱
+            JsonNode jsonNode = objectMapper.readTree(sb.toString());
+            // items에 접근
+            JsonNode itemsNode = jsonNode.at("/response/body/items/item");
+            // 첫 번째 item에서 obsrValue 얻기
+            String obsrValue = itemsNode.get(0).get("obsrValue").asText();
+            return Integer.parseInt(obsrValue);
+        } catch (Exception e){
+            return 0;
         }
-        StringBuilder sb = new StringBuilder();
-        String line;
-        while ((line = rd.readLine()) != null) {
-            sb.append(line);
-        }
-        rd.close();
-        conn.disconnect();
-        // JSON 문자열을 파싱할 ObjectMapper 생성
-        ObjectMapper objectMapper = new ObjectMapper();
-        // JSON 문자열 파싱
-        JsonNode jsonNode = objectMapper.readTree(sb.toString());
-        // items에 접근
-        JsonNode itemsNode = jsonNode.at("/response/body/items/item");
-        // 첫 번째 item에서 obsrValue 얻기
-        String obsrValue = itemsNode.get(0).get("obsrValue").asText();
 
-        return Integer.parseInt(obsrValue);
     }
 }
