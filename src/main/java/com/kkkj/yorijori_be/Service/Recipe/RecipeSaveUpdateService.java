@@ -242,6 +242,7 @@ public class RecipeSaveUpdateService {
         recipeEntity.updateThumbnail(recipeDto.getRecipeThumbnail());
         recipeEntity.updateLevel(recipeDto.getLevel());
         recipeEntity.updateTime(recipeDto.getTime());
+        recipeEntity.updateDishName(recipeDto.getDishName());
         //recipeRepository를 통해 저장
         recipeRepository.save(recipeEntity);
     }
