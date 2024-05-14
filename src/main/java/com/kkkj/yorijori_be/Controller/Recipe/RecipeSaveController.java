@@ -4,6 +4,7 @@ import com.kkkj.yorijori_be.Dto.Recipe.RecipeDto;
 import com.kkkj.yorijori_be.Dto.Recipe.RecipeSaveDto;
 import com.kkkj.yorijori_be.Service.Recipe.RecipeSaveUpdateService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -15,6 +16,11 @@ public class RecipeSaveController {
 
     private final RecipeSaveUpdateService recipeSaveUpdateService;
 
+    @Value("${cloud.aws.s3.bucket}")
+    private String bucket;
+
+    @Value("${cloud.aws.region.static}")
+    private String region;
 
     @PostMapping("/{userTokenId}")
     public ResponseEntity saveRecipeInfo(@PathVariable String userTokenId, @RequestBody RecipeDto recipeDto) {
@@ -48,7 +54,7 @@ public class RecipeSaveController {
 
 
         // 모든 내용이 괜찮은지 검토한다. (Validation) - 현재 미완성
-        RecipeDto recipeDto = RecipeDto.recipeSaveDtoToDTO(recipeSaveDto);
+        RecipeDto recipeDto = RecipeDto.recipeSaveDtoToDTO(recipeSaveDto, bucket, region);
         // 원작자 저장
         recipeSaveUpdateService.saveReferenceRecipe(recipeDto,recipeSaveDto.getOriginRecipe());
         // 레시피 정보를 저장(요청-POST)한다. (한개)

@@ -11,6 +11,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
 
@@ -35,7 +37,8 @@ public class RecipeDto {
     private String time;
 
 
-    static public RecipeDto recipeSaveDtoToDTO(RecipeSaveDto recipeSaveDto){
+    static public RecipeDto recipeSaveDtoToDTO(RecipeSaveDto recipeSaveDto, String bucket, String region){
+
         String thumbnail;
         RecipeDto recipeDto = new RecipeDto();
         recipeDto.setRecipeTitle(recipeSaveDto.getRecipeInfo().getTitle());
@@ -46,7 +49,7 @@ public class RecipeDto {
         recipeDto.setStarCount("0.0");
         recipeDto.setRecipeIntro(recipeSaveDto.getRecipeInfo().getExplain());
         if(recipeSaveDto.getThumbnail().startsWith("h")){
-            thumbnail = recipeSaveDto.getThumbnail().split("https://yorizori-s3-2.s3.ap-northeast-2.amazonaws.com")[1];
+            thumbnail = recipeSaveDto.getThumbnail().split("https://" + bucket + ".s3." + region + ".amazonaws.com")[1];
         }else{
             thumbnail = recipeSaveDto.getThumbnail();
         }

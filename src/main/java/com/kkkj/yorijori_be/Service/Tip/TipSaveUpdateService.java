@@ -12,6 +12,7 @@ import com.kkkj.yorijori_be.Repository.User.UserRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -25,13 +26,19 @@ public class TipSaveUpdateService {
     private final UserRepository userRepository;
     private final TipInfoRepository tipInfoRepository;
 
+    @Value("${cloud.aws.s3.bucket}")
+    private String bucket;
+
+    @Value("${cloud.aws.region.static}")
+    private String region;
+
     public long saveTip(String userTokenId, TipDto tipDto){
         // TokenId를 통해 유저 정보 찾기
         UserEntity userEntity = userRepository.findByUserTokenId(userTokenId);
         //image 주소 제거
         String image = tipDto.getTipThumbnail();
         if(image != null){
-            String splitImage = image.split("https://yorizori-s3-2.s3.ap-northeast-2.amazonaws.com")[1];
+            String splitImage = image.split("https://" + bucket + ".s3." + region + ".amazonaws.com")[1];
             tipDto.setTipThumbnail(splitImage);
         }
         // 전달받은 DTO를 Entity로 변경
@@ -61,7 +68,7 @@ public class TipSaveUpdateService {
         //image 주소 제거
         String image = tipPostDto.getTipThumbnail();
         if(image != null){
-            String splitImage = image.split("https://yorizori-s3-2.s3.ap-northeast-2.amazonaws.com")[1];
+            String splitImage = image.split("https://" + bucket + ".s3." + region + ".amazonaws.com")[1];
             tipPostDto.setTipThumbnail(splitImage);
         }
         tipRepository.updateAll(tokenId, tipPostDto.getTipTitle(), tipPostDto.getTipDetail(), tipPostDto.getTipThumbnail());

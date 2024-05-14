@@ -20,6 +20,9 @@ public class S3Remover {
     @Value("${cloud.aws.s3.bucket}")
     private String bucket;
 
+    @Value("${cloud.aws.region.static}")
+    private String region;
+
     /**
      * S3에 업로드된 파일 삭제
      */
@@ -28,7 +31,7 @@ public class S3Remover {
         String result = "success";
 
         try {
-            String keyName = imageAddress.split("https://yorizori-s3-2.s3.ap-northeast-2.amazonaws.com/")[1]; //   s3 절대주소 제거후 s3에서 삭제
+            String keyName = imageAddress.split("https://" + bucket + ".s3." + region + ".amazonaws.com/")[1]; //   s3 절대주소 제거후 s3에서 삭제
             boolean isObjectExist = amazonS3Client.doesObjectExist(bucket, keyName);
             if (isObjectExist) {
                 amazonS3Client.deleteObject(bucket, keyName);
@@ -50,7 +53,7 @@ public class S3Remover {
 
         for(String imageAddress: imagesAddress){
             try {
-                String keyName = imageAddress.split("https://yorizori-s3-2.s3.ap-northeast-2.amazonaws.com/")[1]; //   s3 절대주소 제거후 s3에서 삭제
+                String keyName = imageAddress.split("https://" + bucket + ".s3." + region + ".amazonaws.com/")[1]; //   s3 절대주소 제거후 s3에서 삭제
                 boolean isObjectExist = amazonS3Client.doesObjectExist(bucket, keyName);
                 if (isObjectExist) {
                     amazonS3Client.deleteObject(bucket, keyName);

@@ -7,6 +7,7 @@ import com.kkkj.yorijori_be.Service.Recipe.RecipeDeleteService;
 import com.kkkj.yorijori_be.Service.Recipe.RecipeSaveUpdateService;
 import com.kkkj.yorijori_be.Service.User.UserDeleteService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -22,6 +23,11 @@ public class RecipeUpdateController {
     private final UserDeleteService userDeleteService;
     private final LogDeleteService logDeleteService;
 
+    @Value("${cloud.aws.s3.bucket}")
+    private String bucket;
+
+    @Value("${cloud.aws.region.static}")
+    private String region;
 
     @PostMapping("/details")
     @ResponseBody
@@ -41,7 +47,7 @@ public class RecipeUpdateController {
         // 레시피 카테고리 삭제
         boolean f = recipeDeleteService.deleteRecipeCategoriesByRecipeId(recipeId);
         // 모든 내용이 괜찮은지 검토한다. (Validation)
-        RecipeDto recipeDto = RecipeDto.recipeSaveDtoToDTO(recipeSaveDto);
+        RecipeDto recipeDto = RecipeDto.recipeSaveDtoToDTO(recipeSaveDto, bucket, region);
         // 레시피 정보를 업데이트한다.(한개)
         recipeSaveUpdateService.updateRecipe(recipeId, recipeDto);
         // 레시피 디테일 정보와 템플릿을 저장
