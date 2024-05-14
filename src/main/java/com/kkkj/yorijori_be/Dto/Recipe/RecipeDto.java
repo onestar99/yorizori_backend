@@ -46,7 +46,7 @@ public class RecipeDto {
         recipeDto.setStarCount("0.0");
         recipeDto.setRecipeIntro(recipeSaveDto.getRecipeInfo().getExplain());
         if(recipeSaveDto.getThumbnail().startsWith("h")){
-            thumbnail = recipeSaveDto.getThumbnail().split("https://yorizori-s3.s3.ap-northeast-2.amazonaws.com")[1];
+            thumbnail = recipeSaveDto.getThumbnail().split("https://yorizori-s3-2.s3.ap-northeast-2.amazonaws.com")[1];
         }else{
             thumbnail = recipeSaveDto.getThumbnail();
         }

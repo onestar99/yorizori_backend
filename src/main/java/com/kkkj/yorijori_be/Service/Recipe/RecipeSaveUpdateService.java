@@ -63,7 +63,7 @@ public class RecipeSaveUpdateService {
 //            String image = recipeSaveDto.getRecipeDetail().get(i).getImage();
 //            String splitImage = "";
 //            if(image != null){
-//                splitImage = image.split("https://yorizori-s3.s3.ap-northeast-2.amazonaws.com")[1];
+//                splitImage = image.split("https://yorizori-s3-2.s3.ap-northeast-2.amazonaws.com")[1];
 //            }
             System.out.println(recipeSaveDto.getRecipeDetail().toString());
 
