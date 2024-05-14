@@ -5,7 +5,7 @@ plugins {
 }
 
 group = 'com.kkkj'
-version = '0.0.1-SNAPSHOT'
+version = '24.05.14'
 
 java {
     sourceCompatibility = '17'
