@@ -1,11 +1,10 @@
 package com.kkkj.yorijori_be.Service.Map;
-
 import com.kkkj.yorijori_be.Dto.Map.MapLocationDto;
 import com.kkkj.yorijori_be.Dto.Map.MapSearchDto;
 import org.json.JSONArray;
 import org.json.JSONObject;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
-
 import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
@@ -13,18 +12,26 @@ import java.net.URL;
 import java.net.URLEncoder;
 import java.util.*;
 
-
 @Service
 public class MapGetService {
 
+    @Value("${api.naver.search.clientId}")
+    private String searchClientId;
+
+    @Value("${api.naver.search.clientSecret}")
+    private String searchClientSecret;
+
+    @Value("${api.naver.location.clientId}")
+    private String locationClientId;
+
+    @Value("${api.naver.location.clientSecret}")
+    private String locationClientSecret;
 
     /*
      * 검색 Query를 넘겨주면 Map 검색에서 정보를 가져옴.
      *
      * */
     public List<MapSearchDto> getSearchResult(String location, String foodName){
-        String clientId = "v8qkCPFTa9NgzFpMFY_u"; //애플리케이션 클라이언트 아이디
-        String clientSecret = "rQlNSJSVSo"; //애플리케이션 클라이언트 시크릿
 
         String searchQuery = location + " " + foodName + " 맛집";
 
@@ -41,8 +48,8 @@ public class MapGetService {
 //        String apiURL2 = "https://openapi.naver.com/v1/search/local.json?query=" + text + "&display=5" + "&sort=comment";    // JSON 결과
 
         Map<String, String> requestHeaders = new HashMap<>();
-        requestHeaders.put("X-Naver-Client-Id", clientId);
-        requestHeaders.put("X-Naver-Client-Secret", clientSecret);
+        requestHeaders.put("X-Naver-Client-Id", searchClientId);
+        requestHeaders.put("X-Naver-Client-Secret", searchClientSecret);
         String responseBody = get(apiURL,requestHeaders);
 
 
@@ -90,16 +97,13 @@ public class MapGetService {
     private static String readBody(InputStream body){
         InputStreamReader streamReader = new InputStreamReader(body);
 
-
         try (BufferedReader lineReader = new BufferedReader(streamReader)) {
             StringBuilder responseBody = new StringBuilder();
-
 
             String line;
             while ((line = lineReader.readLine()) != null) {
                 responseBody.append(line);
             }
-
 
             return responseBody.toString();
         } catch (IOException e) {
@@ -163,7 +167,6 @@ public class MapGetService {
 
             String link = "https://map.naver.com/p/search/" + encodedString +"?c=15.00,0,0,0,dh";
 
-
             MapSearchDto mapSearchDto = new MapSearchDto(stripTitle, address, splitCategory, roadAddress, mapxStr, mapyStr, link);
             mapSearchDtoList.add(mapSearchDto);
         }
@@ -171,31 +174,17 @@ public class MapGetService {
         return mapSearchDtoList;
     }
 
-
-
-
-
+    // 네이버 지도 위치 불러오기
     public String getLocation(MapLocationDto mapLocationDto){
-
-        String clientId = "r2gbdh2tvp"; //애플리케이션 클라이언트 아이디
-        String clientSecret = "Q1ap2hWKonfzE89hqlfaeVxE3m5gkgbU9fjfoYOB"; //애플리케이션 클라이언트 시크릿
-
         String apiURL = "https://naveropenapi.apigw.ntruss.com/map-reversegeocode/v2/gc?request=coordsToaddr&coords="
                 + mapLocationDto.getLongitude() + "," + mapLocationDto.getLatitude() + "&sourcecrs=epsg:4326&output=json&orders=legalcode";    // JSON 결과
 
         Map<String, String> requestHeaders = new HashMap<>();
-        requestHeaders.put("X-NCP-APIGW-API-KEY-ID", clientId);
-        requestHeaders.put("X-NCP-APIGW-API-KEY", clientSecret);
+        requestHeaders.put("X-NCP-APIGW-API-KEY-ID", locationClientId);
+        requestHeaders.put("X-NCP-APIGW-API-KEY", locationClientSecret);
         String responseBody = get(apiURL,requestHeaders);
 
-//        System.out.println(responseBody);
-        String combinedAreaNames = combineAreaNames(responseBody);
-        System.out.println(combinedAreaNames);
-
-
-        return combinedAreaNames;
-
-
+        return combineAreaNames(responseBody);
     }
 
     private static String combineAreaNames(String jsonData) {
@@ -213,7 +202,6 @@ public class MapGetService {
             String area2 = region.getJSONObject("area2").getString("name");
             String area3 = region.getJSONObject("area3").getString("name");
             String area4 = region.getJSONObject("area4").getString("name");
-
 
             // 이름들을 합친 문자열을 만듭니다.
 //            String combinedName = area1 + " " + area2 + " " + area3 + " " + area4;
